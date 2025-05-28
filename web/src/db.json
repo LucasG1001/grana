@@ -1,0 +1,45 @@
+{
+  "caixas": [
+    {
+      "id": "1",
+      "nome": "Mercado",
+      "limite": 1000,
+      "descricao": "Gastos mensais com supermercado"
+    },
+    {
+      "id": "2",
+      "nome": "Lazer",
+      "limite": 500,
+      "descricao": "Filmes, bares, eventos"
+    }
+  ],
+  "gastos": [
+    {
+      "id": "1",
+      "descricao": "Compra no Carrefour",
+      "valor": 200,
+      "categoria": "Alimentação",
+      "local": "Carrefour - Loja 3",
+      "data": "2025-05-28",
+      "caixaId": 1
+    },
+    {
+      "id": "2",
+      "descricao": "Cinema com amigos",
+      "valor": 50,
+      "categoria": "Entretenimento",
+      "local": "Cinemark Shopping X",
+      "data": "2025-05-27",
+      "caixaId": 2
+    },
+    {
+      "id": "7f0e",
+      "descricao": "Generica",
+      "valor": 5000,
+      "categoria": "Mercado",
+      "local": "Sumerbol",
+      "data": "2025-05-28",
+      "caixaId": 1
+    }
+  ]
+}
