@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./Compras.module.css";
 import axios from "axios";
 import FilterMonthComponent from "../components/FilterMonthComponent";
+import BigNumbers from "./BigNumbers";
 
 const Compras = () => {
   const [caixas, setCaixas] = useState([]);
@@ -129,7 +130,40 @@ const handleDeleteGasto = async (id) => {
 
     setFilteredExpenses(filteredGastos);
   };
+
+  // formatar os dados dashboard para ter 2 casas decimais
+  const formatarValorComDuasCasasDecimais = (valor) => {
+    return valor.toFixed(2);
+  };
+
+  const lastMonthExpenses = allExpenses.filter(gasto => {
+    const gastoDate = new Date(gasto.data);
+    const lastMonth = new Date();
+    lastMonth.setMonth(lastMonth.getMonth() - 1);
+    return gastoDate.getMonth() === lastMonth.getMonth() && gastoDate.getFullYear() === lastMonth.getFullYear();
+  }).reduce((acc, gasto) => acc + gasto.valor, 0);
+
+  const currentMonthExpenses = allExpenses.filter(gasto => {
+    const gastoDate = new Date(gasto.data);
+    const currentMonth = new Date();
+    return gastoDate.getMonth() === currentMonth.getMonth() && gastoDate.getFullYear() === currentMonth.getFullYear();
+  }).reduce((acc, gasto) => acc + gasto.valor, 0);
+
+let percentageOfIncrease;
+
+if (lastMonthExpenses === 0) {
+  percentageOfIncrease = 0;
+} else {
+  percentageOfIncrease = ((currentMonthExpenses - lastMonthExpenses) / lastMonthExpenses) * 100;
+}
+
   
+
+          const dashboardData = [
+          { title: "Gastos Totais", value: `${formatarValorComDuasCasasDecimais(currentMonthExpenses)}`, change: percentageOfIncrease },
+          { title: "Limite das caixas", value: `${formatarValorComDuasCasasDecimais(caixas.reduce((acc, caixa) => acc + caixa.limite, 0))}`},
+          { title: "Valor Restante", value: `${formatarValorComDuasCasasDecimais(caixas.reduce((acc, caixa) => acc + caixa.limite, 0) - filteredExpenses.reduce((acc, gasto) => acc + gasto.valor, 0), 2)}`},
+        ];
 
   if (loading) return <div className={styles.loading}>Carregando dados...</div>;
   if (error) return <div className={styles.error}>{error}</div>;
@@ -243,9 +277,9 @@ const handleDeleteGasto = async (id) => {
       {/* Resumo dos caixas */}
       <section className={styles.resumoCaixas}>
         <FilterMonthComponent initialMonth={new Date().getMonth()} onMonthChange={handleFilterMonth} />
-        <h1>Limite das caixinhas {formatarValor(caixas.reduce((acc, caixa) => acc + caixa.limite, 0))}</h1>
-        <h1>Total de gastos {formatarValor(filteredExpenses.reduce((acc, gasto) => acc + gasto.valor, 0))}</h1>
-        <h2>Caixas Disponíveis</h2>
+
+
+        <BigNumbers data={dashboardData} />
         <div className={styles.caixasGrid}>
           {caixas.map(caixa => {
             // Calcula o total gasto para esta caixa

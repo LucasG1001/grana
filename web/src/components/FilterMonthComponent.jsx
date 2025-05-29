@@ -20,6 +20,13 @@ const FilterMonthComponent = ({ onMonthChange, initialMonth, includeAllMonths = 
     { value: 11, label: 'Dezembro' }
   ];
 
+  const onlyMonthsThisYear = months.filter(month => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const monthDate = new Date(currentYear, month.value);
+    return monthDate.getFullYear() === currentYear && month.value <= currentDate.getMonth();
+  });
+
   // Removido o useEffect que causava o loop
 
   const handleMonthChange = (event) => {
@@ -41,7 +48,7 @@ const FilterMonthComponent = ({ onMonthChange, initialMonth, includeAllMonths = 
         value={selectedMonth}
         onChange={handleMonthChange}
       >
-        {months.map((month) => (
+        {onlyMonthsThisYear.map((month) => (
           <option key={month.value} value={month.value}>
             {month.label}
           </option>
