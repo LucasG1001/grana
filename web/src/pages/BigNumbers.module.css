@@ -6,24 +6,33 @@
 }
 
 .card {
-  background-color: #1E1E1E;
   border-radius: 8px;
-  padding: 20px;
+  background: #22242B;
+  padding: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   min-width: 180px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+.content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .title {
   font-size: 16px;
-  color: #fff;
+  color: #93A2B5;
   margin-bottom: 8px;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 .value {
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 600;
   color: #fff;
   margin-bottom: 4px;
 }
@@ -38,5 +47,5 @@
 }
 
 .negative {
-  color: #ff3b30;
+  color: #ff857e;
 }

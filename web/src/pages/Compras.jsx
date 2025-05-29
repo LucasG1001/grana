@@ -12,7 +12,7 @@ const Compras = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [formVisible, setFormVisible] = useState(false);
-  
+
   const [novoGasto, setNovoGasto] = useState({
     descricao: "",
     valor: "",
@@ -30,7 +30,7 @@ const Compras = () => {
           axios.get("http://localhost:3001/caixas"),
           axios.get("http://localhost:3001/gastos")
         ]);
-        
+
         // Fixed data assignment
         setCaixas(caixasRes.data);
         setAllExpenses(gastosRes.data);
@@ -46,27 +46,27 @@ const Compras = () => {
     fetchData();
   }, []);
 
-const handleDeleteGasto = async (id) => {
-  try {
-    // Certifique-se que o ID está sendo enviado corretamente
-    await axios.delete(`http://localhost:3001/gastos/${id}`);
-    
-    // Atualiza a lista de gastos
-    setFilteredExpenses(filteredExpenses.filter(gasto => gasto.id !== id));
+  const handleDeleteGasto = async (id) => {
+    try {
+      // Certifique-se que o ID está sendo enviado corretamente
+      await axios.delete(`http://localhost:3001/gastos/${id}`);
 
-  } catch (err) {
-    console.error("Erro ao excluir gasto:", err);
-    setError("Não foi possível excluir o gasto. Verifique os dados e tente novamente.");
-  }
-};
+      // Atualiza a lista de gastos
+      setFilteredExpenses(filteredExpenses.filter(gasto => gasto.id !== id));
+
+    } catch (err) {
+      console.error("Erro ao excluir gasto:", err);
+      setError("Não foi possível excluir o gasto. Verifique os dados e tente novamente.");
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
-    const processedValue = (name === "valor") 
-      ? parseFloat(value) 
+
+    const processedValue = (name === "valor")
+      ? parseFloat(value)
       : value;
-    
+
     setNovoGasto({
       ...novoGasto,
       [name]: processedValue
@@ -90,7 +90,7 @@ const handleDeleteGasto = async (id) => {
         data: new Date().toISOString().split("T")[0],
         caixaId: ""
       });
-      
+
       // Oculta o formulário
       setFormVisible(false);
     } catch (err) {
@@ -149,21 +149,19 @@ const handleDeleteGasto = async (id) => {
     return gastoDate.getMonth() === currentMonth.getMonth() && gastoDate.getFullYear() === currentMonth.getFullYear();
   }).reduce((acc, gasto) => acc + gasto.valor, 0);
 
-let percentageOfIncrease;
+  let percentageOfIncrease;
 
-if (lastMonthExpenses === 0) {
-  percentageOfIncrease = 0;
-} else {
-  percentageOfIncrease = ((currentMonthExpenses - lastMonthExpenses) / lastMonthExpenses) * 100;
-}
+  if (lastMonthExpenses === 0) {
+    percentageOfIncrease = 0;
+  } else {
+    percentageOfIncrease = ((currentMonthExpenses - lastMonthExpenses) / lastMonthExpenses) * 100;
+  }
 
-  
-
-          const dashboardData = [
-          { title: "Gastos Totais", value: `${formatarValorComDuasCasasDecimais(currentMonthExpenses)}`, change: percentageOfIncrease },
-          { title: "Limite das caixas", value: `${formatarValorComDuasCasasDecimais(caixas.reduce((acc, caixa) => acc + caixa.limite, 0))}`},
-          { title: "Valor Restante", value: `${formatarValorComDuasCasasDecimais(caixas.reduce((acc, caixa) => acc + caixa.limite, 0) - filteredExpenses.reduce((acc, gasto) => acc + gasto.valor, 0), 2)}`},
-        ];
+  const dashboardData = [
+    { title: "Gastos Totais", value: `${formatarValorComDuasCasasDecimais(currentMonthExpenses)}`, change: percentageOfIncrease },
+    { title: "Limite das caixas", value: `${formatarValorComDuasCasasDecimais(caixas.reduce((acc, caixa) => acc + caixa.limite, 0))}` },
+    { title: "Valor Restante", value: `${formatarValorComDuasCasasDecimais(caixas.reduce((acc, caixa) => acc + caixa.limite, 0) - filteredExpenses.reduce((acc, gasto) => acc + gasto.valor, 0), 2)}` },
+  ];
 
   if (loading) return <div className={styles.loading}>Carregando dados...</div>;
   if (error) return <div className={styles.error}>{error}</div>;
@@ -172,7 +170,7 @@ if (lastMonthExpenses === 0) {
     <div className={styles.compras}>
       <header className={styles.header}>
         <h1>Gerenciador de Compras</h1>
-        <button 
+        <button
           onClick={() => setFormVisible(!formVisible)}
           className={styles.addButton}
         >
@@ -184,7 +182,7 @@ if (lastMonthExpenses === 0) {
       {formVisible && (
         <form className={styles.form} onSubmit={handleSubmit}>
           <h2>Adicionar Novo Gasto</h2>
-          
+
           <div className={styles.formGroup}>
             <label htmlFor="descricao">Descrição</label>
             <input
@@ -278,9 +276,12 @@ if (lastMonthExpenses === 0) {
       <section className={styles.resumoCaixas}>
         <FilterMonthComponent initialMonth={new Date().getMonth()} onMonthChange={handleFilterMonth} />
 
-
         <BigNumbers data={dashboardData} />
+        <h1>Caixinhas</h1>
         <div className={styles.caixasGrid}>
+          <div className={styles.add} onClick={() => setFormVisible(true)}>
+            <h2>➕</h2>
+          </div>
           {caixas.map(caixa => {
             // Calcula o total gasto para esta caixa
             const gastosNaCaixa = filteredExpenses.filter(gasto => gasto.caixaId === caixa.id);
@@ -288,15 +289,15 @@ if (lastMonthExpenses === 0) {
             const percentualUsado = (totalGasto / caixa.limite) * 100;
 
             return (
-              <div 
-                key={caixa.id} 
+              <div
+                key={caixa.id}
                 className={`${styles.caixaCard} ${percentualUsado > 90 ? styles.limiteCritico : ''}`}
               >
                 <h3>{caixa.nome}</h3>
                 <p className={styles.descricao}>{caixa.descricao}</p>
                 <div className={styles.progressContainer}>
-                  <div 
-                    className={styles.progressBar} 
+                  <div
+                    className={styles.progressBar}
                     style={{ width: `${Math.min(percentualUsado, 100)}%` }}
                   ></div>
                 </div>
@@ -333,18 +334,18 @@ if (lastMonthExpenses === 0) {
                 {[...filteredExpenses]
                   .sort((a, b) => new Date(b.data) - new Date(a.data))
                   .map(expense => (
-                  <tr key={expense.id}>
-                    <td>{expense.descricao}</td>
-                    <td className={styles.valorColuna}>{formatarValor(expense.valor)}</td>
-                    <td>{expense.categoria}</td>
-                    <td>{expense.local}</td>
-                    <td>{formatarData(expense.data)}</td>
-                    <td>{getNomeCaixa(expense.caixaId)}</td>
-                    <td className={styles.actions}>
-                      <button onClick={() => handleDeleteGasto(expense.id)}>Excluir</button>
-                    </td>
-                  </tr>
-                ))}
+                    <tr key={expense.id}>
+                      <td>{expense.descricao}</td>
+                      <td className={styles.valorColuna}>{formatarValor(expense.valor)}</td>
+                      <td>{expense.categoria}</td>
+                      <td>{expense.local}</td>
+                      <td>{formatarData(expense.data)}</td>
+                      <td>{getNomeCaixa(expense.caixaId)}</td>
+                      <td className={styles.actions}>
+                        <button onClick={() => handleDeleteGasto(expense.id)}>Excluir</button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

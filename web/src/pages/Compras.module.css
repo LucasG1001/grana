@@ -1,5 +1,5 @@
 .compras {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -123,13 +123,29 @@
 }
 
 .caixasGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  /* display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); */
+  display: flex;
+  gap: 10px;
+}
+
+.add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  background-color: #22242B;
+  border-radius: 8px;
+}
+
+.add:hover {
+  background-color: #2a2a2a;
+  cursor: pointer;
 }
 
 .caixaCard {
-  background-color: #1e1e1e;
+  width: 240px;
+  background-color: #22242B;
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
