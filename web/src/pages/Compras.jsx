@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Compras.module.css";
 import axios from "axios";
+import FilterMonthComponent from "../components/FilterMonthComponent";
 
 const Compras = () => {
   const [caixas, setCaixas] = useState([]);
-  const [gastos, setGastos] = useState([]);
+  const [allExpenses, setAllExpenses] = useState([]);
+
+  const [filteredExpenses, setFilteredExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [formVisible, setFormVisible] = useState(false);
@@ -27,8 +30,10 @@ const Compras = () => {
           axios.get("http://localhost:3001/gastos")
         ]);
         
+        // Fixed data assignment
         setCaixas(caixasRes.data);
-        setGastos(gastosRes.data);
+        setAllExpenses(gastosRes.data);
+        setFilteredExpenses(gastosRes.data);
         setLoading(false);
       } catch (err) {
         console.error("Erro ao buscar dados:", err);
@@ -40,13 +45,26 @@ const Compras = () => {
     fetchData();
   }, []);
 
+const handleDeleteGasto = async (id) => {
+  try {
+    // Certifique-se que o ID está sendo enviado corretamente
+    await axios.delete(`http://localhost:3001/gastos/${id}`);
+    
+    // Atualiza a lista de gastos
+    setFilteredExpenses(filteredExpenses.filter(gasto => gasto.id !== id));
+
+  } catch (err) {
+    console.error("Erro ao excluir gasto:", err);
+    setError("Não foi possível excluir o gasto. Verifique os dados e tente novamente.");
+  }
+};
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     
-    // Converte o valor para número se for o campo "valor" ou "caixaId"
     const processedValue = (name === "valor") 
       ? parseFloat(value) 
-      : name === "caixaId" ? parseInt(value, 10) : value;
+      : value;
     
     setNovoGasto({
       ...novoGasto,
@@ -56,13 +74,12 @@ const Compras = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const response = await axios.post("http://localhost:3001/gastos", novoGasto);
-      
-      // Adiciona o novo gasto à lista de gastos
-      setGastos([...gastos, response.data]);
-      
+
+      setFilteredExpenses([...filteredExpenses, response.data]);
+
       // Limpa o formulário
       setNovoGasto({
         descricao: "",
@@ -100,6 +117,19 @@ const Compras = () => {
     const caixa = caixas.find(c => c.id === caixaId);
     return caixa ? caixa.nome : "Desconhecido";
   };
+
+  const handleFilterMonth = (month) => {
+
+    const filteredGastos = allExpenses.filter(gasto => {
+      const gastoDate = new Date(gasto.data);
+      return gastoDate.getMonth() === month;
+    });
+
+    console.log(`Filtrando gastos para o mês: ${month}`, filteredGastos);
+
+    setFilteredExpenses(filteredGastos);
+  };
+  
 
   if (loading) return <div className={styles.loading}>Carregando dados...</div>;
   if (error) return <div className={styles.error}>{error}</div>;
@@ -212,14 +242,17 @@ const Compras = () => {
 
       {/* Resumo dos caixas */}
       <section className={styles.resumoCaixas}>
+        <FilterMonthComponent initialMonth={new Date().getMonth()} onMonthChange={handleFilterMonth} />
+        <h1>Limite das caixinhas {formatarValor(caixas.reduce((acc, caixa) => acc + caixa.limite, 0))}</h1>
+        <h1>Total de gastos {formatarValor(filteredExpenses.reduce((acc, gasto) => acc + gasto.valor, 0))}</h1>
         <h2>Caixas Disponíveis</h2>
         <div className={styles.caixasGrid}>
           {caixas.map(caixa => {
             // Calcula o total gasto para esta caixa
-            const gastosNaCaixa = gastos.filter(gasto => gasto.caixaId === caixa.id);
+            const gastosNaCaixa = filteredExpenses.filter(gasto => gasto.caixaId === caixa.id);
             const totalGasto = gastosNaCaixa.reduce((acc, gasto) => acc + gasto.valor, 0);
             const percentualUsado = (totalGasto / caixa.limite) * 100;
-            
+
             return (
               <div 
                 key={caixa.id} 
@@ -246,7 +279,7 @@ const Compras = () => {
       {/* Lista de gastos */}
       <section className={styles.listaGastos}>
         <h2>Gastos Recentes</h2>
-        {gastos.length === 0 ? (
+        {filteredExpenses.length === 0 ? (
           <p className={styles.semGastos}>Nenhum gasto registrado.</p>
         ) : (
           <div className={styles.tabelaContainer}>
@@ -259,19 +292,23 @@ const Compras = () => {
                   <th>Local</th>
                   <th>Data</th>
                   <th>Caixa</th>
+                  <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
-                {[...gastos]
+                {[...filteredExpenses]
                   .sort((a, b) => new Date(b.data) - new Date(a.data))
-                  .map(gasto => (
-                  <tr key={gasto.id}>
-                    <td>{gasto.descricao}</td>
-                    <td className={styles.valorColuna}>{formatarValor(gasto.valor)}</td>
-                    <td>{gasto.categoria}</td>
-                    <td>{gasto.local}</td>
-                    <td>{formatarData(gasto.data)}</td>
-                    <td>{getNomeCaixa(gasto.caixaId)}</td>
+                  .map(expense => (
+                  <tr key={expense.id}>
+                    <td>{expense.descricao}</td>
+                    <td className={styles.valorColuna}>{formatarValor(expense.valor)}</td>
+                    <td>{expense.categoria}</td>
+                    <td>{expense.local}</td>
+                    <td>{formatarData(expense.data)}</td>
+                    <td>{getNomeCaixa(expense.caixaId)}</td>
+                    <td className={styles.actions}>
+                      <button onClick={() => handleDeleteGasto(expense.id)}>Excluir</button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
