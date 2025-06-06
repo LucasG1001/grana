@@ -1,45 +1,123 @@
 {
-  "caixas": [
+  "boxes": [
     {
-      "id": "1",
-      "nome": "Mercado",
-      "limite": 1000,
-      "descricao": "Gastos mensais com supermercado"
+      "id": "asdlfkja",
+      "name": "Recorrente",
+      "limit": 168.75,
+      "description": "Despesas mensais fixas"
     },
     {
-      "id": "2",
-      "nome": "Lazer",
-      "limite": 500,
-      "descricao": "Filmes, bares, eventos"
+      "id": "asdlfkjafdsg",
+      "name": "Produto sem assinatura",
+      "limit": 168.75,
+      "description": "Despesas variáveis mensais"
+    },
+    {
+      "id": "asdlfkjafdsgdfsd",
+      "name": "Lazer",
+      "limit": 37.5,
+      "description": "Despesas de lazer e entretenimento"
     }
   ],
-  "gastos": [
+  "expenses": [
     {
-      "id": "1",
-      "descricao": "Compra no Carrefour",
-      "valor": 200,
-      "categoria": "Alimentação",
-      "local": "Carrefour - Loja 3",
-      "data": "2025-05-28",
-      "caixaId": 1
+      "id": "7784",
+      "description": "SkyFit mensalidade",
+      "value": 129.9,
+      "category": "saúde",
+      "local": "Academia SkyFit",
+      "date": "2025-05-26",
+      "boxId": "asdlfkja"
     },
     {
-      "id": "2",
-      "descricao": "Cinema com amigos",
-      "valor": 50,
-      "categoria": "Entretenimento",
-      "local": "Cinemark Shopping X",
-      "data": "2025-05-27",
-      "caixaId": 2
+      "id": "3a46",
+      "description": "Monitor De Pressão Arterial De Braço Comfort Hem-7122 Omron Cor Branco",
+      "value": 165,
+      "category": "saúde",
+      "local": "Loja oficial Drogaria Nhá Chica NHACHICA ONLINE",
+      "date": "2025-05-28",
+      "boxId": "asdlfkjafdsg"
     },
     {
-      "id": "7f0e",
-      "descricao": "Generica",
-      "valor": 5000,
-      "categoria": "Mercado",
+      "id": "24b5",
+      "description": "Colflex Bio Colágeno Tipo Ll 90 Comprimidos Sem Sabor",
+      "value": 140,
+      "category": "saúde",
+      "local": "LS FARMÁCIAS ",
+      "date": "2025-05-26",
+      "boxId": "asdlfkjafdsg"
+    },
+    {
+      "id": "eefb",
+      "description": "Mercado",
+      "value": 55.53,
+      "category": "Mercado",
       "local": "Sumerbol",
-      "data": "2025-05-28",
-      "caixaId": 1
+      "date": "2025-05-18",
+      "boxId": "asdlfkja"
+    },
+    {
+      "id": "9d32",
+      "description": "Cartão de TODOS",
+      "value": 30.9,
+      "category": "saúde",
+      "local": "IPATINGA BRA",
+      "date": "2025-05-07",
+      "boxId": "asdlfkja"
+    },
+    {
+      "id": "18ed",
+      "description": "Ovos",
+      "value": 54,
+      "category": "Alimento",
+      "local": "Casa",
+      "date": "2025-05-10",
+      "boxId": "asdlfkjafdsg"
+    },
+    {
+      "id": "b423",
+      "description": "SkyFit",
+      "value": 99.08,
+      "category": "saúde",
+      "local": "Indaiatuba",
+      "date": "2025-06-14",
+      "boxId": "asdlfkja"
+    },
+    {
+      "id": "2ec5",
+      "description": "Vivo",
+      "value": 43,
+      "category": "Internet",
+      "local": "Indaiatuba",
+      "date": "2025-06-03",
+      "boxId": "asdlfkja"
+    },
+    {
+      "id": "8a7a",
+      "description": "kindle unlimited",
+      "value": 19.9,
+      "category": "estudo",
+      "local": "indaiatuba",
+      "date": "2025-06-03",
+      "boxId": "asdlfkja"
+    },
+    {
+      "id": "b7f4",
+      "description": "Assai Atacadista",
+      "value": 64.43,
+      "category": "Mercado",
+      "local": "Indaiatuba",
+      "date": "2025-06-01",
+      "boxId": "asdlfkja"
+    },
+    {
+      "id": "5c15",
+      "description": "Gasolina",
+      "value": 150,
+      "category": "Carro",
+      "local": "Indaiatuba",
+      "date": "2025-06-06",
+      "boxId": "asdlfkja"
     }
   ]
 }

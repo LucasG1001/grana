@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './FilterMonthComponent.module.css'
 
 const FilterMonthComponent = ({ onMonthChange, initialMonth, includeAllMonths = false }) => {
   const [selectedMonth, setSelectedMonth] = useState(initialMonth ?? new Date().getMonth());
-  
+
   const months = [
     ...(includeAllMonths ? [{ value: -1, label: 'Todos os Meses' }] : []),
     { value: 0, label: 'Janeiro' },
@@ -27,26 +27,19 @@ const FilterMonthComponent = ({ onMonthChange, initialMonth, includeAllMonths = 
     return monthDate.getFullYear() === currentYear && month.value <= currentDate.getMonth();
   });
 
-  // Removido o useEffect que causava o loop
+  const handleMonthChange = (month) => {
+    onMonthChange(month);
+    setSelectedMonth(month);
+  }
 
-  const handleMonthChange = (event) => {
-    const newMonth = Number(event.target.value);
-    setSelectedMonth(newMonth);
-    
-    // Chama onMonthChange apenas quando o usuário muda a seleção
-    if (onMonthChange) {
-      onMonthChange(newMonth);
-    }
-  };
 
   return (
     <div className={styles.filterContainer}>
-      <label htmlFor="month-select" className={styles.filterLabel}>Mês:</label>
       <select
         id="month-select"
         className={styles.filterSelect}
         value={selectedMonth}
-        onChange={handleMonthChange}
+        onChange={(e) => handleMonthChange(Number(e.target.value))}
       >
         {onlyMonthsThisYear.map((month) => (
           <option key={month.value} value={month.value}>
