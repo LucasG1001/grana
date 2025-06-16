@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react'
 import ModalComponent from '../components/modal/ModalComponent';
+import styles from './AddExpenses.module.css';
 
 const AddExpenses = ({ boxes, formVisible, setFormVisible }) => {
 

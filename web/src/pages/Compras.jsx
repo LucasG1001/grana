@@ -45,7 +45,6 @@ const Compras = () => {
     const currentMonth = selectedMonth !== null ? selectedMonth : today.getMonth();
 
     const filteredExpenses = allExpenses.filter(expense => {
-      // Garante que a data seja processada corretamente, independente do fuso horário
       let expenseDate;
 
       if (typeof expense.date === 'string') {
@@ -70,11 +69,10 @@ const Compras = () => {
     try {
       await axios.delete(`http://localhost:3001/expenses/${id}`);
 
-      // Atualizar ambos os estados
       const updatedExpenses = allExpenses.filter(expense => expense.id !== id);
       setAllExpenses(updatedExpenses);
       setFilteredExpenses(updatedExpenses.filter(expense => {
-        const expenseDate = new Date(expense.data);
+        const expenseDate = new Date(expense.date);
         const currentFilter = new Date();
         return expenseDate.getMonth() === currentFilter.getMonth();
       }));
@@ -90,40 +88,16 @@ const Compras = () => {
     }).format(valor);
   };
 
-  const formatarData = (dataString) => {
-    const data = new Date(dataString);
-    return new Intl.DateTimeFormat('pt-BR').format(data);
-  };
-
   const getBoxName = (boxId) => {
     const box = boxes.find(b => b.id === boxId);
     return box ? box.name : "Desconhecido";
   };
 
-  // const handleFilterMonth = (month) => {
-
-  //   const filteredExpenses = allExpenses.filter(expense => {
-  //     const expenseDate = new Date(expense.date);
-  //     return expenseDate.getMonth() === month;
-  //   });
-
-  //   setFilteredExpenses(filteredExpenses, month, allExpenses);
-  // };
-
-
-
-  const formatarValorComDuasCasasDecimais = (valor) => {
+  const FormatValueWithTwoDecimalPlaces = (valor) => {
     return valor.toFixed(2);
   };
 
-
-
-
-
-  const currentMonthExpenses = allExpenses.filter(expense => {
-    const expenseDate = new Date(expense.date);
-    return expenseDate.getMonth() === selectedMonth;
-  }).reduce((acc, expense) => acc + expense.value, 0);
+  const currentMonthExpenses = filteredExpenses.reduce((acc, expense) => acc + expense.value, 0);
 
   const lastMonthExpenses = allExpenses.filter(expense => {
     const expenseDate = new Date(expense.date);
@@ -143,9 +117,9 @@ const Compras = () => {
   }
 
   const dashboardData = [
-    { title: "Valor Restante", value: `${formatarValorComDuasCasasDecimais(boxes.reduce((acc, box) => acc + box.limit, 0) - filteredExpenses.reduce((acc, expense) => acc + expense.value, 0), 2)}` },
-    { title: "Gastos Totais", value: `${formatarValorComDuasCasasDecimais(currentMonthExpenses)}`, change: `${percentageOfIncrease.toFixed(2)}%` },
-    { title: "Limite das caixas", value: `${formatarValorComDuasCasasDecimais(boxes.reduce((acc, box) => acc + box.limit, 0))}` },
+    { title: "Valor Restante", value: `${FormatValueWithTwoDecimalPlaces(boxes.reduce((acc, box) => acc + box.limit, 0) - filteredExpenses.reduce((acc, expense) => acc + expense.value, 0), 2)}` },
+    { title: "Gastos Totais", value: `${FormatValueWithTwoDecimalPlaces(currentMonthExpenses)}`, change: `${percentageOfIncrease.toFixed(2)}%` },
+    { title: "Limite das caixas", value: `${FormatValueWithTwoDecimalPlaces(boxes.reduce((acc, box) => acc + box.limit, 0))}` },
   ];
 
 
@@ -168,7 +142,6 @@ const Compras = () => {
         <AddExpenses boxes={boxes} formVisible={formVisible} setFormVisible={setFormVisible} />
       )}
 
-      {/* Resumo dos caixas */}
       <section className={styles.resumoCaixas}>
         <FilterMonthComponent initialMonth={new Date().getMonth()} onMonthChange={setSelectedMonth} />
 
@@ -178,6 +151,7 @@ const Compras = () => {
           <div className={styles.add} onClick={() => setFormVisible(true)}>
             <h2>➕</h2>
           </div>
+
           {boxes.map(box => {
             const boxExpenses = filteredExpenses.filter(expense => expense.boxId === box.id);
             const totalGasto = boxExpenses.reduce((acc, expense) => acc + expense.value, 0);
