@@ -118,6 +118,42 @@
       "local": "Indaiatuba",
       "date": "2025-06-06",
       "boxId": "asdlfkja"
+    },
+    {
+      "id": "ced0",
+      "description": "Barbeiro",
+      "value": 35,
+      "category": "estética",
+      "local": "Indaiatuba",
+      "date": "2025-06-08",
+      "boxId": "asdlfkjafdsg"
+    },
+    {
+      "id": "44f9",
+      "description": "Mercado",
+      "value": 33.74,
+      "category": "Mercado",
+      "local": "Indaiatuba",
+      "date": "2025-06-08",
+      "boxId": "asdlfkja"
+    },
+    {
+      "id": "a728",
+      "description": "Cadeado da bicicleta",
+      "value": 25.96,
+      "category": "Bicicleta",
+      "local": "Indaiatuba",
+      "date": "2025-06-10",
+      "boxId": "asdlfkjafdsg"
+    },
+    {
+      "id": "a7ab",
+      "description": "Lanche",
+      "value": 47,
+      "category": "Comida",
+      "local": "Indaiatuba",
+      "date": "2025-06-10",
+      "boxId": "asdlfkjafdsgdfsd"
     }
   ]
 }

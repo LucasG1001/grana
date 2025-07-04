@@ -17,5 +17,4 @@ public class AuthController {
         public String adminHello(){
             return "Olá, usuário administrador!";
         }
-
 }
