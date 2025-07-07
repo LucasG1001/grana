@@ -38,19 +38,20 @@ public class User implements UserDetails{
     private String password;
 
     @Column(nullable = false)
-    private String role;
+    private UserRole role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private java.util.List<Transaction> transactions;
 
-    public User(String email, String password) {
+    public User(String email, String password, UserRole userRole) {
         this.email = email;
         this.password = password;
+        this.role = userRole;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role.equals("admin")) {
+        if(this.role.equals(UserRole.ADMIN)) {
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
         }
         return java.util.Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));

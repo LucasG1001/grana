@@ -1,20 +1,49 @@
 package com.lucas.grana.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.lucas.grana.domain.user.User;
+import com.lucas.grana.dto.User.UserLoginDto;
+import com.lucas.grana.dto.User.UserRegisterDto;
+import com.lucas.grana.repository.user.UserRepository;
 
 @RestController
 @RequestMapping("auth")
 public class AuthController {
 
-    @GetMapping("/hello")
-    public String hello(){
-        return "Olá, usuário autenticado!";
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody UserLoginDto userLoginDto){
+        var usernamePassword = new UsernamePasswordAuthenticationToken(userLoginDto.email(), userLoginDto.password());
+        var auth = authenticationManager.authenticate(usernamePassword);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/hello/admin")
-        public String adminHello(){
-            return "Olá, usuário administrador!";
-        }
+    @PostMapping("/register")
+    public ResponseEntity register(@RequestBody UserRegisterDto userRegisterDto){
+
+        var user = this.userRepository.findByEmail(userRegisterDto.email());
+
+        if(user != null)
+            return ResponseEntity.badRequest().build();
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(userRegisterDto.password());
+        var newUser = new User(userRegisterDto.email(), encryptedPassword, userRegisterDto.role());
+        this.userRepository.save(newUser);
+
+        return ResponseEntity.ok().build();
+    }
 }
