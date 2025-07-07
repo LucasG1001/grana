@@ -1,9 +1,11 @@
-package com.lucas.grana.domain;
+package com.lucas.grana.domain.transaction;
 
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import com.lucas.grana.domain.user.User;
 
 @Entity
 @Table(name = "transaction")
