@@ -5,6 +5,8 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lucas.grana.application.enums.TransactionType;
 import com.lucas.grana.domain.user.User;
 
 @Entity
@@ -16,18 +18,13 @@ import com.lucas.grana.domain.user.User;
 @AllArgsConstructor
 public class Transaction {
 
-    public enum Type {
-        DEPOSIT,
-        WITHDRAWAL
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private Type type;
+    private TransactionType type;
 
     @Column(nullable = false, length = 100)
     private String description;
@@ -47,15 +44,6 @@ public class Transaction {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
-
-    @Builder
-    public Transaction(Type type, String description, BigDecimal value, 
-                      LocalDateTime date,User user) {
-        this.type = type;
-        this.description = description;
-        this.value = value;
-        this.date = date;
-        this.user = user;
-    }
 }

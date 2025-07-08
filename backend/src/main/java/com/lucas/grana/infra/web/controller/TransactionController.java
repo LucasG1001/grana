@@ -9,11 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.lucas.grana.application.mapper.TransactionMapper;
 import com.lucas.grana.application.service.TransactionService;
 import com.lucas.grana.domain.transaction.Transaction;
+import com.lucas.grana.dto.CreateTransactionDTO;
+import com.lucas.grana.repository.user.UserRepository;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -21,11 +27,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TransactionController {
     private final TransactionService transactionService;
+    private final UserRepository userRepository;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Transaction get(@RequestBody Transaction transaction) {
-        return transactionService.createTransaction(transaction);
+    public Transaction get(@RequestBody @Valid CreateTransactionDTO transaction) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+
+        String email = auth.getName();
+
+        Transaction transactionWithUser = TransactionMapper.toTransaction(transaction, userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found")));
+
+        return transactionService.createTransaction(transactionWithUser);
     }
 
     @GetMapping()
