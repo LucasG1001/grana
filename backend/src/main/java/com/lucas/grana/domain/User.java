@@ -1,6 +1,4 @@
-package com.lucas.grana.domain.user;
-
-import com.lucas.grana.domain.transaction.Transaction;
+package com.lucas.grana.domain;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

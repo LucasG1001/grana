@@ -1,4 +1,4 @@
-package com.lucas.grana.domain.user;
+package com.lucas.grana.domain;
 
 public enum UserRole {
 

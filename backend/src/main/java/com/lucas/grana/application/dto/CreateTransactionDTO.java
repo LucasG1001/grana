@@ -1,4 +1,4 @@
-package com.lucas.grana.dto;
+package com.lucas.grana.application.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

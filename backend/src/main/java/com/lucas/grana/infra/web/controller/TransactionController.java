@@ -13,11 +13,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.lucas.grana.application.dto.CreateTransactionDTO;
 import com.lucas.grana.application.mapper.TransactionMapper;
 import com.lucas.grana.application.service.TransactionService;
-import com.lucas.grana.domain.transaction.Transaction;
-import com.lucas.grana.dto.CreateTransactionDTO;
-import com.lucas.grana.repository.user.UserRepository;
+import com.lucas.grana.domain.Transaction;
+import com.lucas.grana.infra.persistence.UserRepository;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

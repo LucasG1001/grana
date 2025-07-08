@@ -1,8 +1,8 @@
 package com.lucas.grana.application.mapper;
 
-import com.lucas.grana.domain.transaction.Transaction;
-import com.lucas.grana.domain.user.User;
-import com.lucas.grana.dto.CreateTransactionDTO;
+import com.lucas.grana.application.dto.CreateTransactionDTO;
+import com.lucas.grana.domain.Transaction;
+import com.lucas.grana.domain.User;
 
 public class TransactionMapper {
 

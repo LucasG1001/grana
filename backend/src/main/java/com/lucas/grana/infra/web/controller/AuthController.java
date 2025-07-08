@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lucas.grana.domain.user.User;
-import com.lucas.grana.dto.TokenResponseDto;
-import com.lucas.grana.dto.User.UserLoginDto;
-import com.lucas.grana.dto.User.UserRegisterDto;
+import com.lucas.grana.application.dto.TokenResponseDto;
+import com.lucas.grana.application.dto.User.UserLoginDto;
+import com.lucas.grana.application.dto.User.UserRegisterDto;
+import com.lucas.grana.domain.User;
+import com.lucas.grana.infra.persistence.UserRepository;
 import com.lucas.grana.infra.security.JwtTokenProvider;
-import com.lucas.grana.repository.user.UserRepository;
 
 @RestController
 @RequestMapping("auth")

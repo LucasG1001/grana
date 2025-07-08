@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.lucas.grana.application.service.TransactionService;
-import com.lucas.grana.domain.transaction.Transaction;
+import com.lucas.grana.domain.Transaction;
 import com.lucas.grana.infra.persistence.TransactionRepository;
-import com.lucas.grana.repository.user.UserRepository;
+import com.lucas.grana.infra.persistence.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

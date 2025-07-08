@@ -1,4 +1,4 @@
-package com.lucas.grana.domain.transaction;
+package com.lucas.grana.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lucas.grana.application.enums.TransactionType;
-import com.lucas.grana.domain.user.User;
 
 @Entity
 @Table(name = "transaction")
