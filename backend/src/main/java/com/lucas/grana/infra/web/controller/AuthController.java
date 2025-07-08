@@ -1,9 +1,11 @@
-package com.lucas.grana.controller;
+package com.lucas.grana.infra.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lucas.grana.domain.user.User;
+import com.lucas.grana.dto.TokenResponseDto;
 import com.lucas.grana.dto.User.UserLoginDto;
 import com.lucas.grana.dto.User.UserRegisterDto;
+import com.lucas.grana.infra.security.JwtTokenProvider;
 import com.lucas.grana.repository.user.UserRepository;
 
 @RestController
@@ -21,15 +25,25 @@ public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private UserRepository userRepository;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody UserLoginDto userLoginDto){
-        var usernamePassword = new UsernamePasswordAuthenticationToken(userLoginDto.email(), userLoginDto.password());
-        var auth = authenticationManager.authenticate(usernamePassword);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<TokenResponseDto> login(@RequestBody UserLoginDto userLoginDto){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        userLoginDto.email(),
+                        userLoginDto.password()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String accessToken = jwtTokenProvider.generateAccessToken(authentication);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
+
+        return ResponseEntity.ok(new TokenResponseDto(accessToken, refreshToken));
     }
 
     @PostMapping("/register")

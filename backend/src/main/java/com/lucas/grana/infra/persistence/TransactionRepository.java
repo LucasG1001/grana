@@ -1,0 +1,12 @@
+package com.lucas.grana.infra.persistence;
+
+import org.springframework.stereotype.Repository;
+
+import com.lucas.grana.domain.transaction.Transaction;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+@Repository
+public interface TransactionRepository extends  JpaRepository<Transaction, String> {
+    
+}
