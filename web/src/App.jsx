@@ -1,14 +1,21 @@
-import { useState } from "react";
-import Compras from "./pages/Compras";
+import { AuthProvider, useAuth } from "./auth/AuthContext";
+import AppRoutes from "./routes/routes";
+import { setupAxiosInterceptors } from "./api/axios";
+import { useEffect } from "react";
 
-function App() {
-  const [count, setCount] = useState(0);
+const App = () => {
+  const auth = useAuth();
+
+
+  useEffect(() => {
+    if (!auth.loading) {
+      setupAxiosInterceptors(auth);
+    }
+  }, [auth]);
 
   return (
-    <>
-      <Compras />
-    </>
+    <AppRoutes />
   );
-}
+};
 
 export default App;
