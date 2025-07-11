@@ -25,6 +25,9 @@ public class CreateTransactionDTO {
     private BigDecimal value;
 
     @NotNull
+    private String categoryName;
+
+    @NotNull
     private LocalDateTime date;
 
     @Min(1)

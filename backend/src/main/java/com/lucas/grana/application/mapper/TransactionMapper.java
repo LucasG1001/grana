@@ -1,12 +1,13 @@
 package com.lucas.grana.application.mapper;
 
 import com.lucas.grana.application.dto.CreateTransactionDTO;
+import com.lucas.grana.domain.Category;
 import com.lucas.grana.domain.Transaction;
 import com.lucas.grana.domain.User;
 
 public class TransactionMapper {
 
-    public static Transaction toTransaction(CreateTransactionDTO createTransactionDTO, User user) {
+    public static Transaction toTransaction(CreateTransactionDTO createTransactionDTO, User user, Category category) {
         return Transaction.builder()
             .type(createTransactionDTO.getType())
             .description(createTransactionDTO.getDescription())
@@ -16,6 +17,7 @@ public class TransactionMapper {
             .currentInstallment(createTransactionDTO.getCurrentInstallment())
             .totalInstallments(createTransactionDTO.getTotalInstallments())
             .user(user)
+            .category(category)
             .build();
     }
     
