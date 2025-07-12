@@ -12,10 +12,26 @@
   border: none;
   border-radius: 10px;
   font-weight: 600;
-  background: blue;
+  background: #30308b;
+  cursor: pointer;
 }
 
-.button.disabled {
-  background: #222222;
-  cursor: not-allowed;
+.formMode {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100%;
+
+  cursor: pointer;
+}
+
+.formMode div {
+  padding: 5px 5px 5px 0px;
+  text-align: center;
+}
+
+.formMode div.active {
+  border-bottom: 2px solid #30308b;
 }
