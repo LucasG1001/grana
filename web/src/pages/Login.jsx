@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
+import styles from "./Login.module.css";
+import Input from "../components/Input";
+import FormLogin from "../components/FormLogin";
 
 const Login = () => {
-    console.log("login");
+  return (
+    <div className={styles.containerLogin}>
+      <FormLogin />
+    </div>
+  );
+};
 
-    return (
-        <div>Login</div>
-    )
-}
-
-export default Login
+export default Login;

@@ -1,0 +1,32 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+label {
+  font-weight: 600;
+  color: #a3a3a3;
+}
+
+.input {
+  outline: none;
+  background: none;
+  border: none;
+  border-bottom: 2px solid #222222;
+  padding: 10px 10px 10px 0px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.input.error {
+  border-bottom: 2px solid #d35b59;
+}
+
+.errorMessage {
+  color: #d35b59;
+  position: absolute;
+  bottom: -30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}

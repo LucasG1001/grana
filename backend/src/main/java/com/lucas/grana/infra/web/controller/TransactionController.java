@@ -52,8 +52,13 @@ public class TransactionController {
     }
 
     @GetMapping()
-    public List<Transaction> getAll() {
-        return transactionService.getAllTransactions();
+    public List<Transaction> getAllTransactionsByUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+        String email = auth.getName();
+
+        var user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+        return transactionService.findByUserId(user.getId());
     }
 
 }

@@ -6,16 +6,13 @@ import { useEffect } from "react";
 const App = () => {
   const auth = useAuth();
 
-
   useEffect(() => {
     if (!auth.loading) {
       setupAxiosInterceptors(auth);
     }
   }, [auth]);
 
-  return (
-    <AppRoutes />
-  );
+  return <AppRoutes />;
 };
 
 export default App;
