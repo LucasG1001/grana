@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +20,13 @@ import com.lucas.grana.application.dto.User.UserLoginDto;
 import com.lucas.grana.application.dto.User.UserRegisterDto;
 import com.lucas.grana.domain.Category;
 import com.lucas.grana.domain.User;
+import com.lucas.grana.domain.UserRole;
 import com.lucas.grana.infra.persistence.CategoryRepository;
 import com.lucas.grana.infra.persistence.UserRepository;
 import com.lucas.grana.infra.security.JwtTokenProvider;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("api/auth")
 public class AuthController {
 
     @Autowired
@@ -37,6 +39,11 @@ public class AuthController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @GetMapping("/validate-token")
+    public boolean validateToken(){
+        return true;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> login(@RequestBody UserLoginDto userLoginDto){
@@ -54,15 +61,18 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<TokenResponseDto> register(@RequestBody UserRegisterDto userRegisterDto){
+    public ResponseEntity<?> register(@RequestBody UserRegisterDto userRegisterDto){
 
         var user = this.userRepository.findByEmail(userRegisterDto.email());
 
         if(user.isPresent())
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("Usuário já existe");
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(userRegisterDto.password());
-        var newUser = new User(userRegisterDto.email(), encryptedPassword, userRegisterDto.role());
+
+        UserRole userRole = UserRole.USER;
+
+        var newUser = new User(userRegisterDto.email(), encryptedPassword, userRole);
         this.userRepository.save(newUser);
         defaultUserCategory(newUser);
 

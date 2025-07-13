@@ -2,9 +2,13 @@ import React, { useEffect } from "react";
 import styles from "./FormLogin.module.css";
 import Input from "./Input";
 import { validInput } from "./inputValidator";
+import { toast } from "react-toastify";
+import api from "../api/axios";
+import { useAuth } from "../auth/AuthContext";
 
 const Form = () => {
   const [formMode, setFormMode] = React.useState("login");
+  const { login } = useAuth();
   const [email, setEmail] = React.useState({
     value: "",
     errorMessage: "",
@@ -22,23 +26,21 @@ const Form = () => {
   });
 
   useEffect(() => {
-    setEmail({
+    console.log("formMode mudou para:", formMode);
+    setEmail((prev) => ({
+      ...prev,
       value: "",
       errorMessage: "",
-      type: "email",
-      id: "email",
-      label: "Email",
-    });
-    setPassword({
+    }));
+
+    setPassword((prev) => ({
+      ...prev,
       value: "",
       errorMessage: "",
-      type: "password",
-      id: "password",
-      label: "Senha",
-    });
+    }));
   }, [formMode]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const emailError = validInput(email.id, email.value);
@@ -57,7 +59,17 @@ const Form = () => {
     const isValid = !emailError && !passwordError;
 
     if (isValid) {
-      console.log("Formulário válido, enviando dados...");
+      const body = {
+        email: email.value,
+        password: password.value,
+      };
+
+      try {
+        const response = await api.post(`/auth/${formMode}`, body);
+        login(response.data.accessToken);
+      } catch (error) {
+        toast.error(error.response.data);
+      }
     }
   };
 
@@ -71,8 +83,8 @@ const Form = () => {
           ENTRAR
         </div>
         <div
-          onClick={() => setFormMode("newUser")}
-          className={formMode == "newUser" ? styles.active : ""}
+          onClick={() => setFormMode("register")}
+          className={formMode == "register" ? styles.active : ""}
         >
           CADASTRAR
         </div>

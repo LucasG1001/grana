@@ -40,6 +40,7 @@ const Input = ({ input, setInput }) => {
         type={input.type}
         name={input.id}
         id={input.id}
+        value={input.value}
       />
       {input.errorMessage && (
         <p className={styles.errorMessage}>{input.errorMessage}</p>

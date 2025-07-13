@@ -4,20 +4,21 @@ import Transactions from "../pages/Transactions";
 import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoutes = () => {
-    console.log("routes");
-    return (
-        <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route
-                path="/"
-                element={
-                    <ProtectedRoute>
-                        <Transactions />
-                    </ProtectedRoute>
-                }
-            />
-        </Routes>
-    );
+  console.log("routes");
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Transactions />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<Login />} />
+    </Routes>
+  );
 };
 
 export default AppRoutes;
