@@ -4,7 +4,6 @@ import Transactions from "../pages/Transactions";
 import ProtectedRoute from "./ProtectedRoute";
 
 const AppRoutes = () => {
-  console.log("routes");
   return (
     <Routes>
       <Route path="/login" element={<Login />} />

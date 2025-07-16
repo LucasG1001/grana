@@ -1,7 +1,8 @@
-const setupInterceptors = (axiosInstance, authContext) => {
+const setupInterceptors = (axiosInstance, logoutFunction) => {
   axiosInstance.interceptors.request.use(
     (config) => {
       const accessToken = localStorage.getItem("accessToken");
+
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
@@ -13,12 +14,14 @@ const setupInterceptors = (axiosInstance, authContext) => {
   axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (error.response.status === 401) {
-        authContext.logout();
+      if (error.response?.status === 401) {
+        // Verificar se authContext existe e tem o método logout
+        if (authContext && typeof logoutFunction === "function") {
+          logoutFunction();
+        }
       }
       return Promise.reject(error);
     }
   );
 };
-
 export default setupInterceptors;

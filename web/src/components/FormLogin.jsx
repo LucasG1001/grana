@@ -6,57 +6,49 @@ import { toast } from "react-toastify";
 import api from "../api/axios";
 import { useAuth } from "../auth/AuthContext";
 
+const FORM_INPUTS = [
+  {
+    id: "email",
+    label: "Email",
+    type: "email",
+    value: "",
+    errorMessage: "",
+  },
+  {
+    id: "password",
+    label: "Senha",
+    type: "password",
+    value: "",
+    errorMessage: "",
+  },
+];
+
 const Form = () => {
   const [formMode, setFormMode] = React.useState("login");
   const { login } = useAuth();
-  const [email, setEmail] = React.useState({
-    value: "",
-    errorMessage: "",
-    type: "email",
-    id: "email",
-    label: "Email",
-  });
-
-  const [password, setPassword] = React.useState({
-    value: "",
-    errorMessage: "",
-    type: "password",
-    id: "password",
-    label: "Senha",
-  });
+  const [formInputs, setFormInputs] = React.useState(FORM_INPUTS);
 
   useEffect(() => {
-    console.log("formMode mudou para:", formMode);
-    setEmail((prev) => ({
-      ...prev,
-      value: "",
-      errorMessage: "",
-    }));
-
-    setPassword((prev) => ({
-      ...prev,
-      value: "",
-      errorMessage: "",
-    }));
+    setFormInputs(FORM_INPUTS);
   }, [formMode]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const emailError = validInput(email.id, email.value);
-    const passwordError = validInput(password.id, password.value);
+    const email = formInputs.find((input) => input.id === "email");
+    const password = formInputs.find((input) => input.id === "password");
+    let isValid = true;
 
-    setEmail((prev) => ({
-      ...prev,
-      errorMessage: emailError || "",
-    }));
-
-    setPassword((prev) => ({
-      ...prev,
-      errorMessage: passwordError || "",
-    }));
-
-    const isValid = !emailError && !passwordError;
+    formInputs.forEach((input) => {
+      const errorMessage = validInput(input.id, input.value);
+      if (errorMessage) {
+        input = {
+          ...input,
+          errorMessage: errorMessage || "",
+        };
+        isValid = false;
+      }
+    });
 
     if (isValid) {
       const body = {
@@ -89,8 +81,13 @@ const Form = () => {
           CADASTRAR
         </div>
       </div>
-      <Input input={email} setInput={setEmail} />
-      <Input input={password} setInput={setPassword} />
+      {formInputs.map((input) => {
+        return (
+          <Input key={input.id} input={input} setInput={setFormInputs}></Input>
+        );
+      })}
+      {/* <Input input={email} setInput={setEmail} />
+      <Input input={password} setInput={setPassword} /> */}
       <button className={`${styles.button}`} type="submit">
         Entrar
       </button>

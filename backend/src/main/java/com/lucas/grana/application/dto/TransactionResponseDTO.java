@@ -1,0 +1,34 @@
+package com.lucas.grana.application.dto;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import com.lucas.grana.application.enums.TransactionType;
+
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class TransactionResponseDTO {
+        private String id;
+
+    private TransactionType type;
+
+    private String description;
+
+    private BigDecimal value;
+
+    private LocalDateTime date;
+
+    private Boolean installment = false;
+
+    private Integer currentInstallment;
+
+    private Integer totalInstallments;
+
+    private String categoryName;
+    private String categoryColor;
+}
+
+

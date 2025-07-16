@@ -10,6 +10,7 @@ public class CategoryMapper {
         return Category.builder()
             .name(createCategoryDTO.getName())
             .user(user)
+            .color(createCategoryDTO.getColor())
             .build();
     }
     

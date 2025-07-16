@@ -32,5 +32,10 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getAllCategories() {
         return CategoryRepository.findAll();
     }
+
+    @Override
+    public List<Category> findByUserId(String userId) {
+        return CategoryRepository.findByUserId(userId);
+    }
     
 }

@@ -12,8 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.lucas.grana.application.dto.CategoryResponseDTO;
 import com.lucas.grana.application.dto.CreateCategoryDTO;
 import com.lucas.grana.application.mapper.CategoryMapper;
+import com.lucas.grana.application.mapper.CategoryResponseMapper;
 import com.lucas.grana.application.service.CategoryService;
 import com.lucas.grana.domain.Category;
 import com.lucas.grana.infra.persistence.CategoryRepository;
@@ -23,7 +25,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/Categorys")
+@RequestMapping("/api/categories")
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService CategoryService;
@@ -43,8 +45,17 @@ public class CategoryController {
     }
 
     @GetMapping()
-    public List<Category> getAll() {
-        return CategoryService.getAllCategories();
+    public List<CategoryResponseDTO> getAll() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+
+        var user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+        var categories = CategoryService.findByUserId(user.getId());
+
+        var categoriesResponse = CategoryResponseMapper.toCategoryList(categories);
+
+        return  categoriesResponse;
     }
 
 }

@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { toast } from "react-toastify";
+import setupInterceptors from "./authInterceptor";
 
 const AuthContext = createContext();
 
@@ -10,13 +11,15 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setupInterceptors(api, logout);
+  }, []);
+
   const validateToken = async () => {
     try {
       const response = await api.get("/auth/validate-token");
-
       return response.data;
     } catch (error) {
-      toast.error("invalid token");
       logout();
     }
   };
@@ -24,18 +27,22 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initAuth = async () => {
       const accessToken = localStorage.getItem("accessToken");
-      if (accessToken) {
-        try {
-          const response = await validateToken();
-          if (response) {
-            setIsAuthenticated(true);
-            navigate("/");
-          }
-        } catch (error) {
-          logout();
-        }
+
+      if (!accessToken) {
+        setLoading(false);
+        return;
       }
-      setLoading(false);
+
+      try {
+        const response = await validateToken();
+        if (response) {
+          setIsAuthenticated(true);
+        }
+      } catch (error) {
+        toast.error("Sessão expirada. Por favor, faça login novamente.");
+      } finally {
+        setLoading(false);
+      }
     };
 
     initAuth();
@@ -43,18 +50,24 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (accessToken) => {
     localStorage.setItem("accessToken", accessToken);
-    const response = await validateToken();
 
-    if (response) {
-      setIsAuthenticated(true);
-      navigate("/");
+    try {
+      const response = await validateToken();
+      if (response) {
+        setIsAuthenticated(true);
+        navigate("/");
+        toast.success("Login realizado com sucesso!");
+      }
+    } catch (error) {
+      toast.error("Falha ao validar o token de acesso");
     }
   };
 
   const logout = () => {
-    navigate("/login");
-    setIsAuthenticated(false);
     localStorage.removeItem("accessToken");
+    setIsAuthenticated(false);
+    navigate("/login");
+    toast.info("Você foi desconectado");
   };
 
   return (

@@ -6,8 +6,6 @@ import React from "react";
 const ProtectedRoute = ({ children, roles }) => {
   const { isAuthenticated, loading } = useAuth();
 
-  console.log(isAuthenticated);
-
   if (loading) return <div>Loading...</div>;
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;

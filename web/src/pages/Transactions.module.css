@@ -1,0 +1,92 @@
+.transactionsContainer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.transactions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #292f43;
+  gap: 10px;
+  padding: 20px;
+}
+
+.transaction {
+  display: grid;
+  grid-template-columns: 100px 1fr 1fr 1fr;
+  min-width: 100%;
+  color: #fff;
+  gap: 20px;
+}
+
+.date {
+  color: #777777;
+}
+
+.categoryName {
+  border-radius: 5px;
+  text-align: center;
+}
+
+.months {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.month {
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.selectedMonth {
+  background: #30308b;
+  border-radius: 5px;
+}
+
+.transactionsHeader {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.transactionsHeader div {
+  background: #292f43;
+  padding: 20px 40px;
+  color: #fff;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.listHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #4f4f4f;
+  padding: 10px;
+}
+
+.listTitle {
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: bold;
+}
+
+.listButton {
+  background: none;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  background: #30308b;
+  padding: 10px 15px;
+  border-radius: 5px;
+}

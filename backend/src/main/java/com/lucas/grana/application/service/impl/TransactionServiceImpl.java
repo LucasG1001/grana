@@ -1,5 +1,6 @@
 package com.lucas.grana.application.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -37,5 +38,14 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> findByUserId(String userId) {
         return transactionRepository.findByUserId(userId);
     }
+
+    @Override
+    public List<Transaction> findByDateBetween(String userId, LocalDateTime startDate, LocalDateTime endDate) {
+        return transactionRepository.findByDateBetween(userId, startDate, endDate);
+    }
+
+    // public List<Transaction> findByRange(String userId, String startDate, String endDate) {
+    //     return transactionRepository.findByRange(userId, startDate, endDate);
+    // }
     
 }

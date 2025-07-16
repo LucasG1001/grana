@@ -1,0 +1,15 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  color: #777777;
+}
+
+.value {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.2rem;
+}

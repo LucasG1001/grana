@@ -11,4 +11,8 @@ public class CreateCategoryDTO {
     @NotNull
     @Size(max = 30)
     private String name;
+
+    @NotNull
+    @Size(max = 7)
+    private String color;
 }

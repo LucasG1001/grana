@@ -17,12 +17,10 @@
 }
 
 .formMode {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
   border-radius: 10px;
   font-weight: 600;
   width: 100%;
+
   cursor: pointer;
 }
 
@@ -33,4 +31,14 @@
 
 .formMode div.active {
   border-bottom: 2px solid #30308b;
+}
+
+.inputs {
+  display: grid;
+  grid-template-columns: 200px 200px;
+  gap: 10px;
+}
+
+.description {
+  grid-column: 1 / -1;
 }

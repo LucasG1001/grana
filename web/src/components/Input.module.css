@@ -1,12 +1,10 @@
 .inputContainer {
-  display: flex;
-  flex-direction: column;
   position: relative;
 }
-
 label {
   font-weight: 600;
   color: #a3a3a3;
+  position: relative;
 }
 
 .input {
@@ -17,6 +15,7 @@ label {
   padding: 10px 10px 10px 0px;
   font-size: 1.2rem;
   font-weight: 600;
+  width: 100%;
 }
 
 .input.error {
