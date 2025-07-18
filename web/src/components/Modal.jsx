@@ -1,10 +1,21 @@
 import React from "react";
 import styles from "./Modal.module.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
-const Modal = ({ title }) => {
+const Modal = ({ title, isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+
   return (
-    <div className={styles.modal}>
-      <div>{title}</div>
+    <div className={styles.modalContainer}>
+      <div className={styles.modalContent}>
+        <div className={styles.modalHeader}>
+          <span>{title}</span>
+          <button className={styles.button} onClick={onClose}>
+            <i className="bx bx-x"></i>
+          </button>
+        </div>
+        {children}
+      </div>
     </div>
   );
 };

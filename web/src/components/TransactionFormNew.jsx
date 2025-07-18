@@ -3,6 +3,7 @@ import styles from "./TransactionForm.module.css";
 import { useAuth } from "../auth/AuthContext";
 import Input from "./Input";
 import api from "../api/axios";
+import useCategories from "./hooks/useCategories";
 
 const FORM_INPUTS = [
   {
@@ -17,6 +18,7 @@ const FORM_INPUTS = [
     type: "text",
     value: "R$ 0,00",
     errorMessage: "",
+    mode: "numeric",
   },
   {
     id: "date",
@@ -32,55 +34,34 @@ const FORM_INPUTS = [
     value: [],
     errorMessage: "",
   },
-  {
-    id: "type",
-    label: "Tipo",
-    type: "select",
-    value: [],
-    errorMessage: "",
-  },
-  {
-    id: "color",
-    label: "Cor",
-    type: "color",
-    value: "",
-    errorMessage: "",
-  },
 ];
 
 const TransactionFormNew = () => {
-  const [formMode, setFormMode] = React.useState("login");
   const [formInputs, setFormInputs] = React.useState(FORM_INPUTS);
-  const [categories, setCategories] = React.useState([]);
+  const { categories, get, getById, add, edit, remove } = useCategories();
 
   useEffect(() => {
-    const fetchCategory = async () => {
-      const response = await api.get("/categories");
-      setCategories(response.data);
-    };
-    fetchCategory();
+    get();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
   };
 
-  if (categories.length === 0) return <div>Carregando...</div>;
-
+  if (categories.length === 0) return null;
   FORM_INPUTS[3].value = categories;
 
   return (
     <form onSubmit={handleSubmit} className={styles.form} action="">
-      <div className={styles.formMode}>
-        <div className={styles.active}>Adicionar Transação</div>
-      </div>
       <div className={styles.inputs}>
         {formInputs.map((input) => {
           return (
             <div
               key={input.id}
               className={
-                input.id === "description" ? styles.description : styles.input
+                input.id === "description" || input.id === "category"
+                  ? styles.grid
+                  : styles.input
               }
             >
               <Input key={input.id} input={input} setInput={setFormInputs} />

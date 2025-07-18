@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 public class CreateCategoryDTO {
 
+    private String id;
+    
     @NotNull
     @Size(max = 30)
     private String name;
@@ -15,4 +17,8 @@ public class CreateCategoryDTO {
     @NotNull
     @Size(max = 7)
     private String color;
+
+    @NotNull
+    @Size(max = 30)
+    private String icon;
 }

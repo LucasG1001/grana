@@ -11,6 +11,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --box-color: #292f43;
+  --transparent: rgba(119, 119, 119, 0.2);
 }
 * {
   box-sizing: border-box;

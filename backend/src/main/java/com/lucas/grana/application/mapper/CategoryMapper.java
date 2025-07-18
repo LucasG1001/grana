@@ -8,9 +8,11 @@ public class CategoryMapper {
 
     public static Category toCategory(CreateCategoryDTO createCategoryDTO, User user) {
         return Category.builder()
+            .id(createCategoryDTO.getId())
             .name(createCategoryDTO.getName())
             .user(user)
             .color(createCategoryDTO.getColor())
+            .icon(createCategoryDTO.getIcon())
             .build();
     }
     

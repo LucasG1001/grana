@@ -3,9 +3,9 @@ import api from "../api/axios";
 import styles from "./Transactions.module.css";
 import {} from "react-icons";
 import Card from "../components/Card";
-import { useModal } from "../context/ModalContext";
 import Input from "../components/Input";
 import TransactionFormNew from "../components/TransactionFormNew";
+import Modal from "../components/Modal";
 
 const MONTHS_ABREV = [
   "JAN",
@@ -27,7 +27,9 @@ const Transactions = () => {
   const [selectedMonth, setSelectedMonth] = React.useState(
     new Date().getMonth()
   );
-  const { showModal } = useModal();
+  const [modalForm, setModalForm] = React.useState(true);
+  const [modalEdit, setModalEdit] = React.useState(false);
+  const [modalDelete, setModalDelete] = React.useState(false);
 
   useEffect(() => {
     const year = new Date().getFullYear();
@@ -39,12 +41,6 @@ const Transactions = () => {
       .replace("Z", "");
 
     const fetchTransactions = async () => {
-      showModal(
-        <div>
-          <TransactionFormNew />
-        </div>
-      );
-
       const response = await api.get("/transactions/date-between", {
         params: {
           startDate,
@@ -103,6 +99,15 @@ const Transactions = () => {
           }
         />
       </div>
+      <Modal
+        title={"Adicionar Transação"}
+        isOpen={true}
+        onClose={() => setModalForm(false)}
+      >
+        <div>
+          <TransactionFormNew />
+        </div>
+      </Modal>
       <ul className={styles.transactions}>
         <div className={styles.listHeader}>
           <span className={styles.listTitle}>Transações</span>

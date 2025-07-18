@@ -1,0 +1,35 @@
+.inputGroup {
+  display: grid;
+  grid-template-columns: 50px 1fr 100px;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #87998d;
+  width: 45px;
+  height: 45px;
+  font-size: 2rem;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.inputGroup .iconSelected {
+  color: black !important;
+}
+
+.action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2rem;
+  border-radius: 5px;
+}
+
+.action i {
+  cursor: pointer;
+  background: rgba(119, 119, 119, 0.2);
+}

@@ -8,8 +8,10 @@ import com.lucas.grana.domain.Category;
 public class CategoryResponseMapper {
     public static CategoryResponseDTO toCategoryResponse(Category category) {
         return CategoryResponseDTO.builder()
+            .id(category.getId())
             .name(category.getName())
             .color(category.getColor())
+            .icon(category.getIcon())
             .build();
     }
 

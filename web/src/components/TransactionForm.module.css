@@ -39,6 +39,6 @@
   gap: 10px;
 }
 
-.description {
+.grid {
   grid-column: 1 / -1;
 }

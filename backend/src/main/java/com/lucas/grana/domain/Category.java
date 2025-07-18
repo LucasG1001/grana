@@ -37,6 +37,9 @@ public class Category extends BaseEntity {
     @Column( length = 7)
     private String color;
 
+    @Column( length = 30)
+    private String icon;
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private java.util.List<Transaction> transactions;
 

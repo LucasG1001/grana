@@ -1,11 +1,13 @@
 .container {
   height: 48px;
   overflow: hidden;
-  position: relative;
 }
 
 .container.active {
   overflow: visible;
+}
+.container.active .selectedItem {
+  position: relative;
 }
 
 .container.active .list {
@@ -13,40 +15,65 @@
   top: 48px;
   left: 0;
   width: 100%;
-  z-index: 1000;
-  height: 200px;
+  max-height: 200px;
   overflow-y: scroll;
-}
-
-.list {
+  left: -10px;
   display: flex;
   flex-direction: column;
   gap: 2px;
   background: #292f43;
+  padding: 5px 5px 5px 0px;
+}
+
+.list {
+  display: none;
 }
 
 .item {
-  display: flex;
-  align-items: center;
-  line-height: 48px;
-  color: #fff;
   background: rgba(105, 105, 105, 0.2);
+  border-radius: 5px;
 }
 
 .selected,
 .item {
+  color: #fff;
   font-size: 1.2rem;
-  line-height: 40px;
+  line-height: 46px;
   font-weight: bold;
   width: 100%;
   cursor: pointer;
-  border-bottom: 2px solid #222222;
-  border-radius: 5px;
   padding: 0 10px;
 }
 
 .selected {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 10px;
+  border-bottom: 1px solid #555555;
+}
+
+.selectedItem {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  width: 100%;
+}
+
+.arrow {
+  background: none;
+}
+
+.check {
+  display: flex;
+  gap: 10px;
+}
+
+.name {
+  display: flex;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 1.4rem;
+  border-radius: 5px;
+  padding: 5px;
 }

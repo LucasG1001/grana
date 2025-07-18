@@ -5,7 +5,6 @@ import Select from "react-select";
 import InputSelect from "./InputSelect";
 
 const Input = ({ input, setInput }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
   const handleBlur = (e) => {
     const errorMessage = validInput(input.id, e.target.value);
 
@@ -73,7 +72,7 @@ const Input = ({ input, setInput }) => {
       <label className={styles.label} htmlFor={input.id}>
         {input.label}
       </label>
-      {input.type === "select" && <InputSelect />}
+      {input.type === "select" && <InputSelect itens={input.value} />}
       {input.type !== "select" && (
         <input
           onBlur={handleBlur}
@@ -83,6 +82,7 @@ const Input = ({ input, setInput }) => {
           name={input.id}
           id={input.id}
           value={input.value}
+          inputMode={input.mode}
         />
       )}
       {input.errorMessage && (
