@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import styles from "./TransactionForm.module.css";
-import { useAuth } from "../auth/AuthContext";
-import Input from "./Input";
-import api from "../api/axios";
-import useCategories from "./hooks/useCategories";
+import { useAuth } from "../../auth/AuthContext";
+import Input from "../Input";
+import api from "../../api/axios";
+import { useCategory } from "../../context/useCategory";
+import CategoryCrud from "../categories/CategoryCrud";
 
-const FORM_INPUTS = [
+export const FORM_INPUTS = [
   {
     id: "description",
     label: "Descrição",
@@ -23,8 +24,8 @@ const FORM_INPUTS = [
   {
     id: "date",
     label: "Data",
-    type: "datetime-local",
-    value: new Date().toISOString().slice(0, 16),
+    type: "date",
+    value: new Date().toISOString().split("T")[0],
     errorMessage: "",
   },
   {
@@ -33,12 +34,20 @@ const FORM_INPUTS = [
     type: "select",
     value: [],
     errorMessage: "",
+    crudComponent: (input, formMode, modal, setModal) => (
+      <CategoryCrud
+        input={input}
+        formMode={formMode}
+        modal={modal}
+        setModal={setModal}
+      />
+    ),
   },
 ];
 
 const TransactionFormNew = () => {
   const [formInputs, setFormInputs] = React.useState(FORM_INPUTS);
-  const { categories, get, getById, add, edit, remove } = useCategories();
+  const { categories, get, getById, add, edit, remove } = useCategory();
 
   useEffect(() => {
     get();
@@ -49,7 +58,7 @@ const TransactionFormNew = () => {
   };
 
   if (categories.length === 0) return null;
-  FORM_INPUTS[3].value = categories;
+  formInputs[3].value = categories;
 
   return (
     <form onSubmit={handleSubmit} className={styles.form} action="">
@@ -65,7 +74,6 @@ const TransactionFormNew = () => {
               }
             >
               <Input key={input.id} input={input} setInput={setFormInputs} />
-              <span className={styles.errorMessage}>{input.errorMessage}</span>
             </div>
           );
         })}

@@ -1,12 +1,26 @@
 import React from "react";
 import styles from "./Crud.module.css";
 
-const Crud = ({ editItem }) => {
+const Crud = ({ formMode, setFormMode, setModal }) => {
+  const handleClick = (mode) => {
+    setFormMode(mode);
+    setModal(true);
+  };
+
   return (
     <div className={styles.actions}>
-      <i className={`${"bx  bx-trash"} ${styles.icon}`}></i>
-      <i onClick={editItem} className={`${"bx  bx-edit"} ${styles.icon}`}></i>
-      <i className={`${"bx  bx-plus"} ${styles.icon}`}></i>
+      <i
+        onClick={() => handleClick("delete")}
+        className={`${"bx  bx-trash"} ${styles.icon}`}
+      ></i>
+      <i
+        onClick={() => handleClick("edit")}
+        className={`${"bx  bx-edit"} ${styles.icon}`}
+      ></i>
+      <i
+        onClick={() => handleClick("new")}
+        className={`${"bx  bx-plus"} ${styles.icon}`}
+      ></i>
     </div>
   );
 };

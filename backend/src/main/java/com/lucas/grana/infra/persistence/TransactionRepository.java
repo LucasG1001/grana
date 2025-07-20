@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import com.lucas.grana.domain.Transaction;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,5 +17,5 @@ public interface TransactionRepository extends  JpaRepository<Transaction, Strin
     @Query("SELECT t FROM Transaction t JOIN FETCH t.category WHERE t.user.id = :userId")
     List<Transaction> findByUserId(@Param("userId") String userId);
     @Query("SELECT t FROM Transaction t JOIN FETCH t.category WHERE t.user.id = :userId AND t.date BETWEEN :startDate AND :endDate")
-    List<Transaction> findByDateBetween(@Param("userId") String userId,@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+    List<Transaction> findByDateBetween(@Param("userId") String userId,@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

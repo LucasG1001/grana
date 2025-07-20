@@ -1,6 +1,16 @@
 const validations = [
   {
-    id: "email",
+    type: "text",
+    tests: [
+      {
+        id: "required",
+        errorMessage: "Campo obrigatório",
+        regex: /^.{1,}$/,
+      },
+    ],
+  },
+  {
+    type: "email",
     tests: [
       {
         id: "required",
@@ -15,7 +25,7 @@ const validations = [
     ],
   },
   {
-    id: "password",
+    type: "password",
     tests: [
       {
         id: "required",
@@ -46,8 +56,8 @@ const validations = [
   },
 ];
 
-const validInput = (id, value) => {
-  const inputValidations = validations.find((v) => v.id === id);
+const validInput = (type, value) => {
+  const inputValidations = validations.find((v) => v.type === type);
 
   if (!inputValidations) return null;
 

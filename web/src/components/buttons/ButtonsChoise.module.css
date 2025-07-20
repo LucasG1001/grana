@@ -1,0 +1,31 @@
+.buttons {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  gap: 20px;
+  align-items: center;
+}
+
+.button {
+  height: 40px;
+  outline: none;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100px;
+}
+
+.cancelButton {
+  background: none;
+  border-bottom: 1px solid #bf8686;
+  height: 30px;
+}
+
+.cancelButton:hover {
+  border-bottom: 1px solid red;
+}
+
+.saveButton {
+  border-radius: 10px;
+  background: #30308b;
+}

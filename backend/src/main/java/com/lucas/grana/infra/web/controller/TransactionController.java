@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.security.core.Authentication;
@@ -65,7 +66,7 @@ public class TransactionController {
     }
 
     @GetMapping("/date-between")
-    public List<TransactionResponseDTO> getAllTransactionsByUserIdAndDateBetween(@RequestParam LocalDateTime startDate, @RequestParam LocalDateTime endDate) {
+    public List<TransactionResponseDTO> getAllTransactionsByUserIdAndDateBetween(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
         String email = auth.getName();
 

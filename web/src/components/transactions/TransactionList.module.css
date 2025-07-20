@@ -1,0 +1,52 @@
+.transactions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #292f43;
+  gap: 10px;
+  padding: 20px;
+}
+
+.listHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #4f4f4f;
+  padding: 10px;
+}
+
+.listTitle {
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: bold;
+}
+
+.listButton {
+  background: none;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  background: #30308b;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.transaction {
+  display: grid;
+  grid-template-columns: 100px 1fr 1fr 1fr;
+  min-width: 100%;
+  color: #fff;
+  gap: 20px;
+}
+
+.date {
+  color: #777777;
+}
+
+.categoryName {
+  border-radius: 5px;
+  text-align: center;
+}

@@ -1,5 +1,6 @@
 package com.lucas.grana.application.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> findByDateBetween(String userId, LocalDateTime startDate, LocalDateTime endDate) {
+    public List<Transaction> findByDateBetween(String userId, LocalDate startDate, LocalDate endDate) {
         return transactionRepository.findByDateBetween(userId, startDate, endDate);
     }
 

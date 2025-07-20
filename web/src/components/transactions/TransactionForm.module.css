@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
-  width: 400px;
 }
 
 .button {
@@ -36,7 +35,7 @@
 .inputs {
   display: grid;
   grid-template-columns: 200px 200px;
-  gap: 10px;
+  gap: 30px;
 }
 
 .grid {

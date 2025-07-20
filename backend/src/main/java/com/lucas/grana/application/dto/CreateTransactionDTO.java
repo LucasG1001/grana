@@ -1,6 +1,7 @@
 package com.lucas.grana.application.dto;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.lucas.grana.application.enums.TransactionType;
@@ -28,7 +29,7 @@ public class CreateTransactionDTO {
     private String categoryName;
 
     @NotNull
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Min(1)
     private Boolean installment;

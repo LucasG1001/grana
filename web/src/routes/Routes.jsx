@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "../pages/Login";
 import Transactions from "../pages/Transactions";
 import ProtectedRoute from "./ProtectedRoute";
+import { CategoryProvider } from "../context/useCategory";
 
 const AppRoutes = () => {
   return (
@@ -11,7 +12,9 @@ const AppRoutes = () => {
         path="/"
         element={
           <ProtectedRoute>
-            <Transactions />
+            <CategoryProvider>
+              <Transactions />
+            </CategoryProvider>
           </ProtectedRoute>
         }
       />

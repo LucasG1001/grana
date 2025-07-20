@@ -2,47 +2,45 @@ import React, { useState } from "react";
 import styles from "./Input.module.css";
 import { validInput } from "./inputValidator";
 import Select from "react-select";
-import InputSelect from "./InputSelect";
+import DropdownSelector from "./dropDown/Dropdown";
 
 const Input = ({ input, setInput }) => {
+  const updateInputs = (inputs, id, changes) => {
+    return inputs.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          ...changes,
+        };
+      }
+      return item;
+    });
+  };
   const handleBlur = (e) => {
-    const errorMessage = validInput(input.id, e.target.value);
+    const errorMessage = validInput(input.type, e.target.value);
 
     setInput((prev) =>
-      prev.map((item) => {
-        if (item.id === input.id) {
-          return {
-            ...item,
-            value: e.target.value,
-            errorMessage: errorMessage || "",
-          };
-        }
-        return item;
+      updateInputs(prev, input.id, {
+        value: e.target.value,
+        errorMessage: errorMessage || "",
       })
     );
   };
 
   const handleChange = (e) => {
     let inputValue = e.target.value;
-    let errorMessage = null;
     if (input.id === "value") {
       inputValue = formatNumber(inputValue);
     }
 
-    if (input.errorMessage) {
-      errorMessage = validInput(input.id, inputValue);
-    }
+    const errorMessage = input.errorMessage
+      ? validInput(input.type, inputValue)
+      : "";
 
     setInput((prev) =>
-      prev.map((item) => {
-        if (item.id === input.id) {
-          return {
-            ...item,
-            value: inputValue,
-            errorMessage: errorMessage || "",
-          };
-        }
-        return item;
+      updateInputs(prev, input.id, {
+        value: inputValue,
+        errorMessage: errorMessage,
       })
     );
   };
@@ -72,7 +70,13 @@ const Input = ({ input, setInput }) => {
       <label className={styles.label} htmlFor={input.id}>
         {input.label}
       </label>
-      {input.type === "select" && <InputSelect itens={input.value} />}
+      {input.type === "select" && (
+        <DropdownSelector
+          options={input.value}
+          input={input}
+          setInput={setInput}
+        />
+      )}
       {input.type !== "select" && (
         <input
           onBlur={handleBlur}

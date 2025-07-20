@@ -1,6 +1,6 @@
 .container {
   position: absolute;
-  top: -240px;
+  top: -140px;
   background: var(--box-color);
   border-radius: 5px;
   padding: 10px;

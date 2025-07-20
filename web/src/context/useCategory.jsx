@@ -1,7 +1,9 @@
 import React from "react";
-import api from "../../api/axios";
+import api from "../api/axios";
 
-const useCategories = () => {
+const CreateContext = React.createContext({});
+
+export const CategoryProvider = ({ children }) => {
   const [categories, setCategories] = React.useState([]);
   const [category, setCategory] = React.useState({});
 
@@ -21,18 +23,25 @@ const useCategories = () => {
   };
 
   const edit = async (category) => {
-    const response = await api.put(`/categories/${category.id}`, category);
+    const { id, ...rest } = category;
+    const response = await api.put(`/categories/${id}`, rest);
     setCategories(
       categories.map((c) => (c.id === category.id ? response.data : c))
     );
   };
 
-  const remove = async (category) => {
-    await api.delete(`/categories/${category.id}`);
-    setCategories(categories.filter((c) => c.id !== category.id));
+  const remove = async (id) => {
+    await api.delete(`/categories/${id}`);
+    setCategories(categories.filter((c) => c.id !== id));
   };
 
-  return { categories, category, get, getById, add, edit, remove };
+  return (
+    <CreateContext.Provider
+      value={{ categories, category, get, getById, add, edit, remove }}
+    >
+      {children}
+    </CreateContext.Provider>
+  );
 };
 
-export default useCategories;
+export const useCategory = () => React.useContext(CreateContext);

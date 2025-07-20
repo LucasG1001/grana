@@ -4,41 +4,48 @@ import styles from "./Transactions.module.css";
 import {} from "react-icons";
 import Card from "../components/Card";
 import Input from "../components/Input";
-import TransactionFormNew from "../components/TransactionFormNew";
+import TransactionForm from "../components/transactions/TransactionForm";
 import Modal from "../components/Modal";
-
-const MONTHS_ABREV = [
-  "JAN",
-  "FEV",
-  "MAR",
-  "ABR",
-  "MAI",
-  "JUN",
-  "JUL",
-  "AGO",
-  "SET",
-  "OUT",
-  "NOV",
-  "DEZ",
-].filter((_, index) => index <= new Date().getMonth());
+import { MONTHS_ABREV } from "../components/constants";
+import TransactionList from "../components/transactions/TransactionList";
 
 const Transactions = () => {
   const [transactions, setTransactions] = React.useState([]);
   const [selectedMonth, setSelectedMonth] = React.useState(
     new Date().getMonth()
   );
-  const [modalForm, setModalForm] = React.useState(true);
-  const [modalEdit, setModalEdit] = React.useState(false);
-  const [modalDelete, setModalDelete] = React.useState(false);
+
+  const income = transactions
+    .filter((transaction) => transaction.type === "INCOME")
+    .reduce((acc, transaction) => acc + transaction.value, 0);
+
+  const expense = transactions
+    .filter((transaction) => transaction.type === "EXPENSE")
+    .reduce((acc, transaction) => acc + transaction.value, 0);
+
+  const BIG_NUMBERS = [
+    {
+      title: "Receitas",
+      value: income,
+    },
+    {
+      title: "Despesas",
+      value: expense,
+    },
+    {
+      title: "Saldo",
+      value: income - expense,
+    },
+  ];
 
   useEffect(() => {
     const year = new Date().getFullYear();
     const startDate = new Date(year, selectedMonth, 1)
       .toISOString()
-      .replace("Z", "");
+      .split("T")[0];
     const endDate = new Date(year, selectedMonth + 1, 0)
       .toISOString()
-      .replace("Z", "");
+      .split("T")[0];
 
     const fetchTransactions = async () => {
       const response = await api.get("/transactions/date-between", {
@@ -78,60 +85,24 @@ const Transactions = () => {
         ))}
       </div>
       <div className={styles.transactionsHeader}>
-        <Card
-          title={"Receitas"}
-          value={
-            "R$ " +
-            transactions
-              .reduce((acc, transaction) => acc + transaction.value, 0)
-              .toString()
-              .replace(".", ",")
-          }
-        />
-        <Card
-          title={"Despesas"}
-          value={
-            "R$ " +
-            transactions
-              .reduce((acc, transaction) => acc + transaction.value, 0)
-              .toString()
-              .replace(".", ",")
-          }
-        />
+        {BIG_NUMBERS.map((bigNumber) => (
+          <Card
+            key={bigNumber.title}
+            title={bigNumber.title}
+            value={"R$ " + bigNumber.value.toFixed(2).replace(".", ",")}
+          />
+        ))}
       </div>
+
       <Modal
         title={"Adicionar Transação"}
         isOpen={true}
         onClose={() => setModalForm(false)}
       >
-        <div>
-          <TransactionFormNew />
-        </div>
+        <TransactionForm />
       </Modal>
-      <ul className={styles.transactions}>
-        <div className={styles.listHeader}>
-          <span className={styles.listTitle}>Transações</span>
-          <button
-            className={styles.listButton}
-            onClick={() => showModal(<h1>Adicionar</h1>)}
-          >
-            Adicionar
-          </button>
-        </div>
-        {transactions.map((transaction) => (
-          <li className={styles.transaction} key={transaction.id}>
-            <span className={styles.date}>{formatDate(transaction.date)}</span>
-            <span
-              style={{ background: `${transaction.categoryColor}` }}
-              className={styles.categoryName}
-            >
-              {transaction.categoryName}
-            </span>
-            <span>{transaction.description}</span>
-            <span>R$ {transaction.value.toString().replace(".", ",")}</span>
-          </li>
-        ))}
-      </ul>
+
+      <TransactionList transactions={transactions} formatDate={formatDate} />
     </div>
   );
 };
