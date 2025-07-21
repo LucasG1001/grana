@@ -6,14 +6,26 @@ import Card from "../components/Card";
 import Input from "../components/Input";
 import TransactionForm from "../components/transactions/TransactionForm";
 import Modal from "../components/Modal";
-import { MONTHS_ABREV } from "../components/constants";
+import { MONTHS_ABREV, TRANSACTION_COLUMNS } from "../components/constants";
 import TransactionList from "../components/transactions/TransactionList";
+import { useCategory } from "../context/useCategory";
+import OrdenableTable from "../components/table/OrdenableTable";
+import CategoryDisplay from "../components/categories/CategoryDisplay";
+import { useTransaction } from "../context/useTransaction";
 
 const Transactions = () => {
   const [transactions, setTransactions] = React.useState([]);
   const [selectedMonth, setSelectedMonth] = React.useState(
     new Date().getMonth()
   );
+  const { get } = useCategory();
+
+  useEffect(() => {
+    get();
+  }, []);
+
+  const [modal, setModal] = React.useState(false);
+  const { add } = useTransaction();
 
   const income = transactions
     .filter((transaction) => transaction.type === "INCOME")
@@ -96,13 +108,36 @@ const Transactions = () => {
 
       <Modal
         title={"Adicionar Transação"}
-        isOpen={true}
-        onClose={() => setModalForm(false)}
+        isOpen={modal}
+        onClose={() => setModal(false)}
       >
-        <TransactionForm />
+        <TransactionForm modal={modal} setModal={setModal} />
       </Modal>
 
-      <TransactionList transactions={transactions} formatDate={formatDate} />
+      <TransactionList
+        transactions={transactions}
+        formatDate={formatDate}
+        modal={modal}
+        setModal={setModal}
+      />
+
+      <OrdenableTable
+        title="Transações"
+        data={transactions.map((transaction) => ({
+          date: transaction.date,
+          category: (
+            <CategoryDisplay
+              key={transaction.category.id}
+              categoryName={transaction.category.name}
+              categoryColor={transaction.category.color}
+              categoryIcon={transaction.category.icon}
+            />
+          ),
+          description: transaction.description,
+          value: transaction.value,
+        }))}
+        columns={TRANSACTION_COLUMNS}
+      />
     </div>
   );
 };

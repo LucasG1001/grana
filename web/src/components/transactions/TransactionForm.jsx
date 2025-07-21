@@ -5,6 +5,9 @@ import Input from "../Input";
 import api from "../../api/axios";
 import { useCategory } from "../../context/useCategory";
 import CategoryCrud from "../categories/CategoryCrud";
+import { validInput } from "../inputValidator";
+import { updateInputs } from "../inputs/updateInput";
+import { useTransaction } from "../../context/useTransaction";
 
 export const FORM_INPUTS = [
   {
@@ -33,6 +36,7 @@ export const FORM_INPUTS = [
     label: "Categoria",
     type: "select",
     value: [],
+    selected: {},
     errorMessage: "",
     crudComponent: (input, formMode, modal, setModal) => (
       <CategoryCrud
@@ -45,16 +49,45 @@ export const FORM_INPUTS = [
   },
 ];
 
-const TransactionFormNew = () => {
+const TransactionFormNew = ({ modal, setModal }) => {
   const [formInputs, setFormInputs] = React.useState(FORM_INPUTS);
-  const { categories, get, getById, add, edit, remove } = useCategory();
-
-  useEffect(() => {
-    get();
-  }, []);
+  const { categories } = useCategory();
+  const { add } = useTransaction();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let isValid = true;
+
+    formInputs.forEach((input) => {
+      const errorMessage = validInput(input.type, input.value);
+      if (errorMessage) {
+        setFormInputs((prev) => updateInputs(prev, input.id, { errorMessage }));
+      }
+    });
+
+    if (!isValid) return;
+
+    const description = formInputs.find((input) => input.id === "description");
+    const value = formInputs.find((input) => input.id === "value");
+    const date = formInputs.find((input) => input.id === "date");
+    const category = formInputs.find((input) => input.id === "category")
+      .selected.name;
+
+    const body = {
+      type: "EXPENSE",
+      description: description.value,
+      value: parseFloat(
+        value.value.replace("R$ ", "").replace(/\./g, "").replace(",", ".")
+      ),
+      date: date.value,
+      installment: false,
+      currentInstallment: 0,
+      totalInstallments: 0,
+      categoryName: category,
+    };
+
+    add(body);
+    setModal(false);
   };
 
   if (categories.length === 0) return null;

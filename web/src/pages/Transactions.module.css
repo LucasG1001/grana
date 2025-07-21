@@ -32,7 +32,7 @@
 }
 
 .transactionsHeader div {
-  background: #292f43;
+  background: var(--box-color);
   padding: 20px 40px;
   color: #fff;
   border-radius: 5px;

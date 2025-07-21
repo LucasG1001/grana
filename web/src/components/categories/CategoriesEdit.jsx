@@ -48,7 +48,8 @@ const CategoriesEdit = ({ category, formMode, setModal }) => {
     e.preventDefault();
 
     if (formMode === "edit") {
-      edit(category.id, {
+      edit({
+        id: category.id,
         name: formInputs[0].value,
         icon: icon,
         color: color,

@@ -17,8 +17,7 @@ public class TransactionResponseMapper {
             .installment(transaction.getInstallment())
             .currentInstallment(transaction.getCurrentInstallment())
             .totalInstallments(transaction.getTotalInstallments())
-            .categoryName(transaction.getCategory().getName())
-            .categoryColor(transaction.getCategory().getColor())
+            .category(CategoryResponseMapper.toCategoryResponse(transaction.getCategory()))
             .build();
 
     }

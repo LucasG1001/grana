@@ -3,6 +3,7 @@ package com.lucas.grana.application.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Locale.Category;
 
 import com.lucas.grana.application.enums.TransactionType;
 
@@ -28,8 +29,7 @@ public class TransactionResponseDTO {
 
     private Integer totalInstallments;
 
-    private String categoryName;
-    private String categoryColor;
+    private CategoryResponseDTO category;
 }
 
 

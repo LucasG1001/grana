@@ -95,3 +95,10 @@ export const MONTHS_ABREV = [
   "NOV",
   "DEZ",
 ].filter((month, index) => index < new Date().getMonth() + 1);
+
+export const TRANSACTION_COLUMNS = [
+  { id: "date", label: "Data" },
+  { id: "category", label: "Categoria" },
+  { id: "description", label: "Descrição" },
+  { id: "value", label: "Valor" },
+];

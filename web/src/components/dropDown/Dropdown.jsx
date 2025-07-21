@@ -2,20 +2,33 @@ import React, { useEffect } from "react";
 import styles from "./DropdownSelector.module.css";
 import Crud from "../Crud";
 
-const DropdownSelector = ({ options, input }) => {
+const DropdownSelector = ({ options, input, setInput }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedOption, setSelectedOption] = React.useState(() => options[0]);
+  const [selectedOption, setSelectedOption] = React.useState({});
   const [modal, setModal] = React.useState(true);
   const [formMode, setFormMode] = React.useState("");
 
   const handleSelect = (option) => {
     setSelectedOption(option);
+    setInput((prev) =>
+      prev.map((item) =>
+        item.id === input.id
+          ? { ...item, value: option.name, selected: option }
+          : item
+      )
+    );
     setIsOpen(false);
   };
 
   useEffect(() => {
     setSelectedOption(options[options.length - 1]);
   }, [options]);
+
+  useEffect(() => {
+    const defaultOption = options.find((option) => option.name === "Outros");
+    setSelectedOption(defaultOption || {});
+    handleSelect(defaultOption || options[0]);
+  }, []);
 
   return (
     <div className={`${styles.dropdownWrapper} ${isOpen ? styles.open : ""}`}>
