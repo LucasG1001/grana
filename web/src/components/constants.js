@@ -97,8 +97,8 @@ export const MONTHS_ABREV = [
 ].filter((month, index) => index < new Date().getMonth() + 1);
 
 export const TRANSACTION_COLUMNS = [
-  { id: "date", label: "Data" },
-  { id: "category", label: "Categoria" },
-  { id: "description", label: "Descrição" },
-  { id: "value", label: "Valor" },
+  { id: "date", label: "Data", sortDirection: "desc" },
+  { id: "category", label: "Categoria", sortDirection: "desc" },
+  { id: "description", label: "Descrição", sortDirection: "desc" },
+  { id: "value", label: "Valor", sortDirection: "desc" },
 ];

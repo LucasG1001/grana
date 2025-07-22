@@ -48,7 +48,16 @@ export const TransactionProvider = ({ children }) => {
 
   return (
     <CreateContext.Provider
-      value={{ transactions, transaction, get, getById, add, edit, remove }}
+      value={{
+        transactions,
+        transaction,
+        get,
+        getById,
+        getByMonth,
+        add,
+        edit,
+        remove,
+      }}
     >
       {children}
     </CreateContext.Provider>

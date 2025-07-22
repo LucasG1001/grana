@@ -24,10 +24,28 @@
   font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.tableHeaderContent {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.sortDirection {
+  font-size: 0.8em;
+  color: #888;
 }
 
 .tableCell {
   padding: 12px 0px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.tableHeaderRow {
+  background-color: var(--box-color);
+  border-bottom: 2px solid #4f4f4f;
+  gap: 10px;
 }

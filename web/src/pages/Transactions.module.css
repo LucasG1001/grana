@@ -38,3 +38,9 @@
   border-radius: 5px;
   font-weight: bold;
 }
+
+.transactionsGraphics {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 20px;
+}

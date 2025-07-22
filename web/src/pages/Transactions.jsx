@@ -7,22 +7,27 @@ import Input from "../components/Input";
 import TransactionForm from "../components/transactions/TransactionForm";
 import Modal from "../components/Modal";
 import { MONTHS_ABREV, TRANSACTION_COLUMNS } from "../components/constants";
-import TransactionList from "../components/transactions/TransactionList";
 import { useCategory } from "../context/useCategory";
 import OrdenableTable from "../components/table/OrdenableTable";
 import CategoryDisplay from "../components/categories/CategoryDisplay";
 import { useTransaction } from "../context/useTransaction";
+import WaveChart from "../components/graphics/WaveChart";
+import PieChartComponent from "../components/graphics/PieChartComponent";
 
 const Transactions = () => {
-  const [transactions, setTransactions] = React.useState([]);
   const [selectedMonth, setSelectedMonth] = React.useState(
     new Date().getMonth()
   );
   const { get } = useCategory();
+  const { getByMonth, transactions } = useTransaction();
 
   useEffect(() => {
     get();
   }, []);
+
+  useEffect(() => {
+    getByMonth(selectedMonth);
+  }, [selectedMonth]);
 
   const [modal, setModal] = React.useState(false);
   const { add } = useTransaction();
@@ -49,27 +54,6 @@ const Transactions = () => {
       value: income - expense,
     },
   ];
-
-  useEffect(() => {
-    const year = new Date().getFullYear();
-    const startDate = new Date(year, selectedMonth, 1)
-      .toISOString()
-      .split("T")[0];
-    const endDate = new Date(year, selectedMonth + 1, 0)
-      .toISOString()
-      .split("T")[0];
-
-    const fetchTransactions = async () => {
-      const response = await api.get("/transactions/date-between", {
-        params: {
-          startDate,
-          endDate,
-        },
-      });
-      setTransactions(response.data);
-    };
-    fetchTransactions();
-  }, [selectedMonth]);
 
   const formatDate = (transactionDate) => {
     const date = new Date(transactionDate);
@@ -114,17 +98,15 @@ const Transactions = () => {
         <TransactionForm modal={modal} setModal={setModal} />
       </Modal>
 
-      <TransactionList
-        transactions={transactions}
-        formatDate={formatDate}
-        modal={modal}
-        setModal={setModal}
-      />
+      <div className={styles.transactionsGraphics}>
+        <WaveChart />
+        <PieChartComponent />
+      </div>
 
       <OrdenableTable
         title="Transações"
         data={transactions.map((transaction) => ({
-          date: transaction.date,
+          date: formatDate(transaction.date),
           category: (
             <CategoryDisplay
               key={transaction.category.id}
