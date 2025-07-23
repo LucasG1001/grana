@@ -9,8 +9,9 @@
   display: flex;
   justify-content: center;
   gap: 15px;
-  padding: 20px;
   cursor: pointer;
+  color: #fff;
+  font-weight: bold;
 }
 
 .month {
@@ -36,7 +37,7 @@
   padding: 20px 40px;
   color: #fff;
   border-radius: 5px;
-  font-weight: bold;
+  border: 1px solid #5b5b5b;
 }
 
 .transactionsGraphics {

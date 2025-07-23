@@ -37,7 +37,13 @@ const OrdenableTable = ({ title, data, columns }) => {
 
   return (
     <div className={styles.ordenableTable}>
-      <h2 className={styles.tableTitle}>{title}</h2>
+      <div className={styles.tableTitleContainer}>
+        <h2 className={styles.tableTitle}>{title}</h2>
+        <button className={styles.addButton}>
+          {" "}
+          <i className="bx bx-plus"></i> <span>Adicionar</span>
+        </button>
+      </div>
       <table className={styles.table}>
         <thead>
           <tr className={styles.tableHeaderRow}>
