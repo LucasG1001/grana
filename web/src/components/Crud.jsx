@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Crud.module.css";
 
-const Crud = ({ formMode, setFormMode, setModal }) => {
+const Crud = ({ setFormMode, setModal, actions }) => {
   const handleClick = (mode) => {
     setFormMode(mode);
     setModal(true);

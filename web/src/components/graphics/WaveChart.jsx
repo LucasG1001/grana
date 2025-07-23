@@ -64,10 +64,10 @@ const WaveChart = () => {
           <Area
             type="monotone"
             dataKey="value"
-            stroke="#8884d8"
-            strokeWidth={1}
+            stroke="#4992FF"
+            strokeWidth={2}
             fillOpacity={0.1}
-            fill="none"
+            fill="blue"
           />
         </AreaChart>
       </ResponsiveContainer>

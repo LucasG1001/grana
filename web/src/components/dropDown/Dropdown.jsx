@@ -74,11 +74,7 @@ const DropdownSelector = ({ options, input, setInput }) => {
           )}
         </div>
 
-        <Crud
-          formMode={formMode}
-          setFormMode={setFormMode}
-          setModal={setModal}
-        />
+        <Crud setFormMode={setFormMode} setModal={setModal} />
       </div>
     </div>
   );

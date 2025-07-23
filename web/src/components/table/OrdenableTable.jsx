@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styles from "./OrdenableTable.module.css";
 import boxicons from "boxicons";
 
-const OrdenableTable = ({ title, data, columns }) => {
+const OrdenableTable = ({ title, data, columns, modal, setModal }) => {
   const [sortedData, setSortedData] = React.useState(data);
   const [sortColumn, setSortColumn] = React.useState(columns);
 
@@ -39,7 +39,7 @@ const OrdenableTable = ({ title, data, columns }) => {
     <div className={styles.ordenableTable}>
       <div className={styles.tableTitleContainer}>
         <h2 className={styles.tableTitle}>{title}</h2>
-        <button className={styles.addButton}>
+        <button onClick={() => setModal(true)} className={styles.addButton}>
           {" "}
           <i className="bx bx-plus"></i> <span>Adicionar</span>
         </button>

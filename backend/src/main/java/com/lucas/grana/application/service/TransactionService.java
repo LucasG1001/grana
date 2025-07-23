@@ -1,14 +1,14 @@
 package com.lucas.grana.application.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
+import com.lucas.grana.application.dto.TransactionResponseDTO;
 import com.lucas.grana.domain.Transaction;
 
 public interface TransactionService {
-    Transaction createTransaction(Transaction transaction);
-    List<Transaction> getAllTransactions();
-    List<Transaction> findByUserId(String userId);
-    List<Transaction> findByDateBetween(String userId, LocalDate startDate, LocalDate endDate);
+    TransactionResponseDTO createTransaction(Transaction transaction);
+    List<TransactionResponseDTO> getAllTransactions();
+    List<TransactionResponseDTO> findByUserId(String userId);
+    List<TransactionResponseDTO> findByDateBetween(String userId, LocalDate startDate, LocalDate endDate);
 }

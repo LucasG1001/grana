@@ -10,9 +10,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --box-color: #22242b;
-  --color-box-border: #5b5b5b;
   --background-button-add: #30308b;
-  --transparent: rgba(119, 119, 119, 0.2);
   --font-size-title: 1.2em;
 }
 * {

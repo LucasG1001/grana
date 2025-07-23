@@ -38,7 +38,7 @@ public class TransactionController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Transaction get(@RequestBody @Valid CreateTransactionDTO transaction) {
+    public TransactionResponseDTO get(@RequestBody @Valid CreateTransactionDTO transaction) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
 
         String email = auth.getName();
@@ -50,19 +50,23 @@ public class TransactionController {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria não encontrada");
     }
 
-        Transaction transactionWithUser = TransactionMapper.toTransaction(transaction, userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found")), category);
+        Transaction transactionWithUser = TransactionMapper.toTransaction(transaction, user, category);
 
-        return transactionService.createTransaction(transactionWithUser);
+        TransactionResponseDTO transactionResponse = transactionService.createTransaction(transactionWithUser);
+
+        return transactionResponse;
     }
 
     @GetMapping()
-    public List<Transaction> getAllTransactionsByUserId() {
+    public List<TransactionResponseDTO> getAllTransactionsByUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
         String email = auth.getName();
 
         var user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
 
-        return transactionService.findByUserId(user.getId());
+        var transactions = transactionService.findByUserId(user.getId());
+
+        return transactions;
     }
 
     @GetMapping("/date-between")
@@ -74,9 +78,7 @@ public class TransactionController {
 
         var transactions = transactionService.findByDateBetween(user.getId(), startDate, endDate);
 
-        List<TransactionResponseDTO> transactionsResponse = TransactionResponseMapper.toTransactionResponseList(transactions);
-
-        return transactionsResponse;
+        return transactions;
     }
 
 }

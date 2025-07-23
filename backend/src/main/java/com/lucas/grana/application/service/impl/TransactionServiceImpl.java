@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.lucas.grana.application.dto.TransactionResponseDTO;
+import com.lucas.grana.application.mapper.TransactionResponseMapper;
 import com.lucas.grana.application.service.TransactionService;
 import com.lucas.grana.domain.Transaction;
 import com.lucas.grana.infra.persistence.TransactionRepository;
@@ -23,30 +25,28 @@ public class TransactionServiceImpl implements TransactionService {
     private final UserRepository userRepository;
 
     @Override
-    public Transaction createTransaction(Transaction transaction) {
+    public TransactionResponseDTO createTransaction(Transaction transaction) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         var user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new RuntimeException("User not found"));
         transaction.setUser(user);
-        return transactionRepository.save(transaction);
+
+        transactionRepository.save(transaction);
+
+        return TransactionResponseMapper.toTransactionResponse(transaction);
     }
 
     @Override
-    public List<Transaction> getAllTransactions() {
-        return transactionRepository.findAll();
+    public List<TransactionResponseDTO> getAllTransactions() {
+        return TransactionResponseMapper.toTransactionResponseList(transactionRepository.findAll());
     }
 
     @Override
-    public List<Transaction> findByUserId(String userId) {
-        return transactionRepository.findByUserId(userId);
+    public List<TransactionResponseDTO> findByUserId(String userId) {
+        return TransactionResponseMapper.toTransactionResponseList(transactionRepository.findByUserId(userId));
     }
 
     @Override
-    public List<Transaction> findByDateBetween(String userId, LocalDate startDate, LocalDate endDate) {
-        return transactionRepository.findByDateBetween(userId, startDate, endDate);
+    public List<TransactionResponseDTO> findByDateBetween(String userId, LocalDate startDate, LocalDate endDate) {
+        return TransactionResponseMapper.toTransactionResponseList(transactionRepository.findByDateBetween(userId, startDate, endDate));
     }
-
-    // public List<Transaction> findByRange(String userId, String startDate, String endDate) {
-    //     return transactionRepository.findByRange(userId, startDate, endDate);
-    // }
-    
 }

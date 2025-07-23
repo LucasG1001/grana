@@ -2,7 +2,6 @@
   background: var(--box-color);
   border-radius: 5px;
   padding: 20px;
-  border: 1px solid #5b5b5b;
   box-sizing: border-box;
   height: 380px;
 }

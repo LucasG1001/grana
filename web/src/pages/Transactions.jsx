@@ -28,6 +28,7 @@ const Transactions = () => {
   useEffect(() => {
     getByMonth(selectedMonth);
   }, [selectedMonth]);
+  const [formMode, setFormMode] = React.useState("new");
 
   const [modal, setModal] = React.useState(false);
   const { add } = useTransaction();
@@ -117,8 +118,11 @@ const Transactions = () => {
           ),
           description: transaction.description,
           value: transaction.value,
+          actions: <h4>Test</h4>,
         }))}
         columns={TRANSACTION_COLUMNS}
+        modal={modal}
+        setModal={setModal}
       />
     </div>
   );
