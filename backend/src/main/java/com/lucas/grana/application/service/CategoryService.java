@@ -11,4 +11,5 @@ public interface CategoryService {
     Optional<Category> findById(String id);
     void deleteById(String id);
     List<Category> findByUserId(String userId);
+    Category getCategoryByUserIdAndCategoryName(String userId, String categoryName);
 }

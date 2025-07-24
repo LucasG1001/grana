@@ -21,11 +21,14 @@ const DropdownSelector = ({ options, input, setInput }) => {
   };
 
   useEffect(() => {
-    setSelectedOption(options[options.length - 1]);
+    setSelectedOption(input.selected || options[options.length - 1]);
   }, [options]);
 
   useEffect(() => {
-    const defaultOption = options.find((option) => option.name === "Outros");
+    const defaultOption = options.find(
+      (option) =>
+        option.name === input.selected.name || option.name === "Outros"
+    );
     setSelectedOption(defaultOption || {});
     handleSelect(defaultOption || options[0]);
   }, []);
@@ -74,7 +77,11 @@ const DropdownSelector = ({ options, input, setInput }) => {
           )}
         </div>
 
-        <Crud setFormMode={setFormMode} setModal={setModal} />
+        <Crud
+          setFormMode={setFormMode}
+          setModal={setModal}
+          actions={["new", "edit", "delete"]}
+        />
       </div>
     </div>
   );

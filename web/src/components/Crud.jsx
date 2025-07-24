@@ -9,18 +9,24 @@ const Crud = ({ setFormMode, setModal, actions }) => {
 
   return (
     <div className={styles.actions}>
-      <i
-        onClick={() => handleClick("delete")}
-        className={`${"bx  bx-trash"} ${styles.icon}`}
-      ></i>
-      <i
-        onClick={() => handleClick("edit")}
-        className={`${"bx  bx-edit"} ${styles.icon}`}
-      ></i>
-      <i
-        onClick={() => handleClick("new")}
-        className={`${"bx  bx-plus"} ${styles.icon}`}
-      ></i>
+      {actions.includes("new") && (
+        <i
+          onClick={() => handleClick("new")}
+          className={`${"bx  bx-plus"} ${styles.icon}`}
+        ></i>
+      )}
+      {actions.includes("edit") && (
+        <i
+          onClick={() => handleClick("edit")}
+          className={`${"bx  bx-edit"} ${styles.icon}`}
+        ></i>
+      )}
+      {actions.includes("delete") && (
+        <i
+          onClick={() => handleClick("delete")}
+          className={`${"bx  bx-trash"} ${styles.icon}`}
+        ></i>
+      )}
     </div>
   );
 };

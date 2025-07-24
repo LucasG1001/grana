@@ -1,8 +1,9 @@
-package com.lucas.grana.application.mapper;
+package com.lucas.grana.application.mapper.Transaction;
 
 import java.util.List;
 
-import com.lucas.grana.application.dto.TransactionResponseDTO;
+import com.lucas.grana.application.dto.transaction.TransactionResponseDTO;
+import com.lucas.grana.application.mapper.CategoryResponseMapper;
 import com.lucas.grana.domain.Transaction;
 
 public class TransactionResponseMapper {

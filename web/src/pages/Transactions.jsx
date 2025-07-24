@@ -13,6 +13,7 @@ import CategoryDisplay from "../components/categories/CategoryDisplay";
 import { useTransaction } from "../context/useTransaction";
 import WaveChart from "../components/graphics/WaveChart";
 import PieChartComponent from "../components/graphics/PieChartComponent";
+import Actions from "../components/actions/Actions";
 
 const Transactions = () => {
   const [selectedMonth, setSelectedMonth] = React.useState(
@@ -20,6 +21,8 @@ const Transactions = () => {
   );
   const { get } = useCategory();
   const { getByMonth, transactions } = useTransaction();
+  const [crudModal, setCrudModal] = React.useState(false);
+  const [selectedTransaction, setSelectedTransaction] = React.useState({});
 
   useEffect(() => {
     get();
@@ -28,10 +31,18 @@ const Transactions = () => {
   useEffect(() => {
     getByMonth(selectedMonth);
   }, [selectedMonth]);
-  const [formMode, setFormMode] = React.useState("new");
+  const [formMode, setFormMode] = React.useState("null");
 
   const [modal, setModal] = React.useState(false);
   const { add } = useTransaction();
+
+  useEffect(() => {
+    if (formMode === "new") {
+      setModal(true);
+    } else if (formMode === "edit") {
+      setModal(true);
+    }
+  }, [formMode]);
 
   const income = transactions
     .filter((transaction) => transaction.type === "INCOME")
@@ -90,20 +101,22 @@ const Transactions = () => {
           />
         ))}
       </div>
-
       <Modal
-        title={"Adicionar Transação"}
+        title={`${formMode === "new" ? "Nova" : "Editar"} Transação`}
         isOpen={modal}
         onClose={() => setModal(false)}
       >
-        <TransactionForm modal={modal} setModal={setModal} />
+        <TransactionForm
+          transaction={selectedTransaction}
+          formMode={formMode}
+          modal={modal}
+          setModal={setModal}
+        />
       </Modal>
-
       <div className={styles.transactionsGraphics}>
         <WaveChart />
         <PieChartComponent />
       </div>
-
       <OrdenableTable
         title="Transações"
         data={transactions.map((transaction) => ({
@@ -118,12 +131,22 @@ const Transactions = () => {
           ),
           description: transaction.description,
           value: transaction.value,
-          actions: <h4>Test</h4>,
+          actions: (
+            <Actions
+              onEdit={() => {
+                setSelectedTransaction(transaction);
+                setFormMode("edit");
+                setModal(true);
+              }}
+              onDelete={() => setFormMode("delete")}
+            />
+          ),
         }))}
         columns={TRANSACTION_COLUMNS}
         modal={modal}
         setModal={setModal}
       />
+      ;
     </div>
   );
 };

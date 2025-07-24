@@ -1,8 +1,7 @@
-package com.lucas.grana.application.dto;
+package com.lucas.grana.application.dto.transaction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import com.lucas.grana.application.enums.TransactionType;
 
@@ -12,7 +11,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateTransactionDTO {
+public class UpdateTransactionDTO {
+
+    @NotNull
+    private String id;
 
     @NotNull
     private TransactionType type;

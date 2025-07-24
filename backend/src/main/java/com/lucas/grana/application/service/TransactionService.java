@@ -3,7 +3,7 @@ package com.lucas.grana.application.service;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.lucas.grana.application.dto.TransactionResponseDTO;
+import com.lucas.grana.application.dto.transaction.TransactionResponseDTO;
 import com.lucas.grana.domain.Transaction;
 
 public interface TransactionService {

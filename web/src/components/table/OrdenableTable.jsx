@@ -49,18 +49,24 @@ const OrdenableTable = ({ title, data, columns, modal, setModal }) => {
           <tr className={styles.tableHeaderRow}>
             {sortColumn.map((column, index) => (
               <th
-                onClick={() => handleSort(column.id, column.sortDirection)}
+                onClick={() => {
+                  if (column.sortDirection) {
+                    handleSort(column.id, column.sortDirection);
+                  }
+                }}
                 key={index}
+                style={{ cursor: column.sortDirection ? "pointer" : "default" }}
                 className={styles.tableHeader}
               >
                 <div className={styles.tableHeaderContent}>
                   <span className={styles.tableHeaderLabel}>
-                    {" "}
                     {column.label}
                   </span>
-                  <span className={styles.sortDirection}>
-                    {column.sortDirection === "asc" ? "▲" : "▼"}
-                  </span>
+                  {column.sortDirection && (
+                    <span className={styles.sortDirection}>
+                      {column.sortDirection === "asc" ? "▲" : "▼"}
+                    </span>
+                  )}
                 </div>
               </th>
             ))}

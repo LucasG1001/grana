@@ -9,23 +9,19 @@ import com.lucas.grana.application.service.CategoryService;
 import com.lucas.grana.domain.Category;
 import com.lucas.grana.infra.persistence.CategoryRepository;
 import com.lucas.grana.infra.persistence.UserRepository;
+import com.lucas.grana.infra.user.AuthenticatedUserProvider;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository CategoryRepository;
-    private final UserRepository userRepository;
+    private final AuthenticatedUserProvider userProvider;
 
     @Override
     public Category save(Category category){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        var user = userRepository.findByEmail(authentication.getName()).orElseThrow(() -> new RuntimeException("User not found"));
-        category.setUser(user);
         return CategoryRepository.save(category);
     }
     @Override
@@ -46,5 +42,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<Category> findById(String id) {
         return CategoryRepository.findById(id);
+    }
+    @Override
+    public Category getCategoryByUserIdAndCategoryName(String userId, String categoryName) {
+        return CategoryRepository.findByUserId(userId).stream().filter(c -> c.getName().equalsIgnoreCase(categoryName)).findFirst().orElse(null);
     }
 }

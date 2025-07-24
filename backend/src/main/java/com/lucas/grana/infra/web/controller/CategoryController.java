@@ -77,10 +77,10 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> update(@PathVariable String id, @RequestBody @Valid CreateCategoryDTO Category) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+        String email = auth.getName();
 
         Category.setId(id);
 
-        String email = auth.getName();
 
         Category category = CategoryMapper.toCategory(Category, userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found")));
         CategoryResponseDTO categoryResponse = CategoryResponseMapper.toCategoryResponse(CategoryService.update(category));

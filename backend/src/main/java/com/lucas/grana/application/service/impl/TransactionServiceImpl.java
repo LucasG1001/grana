@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.lucas.grana.application.dto.TransactionResponseDTO;
-import com.lucas.grana.application.mapper.TransactionResponseMapper;
+import com.lucas.grana.application.dto.transaction.TransactionResponseDTO;
+import com.lucas.grana.application.mapper.Transaction.TransactionResponseMapper;
 import com.lucas.grana.application.service.TransactionService;
 import com.lucas.grana.domain.Transaction;
 import com.lucas.grana.infra.persistence.TransactionRepository;

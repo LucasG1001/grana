@@ -9,50 +9,50 @@ import { validInput } from "../inputValidator";
 import { updateInputs } from "../inputs/updateInput";
 import { useTransaction } from "../../context/useTransaction";
 
-export const FORM_INPUTS = [
-  {
-    id: "description",
-    label: "Descrição",
-    type: "text",
-    value: "",
-  },
-  {
-    id: "value",
-    label: "Valor",
-    type: "text",
-    value: "R$ 0,00",
-    errorMessage: "",
-    mode: "numeric",
-  },
-  {
-    id: "date",
-    label: "Data",
-    type: "date",
-    value: new Date().toISOString().split("T")[0],
-    errorMessage: "",
-  },
-  {
-    id: "category",
-    label: "Categoria",
-    type: "select",
-    value: [],
-    selected: {},
-    errorMessage: "",
-    crudComponent: (input, formMode, modal, setModal) => (
-      <CategoryCrud
-        input={input}
-        formMode={formMode}
-        modal={modal}
-        setModal={setModal}
-      />
-    ),
-  },
-];
+const TransactionFormNew = ({ transaction, formMode, modal, setModal }) => {
+  const FORM_INPUTS = [
+    {
+      id: "description",
+      label: "Descrição",
+      type: "text",
+      value: transaction.description || "",
+    },
+    {
+      id: "value",
+      label: "Valor",
+      type: "text",
+      value: "R$ " + transaction.value.toFixed(2).toString() || "R$ 0,00",
+      errorMessage: "",
+      mode: "numeric",
+    },
+    {
+      id: "date",
+      label: "Data",
+      type: "date",
+      value: transaction.date || new Date().toISOString().split("T")[0],
+      errorMessage: "",
+    },
+    {
+      id: "category",
+      label: "Categoria",
+      type: "select",
+      value: [],
+      selected: transaction.category,
+      errorMessage: "",
+      crudComponent: (input, formMode, modal, setModal) => (
+        <CategoryCrud
+          input={input}
+          formMode={formMode}
+          modal={modal}
+          setModal={setModal}
+        />
+      ),
+    },
+  ];
 
-const TransactionFormNew = ({ modal, setModal }) => {
   const [formInputs, setFormInputs] = React.useState(FORM_INPUTS);
   const { categories } = useCategory();
-  const { add } = useTransaction();
+  const { add, edit } = useTransaction();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,8 +86,15 @@ const TransactionFormNew = ({ modal, setModal }) => {
       categoryName: category,
     };
 
-    add(body);
-    setModal(false);
+    if (formMode === "edit") {
+      body.id = transaction.id;
+      console.log("Editando", body);
+
+      edit(body);
+      setModal(false);
+    } else {
+      add(body);
+    }
   };
 
   if (categories.length === 0) return null;

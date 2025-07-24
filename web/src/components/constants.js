@@ -101,5 +101,5 @@ export const TRANSACTION_COLUMNS = [
   { id: "category", label: "Categoria", sortDirection: "desc" },
   { id: "description", label: "Descrição", sortDirection: "desc" },
   { id: "value", label: "Valor", sortDirection: "desc" },
-  { id: "actions", label: "Ações", sortDirection: "desc" },
+  { id: "actions", label: "Ações" },
 ];

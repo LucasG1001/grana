@@ -47,7 +47,6 @@
   font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
-  cursor: pointer;
 }
 
 .tableHeaderContent {
