@@ -22,8 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.lucas.grana.application.dto.transaction.CreateTransactionDTO;
 import com.lucas.grana.application.dto.transaction.TransactionResponseDTO;
 import com.lucas.grana.application.dto.transaction.UpdateTransactionDTO;
-import com.lucas.grana.application.mapper.Transaction.TransactionMapper;
-import com.lucas.grana.application.mapper.Transaction.TransactionResponseMapper;
+import com.lucas.grana.application.mapper.TransactionMapper;
 import com.lucas.grana.application.service.TransactionService;
 import com.lucas.grana.domain.Transaction;
 import com.lucas.grana.domain.User;
@@ -40,62 +39,31 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TransactionController {
     private final TransactionService transactionService;
-    private final UserRepository userRepository;
-    private final CategoryRepository categoryRepository;
-    private final TransactionMapper transactionMapper;
-    private final AuthenticatedUserProvider userProvider;
-    
+
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public TransactionResponseDTO get(@RequestBody @Valid CreateTransactionDTO transaction) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-
-        String email = auth.getName();
-        var user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-
-        var category = categoryRepository.findByUserId(user.getId()).stream().filter(c -> c.getName().equalsIgnoreCase(transaction.getCategoryName())).findFirst().orElse(null);
-
-    if (category == null) {
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria não encontrada");
-    }
-
-        Transaction transactionWithUser = TransactionMapper.toTransaction(transaction, user, category);
-
-        TransactionResponseDTO transactionResponse = transactionService.createTransaction(transactionWithUser);
-
-        return transactionResponse;
+        return transactionService.createTransaction(transaction);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TransactionResponseDTO update(@PathVariable String id, @RequestBody @Valid UpdateTransactionDTO transaction) {
-        transaction.setId(id);
-        User user = userProvider.getAuthenticatedUser();
-        Transaction transactionWithUser = transactionMapper.fromUpdate(transaction, user, categoryRepository.findByUserId(user.getId()).stream().filter(c -> c.getName().equalsIgnoreCase(transaction.getCategoryName())).findFirst().orElse(null));
+    public TransactionResponseDTO update(@PathVariable String id,
+            @RequestBody @Valid UpdateTransactionDTO dto) {
 
-        return transactionMapper.toTransactionResponse(transactionWithUser);
+        return transactionService.updateTransaction(dto, id);
     }
 
     @GetMapping()
     public List<TransactionResponseDTO> getAllTransactionsByUserId() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-        String email = auth.getName();
-
-        var user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-
-        var transactions = transactionService.findByUserId(user.getId());
-
-        return transactions;
+        return transactionService.findByAuthenticatedUser();
     }
 
     @GetMapping("/date-between")
-    public List<TransactionResponseDTO> getAllTransactionsByUserIdAndDateBetween(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
-        String email = auth.getName();
+    public List<TransactionResponseDTO> getAllTransactionsByUserIdAndDateBetween(@RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate) {
 
-        var user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-
-        var transactions = transactionService.findByDateBetween(user.getId(), startDate, endDate);
+        var transactions = transactionService.findByAuthenticatedUserByDateRange(startDate, endDate);
 
         return transactions;
     }

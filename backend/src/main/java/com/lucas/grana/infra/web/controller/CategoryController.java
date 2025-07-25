@@ -19,7 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.lucas.grana.application.dto.CategoryResponseDTO;
 import com.lucas.grana.application.dto.CreateCategoryDTO;
-import com.lucas.grana.application.mapper.CategoryMapper;
+import com.lucas.grana.application.mapper.CategoryMapperImpl;
 import com.lucas.grana.application.mapper.CategoryResponseMapper;
 import com.lucas.grana.application.service.CategoryService;
 import com.lucas.grana.domain.Category;
@@ -40,12 +40,14 @@ public class CategoryController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<CategoryResponseDTO> get(@RequestBody @Valid CreateCategoryDTO Category) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         String email = auth.getName();
 
-        Category CategoryWithUser = CategoryMapper.toCategory(Category, userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found")));
-        CategoryResponseDTO categoryResponse = CategoryResponseMapper.toCategoryResponse(CategoryService.save(CategoryWithUser));
+        Category CategoryWithUser = CategoryMapperImpl.frro(Category,
+                userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found")));
+        CategoryResponseDTO categoryResponse = CategoryResponseMapper
+                .toCategoryResponse(CategoryService.save(CategoryWithUser));
         return new ResponseEntity<>(categoryResponse, HttpStatus.CREATED);
     }
 
@@ -60,14 +62,14 @@ public class CategoryController {
 
         var categoriesResponse = CategoryResponseMapper.toCategoryList(categories);
 
-        return  categoriesResponse;
+        return categoriesResponse;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponseDTO> getById(@PathVariable String id) {
         Optional<Category> category = CategoryService.findById(id);
 
-        if(category.isEmpty()) {
+        if (category.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -75,15 +77,17 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryResponseDTO> update(@PathVariable String id, @RequestBody @Valid CreateCategoryDTO Category) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+    public ResponseEntity<CategoryResponseDTO> update(@PathVariable String id,
+            @RequestBody @Valid CreateCategoryDTO Category) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
 
         Category.setId(id);
 
-
-        Category category = CategoryMapper.toCategory(Category, userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found")));
-        CategoryResponseDTO categoryResponse = CategoryResponseMapper.toCategoryResponse(CategoryService.update(category));
+        Category category = CategoryMapperImpl.toCategory(Category,
+                userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found")));
+        CategoryResponseDTO categoryResponse = CategoryResponseMapper
+                .toCategoryResponse(CategoryService.update(category));
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
 

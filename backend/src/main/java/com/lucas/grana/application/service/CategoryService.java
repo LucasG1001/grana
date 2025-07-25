@@ -1,15 +1,23 @@
 package com.lucas.grana.application.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.lucas.grana.application.dto.CategoryResponseDTO;
+import com.lucas.grana.application.dto.CreateCategoryDTO;
+import com.lucas.grana.application.dto.UpdateCategoryDTO;
 import com.lucas.grana.domain.Category;
 
 public interface CategoryService {
-    Category save(Category category);
-    Category update(Category category);
-    Optional<Category> findById(String id);
-    void deleteById(String id);
-    List<Category> findByUserId(String userId);
-    Category getCategoryByUserIdAndCategoryName(String userId, String categoryName);
+
+    CategoryResponseDTO findById(String id);
+
+    Category findCategoryEntityById(String id);
+
+    CategoryResponseDTO save(CreateCategoryDTO category);
+
+    CategoryResponseDTO update(String id, UpdateCategoryDTO category);
+
+    boolean deleteById(String id);
+
+    List<CategoryResponseDTO> findByAuthenticatedUser();
 }

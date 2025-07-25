@@ -9,7 +9,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
-public interface CategoryRepository extends  JpaRepository<Category, String> {
+public interface CategoryRepository extends JpaRepository<Category, String> {
     Category findByName(String name);
+
     List<Category> findByUserId(String userId);
+
+    Category findByUserIdAndNameIgnoreCase(String userId, String name);
 }
