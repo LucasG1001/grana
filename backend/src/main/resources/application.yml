@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: grana
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/grana
+    username: lucas
+    password: "4oW%fHbn*y67Lo&Sm&IQC4"
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  flyway:
+    enabled: true
+
+jwt:
+  secret: "nTL8u9^Nn0qUXC!1CHO869n$1se!Ol"
+  expiration-ms: 3600000
+  refresh-expiration-ms: 86400000
+
+frontend:
+  url: http://localhost:5173

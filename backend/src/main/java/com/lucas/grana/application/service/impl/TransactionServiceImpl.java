@@ -7,17 +7,16 @@ import org.springframework.stereotype.Service;
 import com.lucas.grana.application.dto.transaction.CreateTransactionDTO;
 import com.lucas.grana.application.dto.transaction.TransactionResponseDTO;
 import com.lucas.grana.application.dto.transaction.UpdateTransactionDTO;
-import com.lucas.grana.application.mapper.TransactionMapper;
 import com.lucas.grana.application.service.CategoryService;
 import com.lucas.grana.application.service.TransactionService;
-import com.lucas.grana.domain.Transaction;
-import com.lucas.grana.domain.User;
-
+import com.lucas.grana.domain.entities.Category;
+import com.lucas.grana.domain.entities.User;
+import com.lucas.grana.domain.entities.transaction.Transaction;
 import com.lucas.grana.infra.persistence.TransactionRepository;
 import com.lucas.grana.infra.user.AuthenticatedUserProvider;
+import com.lucas.grana.infrastructure.mapper.TransactionMapper;
 
 import lombok.RequiredArgsConstructor;
-import com.lucas.grana.domain.Category;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +31,7 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionResponseDTO createTransaction(CreateTransactionDTO dto) {
         User user = userProvider.getAuthenticatedUser();
 
-        Category category = categoryService.getCategoryByUserIdAndCategoryName(user.getId(),
+        CategoryEntity category = categoryService.getCategoryByUserIdAndCategoryName(user.getId(),
                 dto.getCategoryName());
 
         Transaction transaction = transactionMapper.fromCreate(dto, user, category);
@@ -45,7 +44,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionResponseDTO updateTransaction(UpdateTransactionDTO dto, String id) {
         User user = userProvider.getAuthenticatedUser();
-        Category category = categoryService.getCategoryByUserIdAndCategoryName(user.getId(), dto.getCategoryName());
+        CategoryEntity category = categoryService.getCategoryByUserIdAndCategoryName(user.getId(),
+                dto.getCategoryName());
         Transaction transaction = transactionMapper.fromUpdate(dto, user, category);
 
         Transaction savedTransaction = transactionRepository.save(transaction);

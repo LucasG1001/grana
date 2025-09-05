@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import com.lucas.grana.application.dto.CategoryResponseDTO;
 import com.lucas.grana.application.dto.CreateCategoryDTO;
 import com.lucas.grana.application.dto.UpdateCategoryDTO;
-import com.lucas.grana.application.mapper.CategoryMapper;
 import com.lucas.grana.application.service.CategoryService;
-import com.lucas.grana.domain.Category;
+import com.lucas.grana.domain.entities.Category;
+import com.lucas.grana.domain.entities.User;
 import com.lucas.grana.infra.persistence.CategoryRepository;
-import com.lucas.grana.infra.persistence.UserRepository;
 import com.lucas.grana.infra.user.AuthenticatedUserProvider;
+import com.lucas.grana.infrastructure.mapper.CategoryMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,21 +26,32 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
+    public CategoryResponseDTO createCategory(CreateCategoryDTO dto) {
+        User user = userProvider.getAuthenticatedUser();
+
+        CategoryEntity category = categoryMapper.fromCreate(dto, user);
+
+        CategoryEntity savedCategory = categoryRepository.save(category);
+
+        return categoryMapper.toCategoryResponse(savedCategory);
+    }
+
+    @Override
     public CategoryResponseDTO findById(String id) {
-        Category category = categoryRepository.findById(id)
+        CategoryEntity category = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found"));
         return categoryMapper.toCategoryResponse(category);
     }
 
     @Override
-    public Category findCategoryEntityById(String id) {
+    public CategoryEntity findCategoryEntityById(String id) {
         return categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Category not found"));
     }
 
     @Override
     public CategoryResponseDTO save(CreateCategoryDTO dto) {
-        Category category = categoryMapper.fromCreate(dto, userProvider.getAuthenticatedUser());
-        Category savedCategory = categoryRepository.save(category);
+        CategoryEntity category = categoryMapper.fromCreate(dto, userProvider.getAuthenticatedUser());
+        CategoryEntity savedCategory = categoryRepository.save(category);
 
         return categoryMapper.toCategoryResponse(savedCategory);
     }
@@ -62,5 +73,4 @@ public class CategoryServiceImpl implements CategoryService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findByAuthenticatedUser'");
     }
-
 }

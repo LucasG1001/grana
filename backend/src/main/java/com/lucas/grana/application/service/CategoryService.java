@@ -5,13 +5,15 @@ import java.util.List;
 import com.lucas.grana.application.dto.CategoryResponseDTO;
 import com.lucas.grana.application.dto.CreateCategoryDTO;
 import com.lucas.grana.application.dto.UpdateCategoryDTO;
-import com.lucas.grana.domain.Category;
+import com.lucas.grana.domain.entities.Category;
 
 public interface CategoryService {
 
+    CategoryResponseDTO createCategory(CreateCategoryDTO dto);
+
     CategoryResponseDTO findById(String id);
 
-    Category findCategoryEntityById(String id);
+    CategoryEntity findCategoryEntityById(String id);
 
     CategoryResponseDTO save(CreateCategoryDTO category);
 
