@@ -1,24 +1,18 @@
-package com.lucas.grana.domain.valueObjects.User;
+package com.lucas.grana.domain.valueObjects;
 
 import com.lucas.grana.domain.validators.MatchesValidator;
 import com.lucas.grana.domain.validators.NotNullValidator;
 
-public record Email(String value) {
+public record HexColor(String value) {
 
-    private static final String FIELD_NAME = "Email";
+    private static final String FIELD_NAME = "HexColor";
+
     private static final NotNullValidator NOT_NULL = new NotNullValidator(FIELD_NAME);
     private static final MatchesValidator MATCHES = new MatchesValidator(FIELD_NAME,
-            "^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
+            "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{8})$");
 
-    public Email {
-
+    public HexColor {
         NOT_NULL.validate(value);
         MATCHES.validate(value);
-        value = value.toLowerCase();
-    }
-
-    @Override
-    public String toString() {
-        return value;
     }
 }

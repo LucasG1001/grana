@@ -2,7 +2,7 @@ package com.lucas.grana.domain.entities.transaction;
 
 import java.time.LocalDate;
 
-import com.lucas.grana.domain.valueObjects.Transaction.Money;
+import com.lucas.grana.domain.valueObjects.Money;
 
 public class Installment {
     private final int number;
@@ -44,6 +44,9 @@ public class Installment {
     }
 
     public void pay(LocalDate date) {
+        if (isPaid()) {
+            throw new IllegalStateException("Parcela já foi paga");
+        }
         this.paidDate = date;
         this.anticipated = date.isBefore(dueDate);
     }

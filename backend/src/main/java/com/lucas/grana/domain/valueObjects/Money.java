@@ -1,4 +1,4 @@
-package com.lucas.grana.domain.valueObjects.Transaction;
+package com.lucas.grana.domain.valueObjects;
 
 import java.math.BigDecimal;
 

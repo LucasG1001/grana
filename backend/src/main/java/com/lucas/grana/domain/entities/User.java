@@ -1,6 +1,7 @@
 package com.lucas.grana.domain.entities;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.lucas.grana.domain.entities.credentials.Credentials;
 import com.lucas.grana.domain.entities.transaction.Transaction;
@@ -11,21 +12,19 @@ public class User {
     private final String userName;
     private final Email email;
     private final boolean emailConfirmed;
-    private final String passwordHash;
     private final UserRole role;
     private List<Transaction> transactions;
     private Credentials credentials;
 
     private List<Category> categories;
 
-    public User(String userName, Email email, boolean emailConfirmed, String passwordHash, UserRole role,
+    public User(String userName, Email email, boolean emailConfirmed, UserRole role,
             Credentials credentials) {
         this.userName = userName;
         this.email = email;
-        this.emailConfirmed = emailConfirmed;
-        this.passwordHash = passwordHash;
-        this.role = role;
-        this.credentials = credentials;
+        this.emailConfirmed = Objects.requireNonNull(emailConfirmed, "EmailConfirmed não pode ser nulo");
+        this.role = Objects.requireNonNull(role, "Role não pode ser nulo");
+        this.credentials = Objects.requireNonNull(credentials, "Credentials não pode ser nulo");
     }
 
     public String getUserName() {
@@ -38,10 +37,6 @@ public class User {
 
     public boolean getEmailConfirmed() {
         return emailConfirmed;
-    }
-
-    public String getPassword() {
-        return passwordHash;
     }
 
     public UserRole getRole() {
