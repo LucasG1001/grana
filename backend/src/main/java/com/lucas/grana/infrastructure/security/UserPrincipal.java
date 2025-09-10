@@ -1,4 +1,5 @@
-package com.lucas.grana.infra.security;
+package com.lucas.grana.infrastructure.security;
+
 
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.lucas.grana.domain.entities.User;
 import com.lucas.grana.domain.enums.user.UserRole;
+import com.lucas.grana.infrastructure.persistence.user.UserEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +19,9 @@ import lombok.Setter;
 @Setter
 public class UserPrincipal implements UserDetails {
 
-    private final User user;
+    private final UserEntity user;
 
-    public UserPrincipal(User user) {
+    public UserPrincipal(UserEntity user) {
         this.user = user;
     }
 
@@ -40,5 +42,4 @@ public class UserPrincipal implements UserDetails {
     public String getUsername() {
         return user.getEmail();
     }
-
 }

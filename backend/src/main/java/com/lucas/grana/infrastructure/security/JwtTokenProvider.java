@@ -1,4 +1,4 @@
-package com.lucas.grana.infra.security;
+package com.lucas.grana.infrastructure.security;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
