@@ -1,8 +1,8 @@
-package com.lucas.grana.infrastructure.persistence.user;
+package com.lucas.grana.infrastructure.persistence.entities;
+
 import java.util.Objects;
 import com.lucas.grana.domain.enums.user.UserRole;
 import com.lucas.grana.domain.valueObjects.User.Email;
-import com.lucas.grana.infrastructure.persistence.BaseEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,8 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -26,7 +24,7 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, length = 60)
     private String userName;
 
-    @Column(nullable =  false, unique = true, length = 150)
+    @Column(nullable = false, unique = true, length = 150)
     private String email;
 
     @Column(nullable = false)
@@ -35,4 +33,6 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role;
+
+    private String passwordHash;
 }

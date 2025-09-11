@@ -1,12 +1,12 @@
-package com.lucas.grana.infra.security;
+package com.lucas.grana.infrastructure.security;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.lucas.grana.domain.entities.User;
-import com.lucas.grana.infra.persistence.UserRepository;
+import com.lucas.grana.infrastructure.persistence.entities.UserEntity;
+import com.lucas.grana.infrastructure.persistence.repositories.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email)
+        UserEntity user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return new UserPrincipal(user);
     }

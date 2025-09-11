@@ -4,8 +4,8 @@ services:
     container_name: grana-db
     environment:
       POSTGRES_DB: grana
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: lucas
+      POSTGRES_PASSWORD: 4oW%fHbn*y67Lo&Sm&IQC4
     ports:
       - "5432:5432"
     restart: always

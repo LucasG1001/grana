@@ -1,28 +1,26 @@
-package com.lucas.grana.infrastructure.persistence;
+package com.lucas.grana.infrastructure.persistence.entities;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@MappedSuperclass
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@MappedSuperclass
+
 public abstract class BaseEntity {
-
     @Id
-    @Column(updatable = false, nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(updatable = false, nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)

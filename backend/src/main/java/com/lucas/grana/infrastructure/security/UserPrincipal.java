@@ -1,6 +1,5 @@
 package com.lucas.grana.infrastructure.security;
 
-
 import java.util.Collection;
 import java.util.List;
 
@@ -8,9 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.lucas.grana.domain.entities.User;
 import com.lucas.grana.domain.enums.user.UserRole;
-import com.lucas.grana.infrastructure.persistence.user.UserEntity;
+import com.lucas.grana.infrastructure.persistence.entities.UserEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +33,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return user.getPasswordHash();
     }
 
     @Override
