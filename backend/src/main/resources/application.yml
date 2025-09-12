@@ -13,8 +13,6 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
-  flyway:
-    enabled: true
 
 jwt:
   secret: "nTL8u9^Nn0qUXC!1CHO869n$1se!Ol"

@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lucas.grana.application.dtos.LoginRequestDTO;
 import com.lucas.grana.application.dtos.LoginResponseDTO;
-import com.lucas.grana.domain.entities.User;
+import com.lucas.grana.application.dtos.RegisterRequestDTO;
+import com.lucas.grana.application.mappers.UserMapper;
 import com.lucas.grana.domain.valueObjects.User.Email;
 import com.lucas.grana.infrastructure.persistence.repositories.UserRepository;
 import com.lucas.grana.infrastructure.security.JwtTokenProvider;
@@ -33,6 +34,9 @@ public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @GetMapping("/open")
     public String open() {
@@ -62,5 +66,12 @@ public class AuthController {
         String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
 
         return ResponseEntity.ok(new LoginResponseDTO(accessToken, refreshToken));
+    }
+
+    @PostMapping("register")
+    public String register(@RequestBody RegisterRequestDTO dto) {
+        userMapper.toUser(dto);
+
+        return "Test";
     }
 }
