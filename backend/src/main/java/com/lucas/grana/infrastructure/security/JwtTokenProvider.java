@@ -28,10 +28,11 @@ public class JwtTokenProvider {
     @Value("${jwt.refresh-expiration-ms}")
     private int jwtRefreshExpirationMs;
 
-private SecretKey key() {
-    String secretString = "suaChaveSecretaSuperSecretaComPeloMenos32Bytes"; // Deve ter no mínimo 256 bits (32 caracteres)
-    return new SecretKeySpec(secretString.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
-}
+    private SecretKey key() {
+        String secretString = "suaChaveSecretaSuperSecretaComPeloMenos32Bytes"; // Deve ter no mínimo 256 bits (32
+                                                                                // caracteres)
+        return new SecretKeySpec(secretString.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+    }
 
     public String generateAccessToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -71,9 +72,9 @@ private SecretKey key() {
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
-                .verifyWith(key())
-                .build()
-                .parseSignedClaims(token);
+                    .verifyWith(key())
+                    .build()
+                    .parseSignedClaims(token);
             return true;
         } catch (ExpiredJwtException ex) {
             logger.error("JWT expired: {}", ex.getMessage());

@@ -22,32 +22,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-                try {
-                    String jwt = parseJwt(request);
-                    if (jwt != null && jwtTokenProvider.validateToken(jwt)) {
-                        String username = jwtTokenProvider.getUsernameFromToken(jwt);
-                        UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                                userDetails, null, userDetails.getAuthorities());
-                        authentication.setDetails(userDetails);
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }
-                } catch (Exception e) {
-                    logger.error("Cannot set user authentication: {}", e);
-                }
-                filterChain.doFilter(request, response);
+        try {
+            String jwt = parseJwt(request);
+            if (jwt != null && jwtTokenProvider.validateToken(jwt)) {
+                String username = jwtTokenProvider.getUsernameFromToken(jwt);
+                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                authentication.setDetails(userDetails);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        } catch (Exception e) {
+            logger.error("Cannot set user authentication: {}", e);
+        }
+        filterChain.doFilter(request, response);
     }
 
-    private String parseJwt (HttpServletRequest request) {
+    private String parseJwt(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
         if (header == null || !header.startsWith("Bearer ")) {
             return null;
         }
         return header.substring(7, header.length());
     }
-    
+
 }

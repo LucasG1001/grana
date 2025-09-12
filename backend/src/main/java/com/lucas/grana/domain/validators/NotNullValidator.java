@@ -11,7 +11,7 @@ public class NotNullValidator implements Validator<Object> {
     @Override
     public void validate(Object value) {
         if (value == null) {
-            throw new NullPointerException(fieldName + " não pode ser nulo");
+            throw new IllegalArgumentException(fieldName + " não pode ser nulo");
         }
     }
 
