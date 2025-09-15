@@ -8,15 +8,18 @@ import javax.crypto.spec.SecretKeySpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+
+import com.lucas.grana.application.security.TokenProvider;
+import com.lucas.grana.domain.entities.User;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 
 @Component
-public class JwtTokenProvider {
+public class JwtTokenProvider implements TokenProvider {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     @Value("${jwt.secret}")
@@ -34,26 +37,24 @@ public class JwtTokenProvider {
         return new SecretKeySpec(secretString.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
     }
 
-    public String generateAccessToken(Authentication authentication) {
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+    public String generateAccessToken(User user) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
         return Jwts.builder()
-                .subject(userPrincipal.getUsername())
+                .subject(user.getEmail().toString())
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(key())
                 .compact();
     }
 
-    public String generateRefreshToken(Authentication authentication) {
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+    public String generateRefreshToken(User user) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtRefreshExpirationMs);
 
         return Jwts.builder()
-                .subject(userPrincipal.getUsername())
+                .subject(user.getEmail().toString())
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(key())

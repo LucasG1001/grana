@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
-import api from "../api/axios";
 import styles from "./Transactions.module.css";
-import {} from "react-icons";
 import Card from "../components/Card";
-import Input from "../components/Input";
 import TransactionForm from "../components/transactions/TransactionForm";
 import Modal from "../components/Modal";
 import { MONTHS_ABREV, TRANSACTION_COLUMNS } from "../components/constants";

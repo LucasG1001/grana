@@ -1,4 +1,4 @@
-package com.lucas.grana.domain.gateway;
+package com.lucas.grana.domain.repositories;
 
 import com.lucas.grana.domain.entities.Category;
 
