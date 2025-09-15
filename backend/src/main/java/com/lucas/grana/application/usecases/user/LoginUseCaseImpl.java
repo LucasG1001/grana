@@ -2,6 +2,8 @@ package com.lucas.grana.application.usecases.user;
 
 import com.lucas.grana.application.dtos.user.LoginRequestDTO;
 import com.lucas.grana.application.dtos.user.LoginResponseDTO;
+import com.lucas.grana.application.security.AuthService;
+import com.lucas.grana.application.security.PasswordEncoder;
 import com.lucas.grana.application.security.TokenProvider;
 import com.lucas.grana.domain.repositories.UserRepository;
 import com.lucas.grana.domain.validators.NotEmptyValidator;
@@ -9,12 +11,19 @@ import com.lucas.grana.domain.valueObjects.User.Email;
 
 public class LoginUseCaseImpl implements LoginUseCase {
 
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final TokenProvider tokenProvider;
+    private final AuthService authService;
+
     public LoginUseCaseImpl(UserRepository userRepository,
             PasswordEncoder passwordEncoder,
-            TokenProvider tokenProvider) {
+            TokenProvider tokenProvider,
+            AuthService authService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
+        this.authService = authService;
     }
 
     private final NotEmptyValidator notEmptyValidator = new NotEmptyValidator("Password");
@@ -24,7 +33,12 @@ public class LoginUseCaseImpl implements LoginUseCase {
         Email email = new Email(dto.email());
         notEmptyValidator.validate(dto.password());
 
-        User user = 
+        var user = authService.authenticate(email.toString(), dto.password());
+
+        String accessToken = tokenProvider.generateAccessToken(user);
+        String refreshToken = tokenProvider.generateRefreshToken(user);
+
+        return new LoginResponseDTO(email.toString(), accessToken, refreshToken);
     }
 
 }

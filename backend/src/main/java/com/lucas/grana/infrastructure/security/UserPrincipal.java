@@ -7,9 +7,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.lucas.grana.domain.entities.User;
 import com.lucas.grana.domain.enums.user.UserRole;
-import com.lucas.grana.infrastructure.persistence.entities.UserEntity;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,9 +16,9 @@ import lombok.Setter;
 @Setter
 public class UserPrincipal implements UserDetails {
 
-    private final UserEntity user;
+    private final User user;
 
-    public UserPrincipal(UserEntity user) {
+    public UserPrincipal(User user) {
         this.user = user;
     }
 
@@ -38,6 +37,6 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getEmail().toString();
     }
 }

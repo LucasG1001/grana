@@ -5,8 +5,10 @@ import org.springframework.context.annotation.Configuration;
 
 import com.lucas.grana.application.mappers.UserMapper;
 import com.lucas.grana.application.mappers.impl.UserMapperImpl;
+import com.lucas.grana.application.security.AuthService;
 import com.lucas.grana.application.security.TokenProvider;
 import com.lucas.grana.infrastructure.security.JwtTokenProvider;
+import com.lucas.grana.infrastructure.security.impl.SpringAuthServiceImpl;
 
 @Configuration
 public class IoCConfig {
@@ -19,6 +21,11 @@ public class IoCConfig {
     @Bean
     public TokenProvider tokenProvider() {
         return new JwtTokenProvider();
+    }
+
+    @Bean
+    public AuthService authService() {
+        return new SpringAuthServiceImpl();
     }
 
 }
