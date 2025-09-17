@@ -15,4 +15,9 @@ public record UserName(String value) {
         BETWEEN_LENGTH.validate(value);
         value = value.trim();
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

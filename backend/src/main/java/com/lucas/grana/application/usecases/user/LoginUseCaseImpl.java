@@ -11,10 +11,10 @@ import com.lucas.grana.domain.valueObjects.User.Email;
 
 public class LoginUseCaseImpl implements LoginUseCase {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final TokenProvider tokenProvider;
-    private final AuthService authService;
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
+    private TokenProvider tokenProvider;
+    private AuthService authService;
 
     public LoginUseCaseImpl(UserRepository userRepository,
             PasswordEncoder passwordEncoder,
@@ -25,6 +25,8 @@ public class LoginUseCaseImpl implements LoginUseCase {
         this.tokenProvider = tokenProvider;
         this.authService = authService;
     }
+
+    public LoginUseCaseImpl() {}
 
     private final NotEmptyValidator notEmptyValidator = new NotEmptyValidator("Password");
 

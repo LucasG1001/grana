@@ -2,6 +2,7 @@ package com.lucas.grana.infrastructure.persistence.repositories.impl;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.lucas.grana.domain.entities.User;
@@ -13,13 +14,10 @@ import com.lucas.grana.infrastructure.persistence.repositories.SpringDataUserRep
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
-    private final SpringDataUserRepository jpaRepository;
-    private final UserMapper userMapper;
-
-    public UserRepositoryImpl(SpringDataUserRepository jpaRepository, UserMapper userMapper) {
-        this.jpaRepository = jpaRepository;
-        this.userMapper = userMapper;
-    }
+    @Autowired
+    private SpringDataUserRepository jpaRepository;
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public Optional<User> findByEmail(String email) {
