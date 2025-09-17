@@ -13,14 +13,13 @@ public class PasswordEncoderImpl implements PasswordEncoder {
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @Override
     public String encode(String rawPassword) {
         return passwordEncoder.encode(rawPassword);
     }
 
     @Override
-    public boolean matches(String rawPassoword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassoword, encodedPassword);
+    public boolean matches(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }

@@ -37,7 +37,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
             throw new UserAlreadyExistsException(email.toString());
         }
 
-        var passwordHash = passwordEncoder.encode(password.toString());
+        var passwordHash = passwordEncoder.encode(dto.password());
 
         var mappedUser = userMapper.toUser(dto, passwordHash);
 
