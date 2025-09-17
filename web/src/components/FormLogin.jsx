@@ -86,8 +86,6 @@ const Form = () => {
           <Input key={input.id} input={input} setInput={setFormInputs}></Input>
         );
       })}
-      {/* <Input input={email} setInput={setEmail} />
-      <Input input={password} setInput={setPassword} /> */}
       <button className={`${styles.button}`} type="submit">
         Entrar
       </button>

@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import styles from "./CategoriesEdit.module.css";
 import Input from "../Input";
-import boxicons from "boxicons";
 import { Gallery } from "../gallery/Gallery";
 import { COLORS, ICONS } from "../constants";
 import { useCategory } from "../../context/useCategory";
 import ButtonsChoise from "../buttons/ButtonsChoise";
+import { updateInputs } from "../inputs/updateInput";
 
 const FORM_INPUTS = [
   {
@@ -24,18 +24,6 @@ const CategoriesEdit = ({ category, formMode, setModal }) => {
   const [icon, setIcon] = React.useState(category.icon || "bx bx-x");
   const [color, setColor] = React.useState(category.color || "#87998d");
   const { add, edit } = useCategory();
-
-  const updateInputs = (inputs, id, changes) => {
-    return inputs.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          ...changes,
-        };
-      }
-      return item;
-    });
-  };
 
   useEffect(() => {
     formMode === "edit" &&
