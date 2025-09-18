@@ -6,34 +6,30 @@ import com.lucas.grana.application.security.AuthService;
 import com.lucas.grana.application.security.PasswordEncoder;
 import com.lucas.grana.application.security.TokenProvider;
 import com.lucas.grana.domain.repositories.UserRepository;
+import com.lucas.grana.domain.validators.BetweenLengthValidator;
 import com.lucas.grana.domain.validators.NotEmptyValidator;
 import com.lucas.grana.domain.valueObjects.User.Email;
 
 public class LoginUseCaseImpl implements LoginUseCase {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
     private TokenProvider tokenProvider;
     private AuthService authService;
 
-    public LoginUseCaseImpl(UserRepository userRepository,
-            PasswordEncoder passwordEncoder,
+    public LoginUseCaseImpl(
             TokenProvider tokenProvider,
             AuthService authService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
         this.authService = authService;
     }
 
-    public LoginUseCaseImpl() {}
-
     private final NotEmptyValidator notEmptyValidator = new NotEmptyValidator("Password");
+    private final BetweenLengthValidator betweenLengthValidator = new BetweenLengthValidator("Password", 3, 60);
 
     @Override
     public LoginResponseDTO execute(LoginRequestDTO dto) {
         Email email = new Email(dto.email());
         notEmptyValidator.validate(dto.password());
+        betweenLengthValidator.validate(dto.password());
 
         var user = authService.authenticate(email.toString(), dto.password());
 

@@ -21,7 +21,8 @@ public class UseCaseConfig {
     private final TokenProvider tokenProvider;
     private final AuthService authService;
 
-    public UseCaseConfig(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper, TokenProvider tokenProvider, AuthService authService) {
+    public UseCaseConfig(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper,
+            TokenProvider tokenProvider, AuthService authService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
@@ -36,6 +37,6 @@ public class UseCaseConfig {
 
     @Bean
     public LoginUseCase loginUseCase() {
-        return new LoginUseCaseImpl(userRepository, passwordEncoder, tokenProvider, authService);
+        return new LoginUseCaseImpl(tokenProvider, authService);
     }
 }

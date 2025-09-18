@@ -16,12 +16,6 @@ import com.lucas.grana.infrastructure.security.impl.SpringAuthServiceImpl;
 
 @Configuration
 public class IoCConfig {
-
-    @Bean
-    public LoginUseCase loginUseCaseImpl() {
-        return new LoginUseCaseImpl();
-    }
-
     @Bean
     public UserMapper userMapper() {
         return new UserMapperImpl();

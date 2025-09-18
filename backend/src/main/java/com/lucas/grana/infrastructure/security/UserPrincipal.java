@@ -39,4 +39,9 @@ public class UserPrincipal implements UserDetails {
     public String getUsername() {
         return user.getEmail().toString();
     }
+
+    @Override
+    public boolean isEnabled() {
+        return user.getEmailConfirmed();
+    }
 }
