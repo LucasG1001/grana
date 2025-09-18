@@ -1,8 +1,6 @@
 package com.lucas.grana.infrastructure.persistence.entities;
 
-import java.util.Objects;
 import com.lucas.grana.domain.enums.user.UserRole;
-import com.lucas.grana.domain.valueObjects.User.Email;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,5 +32,6 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false)
     private UserRole role;
 
+    @Column(nullable = false, length = 60)
     private String passwordHash;
 }
