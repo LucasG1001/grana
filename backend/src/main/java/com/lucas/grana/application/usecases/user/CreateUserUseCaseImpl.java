@@ -6,7 +6,7 @@ import com.lucas.grana.application.mappers.UserMapper;
 import com.lucas.grana.application.security.PasswordEncoder;
 import com.lucas.grana.application.security.TokenProvider;
 import com.lucas.grana.domain.entities.User;
-import com.lucas.grana.domain.exceptions.UserAlreadyExistsException;
+import com.lucas.grana.domain.exceptions.user.UserAlreadyExistsException;
 import com.lucas.grana.domain.repositories.UserRepository;
 import com.lucas.grana.domain.valueObjects.User.Email;
 import com.lucas.grana.domain.valueObjects.User.Password;

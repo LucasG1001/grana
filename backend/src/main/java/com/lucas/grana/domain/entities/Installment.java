@@ -1,4 +1,4 @@
-package com.lucas.grana.domain.entities.transaction;
+package com.lucas.grana.domain.entities;
 
 import java.time.LocalDate;
 

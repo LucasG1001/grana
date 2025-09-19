@@ -1,4 +1,4 @@
-package com.lucas.grana.domain.exceptions;
+package com.lucas.grana.domain.exceptions.user;
 
 public class UserAlreadyExistsException extends RuntimeException {
 

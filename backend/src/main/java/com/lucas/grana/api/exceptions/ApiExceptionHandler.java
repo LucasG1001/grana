@@ -4,12 +4,13 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.lucas.grana.domain.exceptions.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import com.lucas.grana.domain.exceptions.user.UserAlreadyExistsException;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
@@ -24,7 +25,7 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException ex){
+    public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         Map<String, Object> body = new HashMap<>();
 
         body.put("timestamp", LocalDate.now());

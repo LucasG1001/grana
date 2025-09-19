@@ -18,7 +18,8 @@ public class UserMapperImpl implements UserMapper {
 
     @Override
     public UserEntity toEntity(User user) {
-        return new UserEntity(user.getUserName().toString(), user.getEmail().toString(), user.getEmailConfirmed(), user.getRole(),
+        return new UserEntity(user.getUserName().toString(), user.getEmail().toString(), user.getEmailConfirmed(),
+                user.getRole(),
                 user.getPasswordHash());
     }
 

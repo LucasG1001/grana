@@ -2,7 +2,6 @@ package com.lucas.grana.domain.entities;
 
 import java.util.List;
 
-import com.lucas.grana.domain.entities.transaction.Transaction;
 import com.lucas.grana.domain.valueObjects.HexColor;
 import com.lucas.grana.domain.valueObjects.Icon;
 import com.lucas.grana.domain.valueObjects.category.CategoryName;

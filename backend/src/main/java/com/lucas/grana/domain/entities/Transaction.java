@@ -1,11 +1,9 @@
-package com.lucas.grana.domain.entities.transaction;
+package com.lucas.grana.domain.entities;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import com.lucas.grana.domain.entities.BaseEntity;
-import com.lucas.grana.domain.entities.Category;
-import com.lucas.grana.domain.entities.User;
+import com.lucas.grana.domain.enums.transaction.TransactionType;
 import com.lucas.grana.domain.valueObjects.Money;
 
 public class Transaction extends BaseEntity {
