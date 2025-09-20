@@ -1,4 +1,4 @@
-package com.lucas.grana.infrastructure.persistence.repositories.impl;
+package com.lucas.grana.infrastructure.persistence.repositories.user;
 
 import java.util.Optional;
 
@@ -8,8 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.lucas.grana.domain.entities.User;
 import com.lucas.grana.domain.repositories.UserRepository;
 import com.lucas.grana.infrastructure.persistence.entities.UserEntity;
-import com.lucas.grana.infrastructure.persistence.mappers.UserMapper;
-import com.lucas.grana.infrastructure.persistence.repositories.SpringDataUserRepository;
+import com.lucas.grana.infrastructure.persistence.mappers.user.UserMapper;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {

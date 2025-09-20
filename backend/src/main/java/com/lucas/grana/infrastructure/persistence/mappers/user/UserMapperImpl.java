@@ -1,10 +1,10 @@
-package com.lucas.grana.infrastructure.persistence.mappers.impl;
+package com.lucas.grana.infrastructure.persistence.mappers.user;
 
 import com.lucas.grana.domain.entities.User;
 import com.lucas.grana.domain.valueObjects.User.Email;
 import com.lucas.grana.domain.valueObjects.User.UserName;
 import com.lucas.grana.infrastructure.persistence.entities.UserEntity;
-import com.lucas.grana.infrastructure.persistence.mappers.UserMapper;
+
 import org.springframework.stereotype.Component;
 
 @Component

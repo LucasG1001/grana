@@ -1,4 +1,4 @@
-package com.lucas.grana.infrastructure.persistence.repositories;
+package com.lucas.grana.infrastructure.persistence.repositories.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,8 @@
 package com.lucas.grana.domain.exceptions.user;
 
-public class UserAlreadyExistsException extends RuntimeException {
+import com.lucas.grana.domain.exceptions.AlreadyExistsException;
+
+public class UserAlreadyExistsException extends AlreadyExistsException {
 
     public UserAlreadyExistsException(String email) {
         super("Usuário com email" + email + " já existe.");

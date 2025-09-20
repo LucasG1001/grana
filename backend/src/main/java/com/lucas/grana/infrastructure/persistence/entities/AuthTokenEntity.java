@@ -18,10 +18,10 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "verification_codes")
-public class VerificationCodeEntity extends BaseEntity {
+public class AuthTokenEntity extends BaseEntity {
 
     @Column(nullable = false, length = 60)
-    private String code;
+    private String value;
 
     @Column(nullable = false)
     private LocalDateTime expiresAt;

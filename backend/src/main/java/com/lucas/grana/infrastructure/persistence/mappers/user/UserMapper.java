@@ -1,4 +1,4 @@
-package com.lucas.grana.infrastructure.persistence.mappers;
+package com.lucas.grana.infrastructure.persistence.mappers.user;
 
 import com.lucas.grana.domain.entities.User;
 import com.lucas.grana.infrastructure.persistence.entities.UserEntity;
