@@ -14,6 +14,24 @@ spring:
     hibernate:
       ddl-auto: update
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: seuemail@gmail.com
+    password: sua_senha
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+
 jwt:
   secret: "nTL8u9^Nn0qUXC!1CHO869n$1se!Ol"
   expiration-ms: 3600000

@@ -15,7 +15,6 @@ const setupInterceptors = (axiosInstance, logoutFunction) => {
     (response) => response,
     (error) => {
       if (error.response?.status === 401) {
-        // Verificar se authContext existe e tem o método logout
         if (authContext && typeof logoutFunction === "function") {
           logoutFunction();
         }

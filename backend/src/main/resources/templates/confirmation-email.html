@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Confirmação de Cadastro</title>
+  </head>
+  <body>
+    <h1>Olá, <span th:text="${name}">Nome</span>!</h1>
+    <p>Por favor, confirme seu cadastro clicando no link abaixo:</p>
+    <a th:href="${confirmationLink}">Confirmar Cadastro</a>
+  </body>
+</html>

@@ -6,8 +6,8 @@ import com.lucas.grana.domain.exceptions.token.ExpiredAuthTokenException;
 import com.lucas.grana.domain.exceptions.token.InvalidAuthTokenException;
 import com.lucas.grana.domain.exceptions.token.AuthTokenNotGeneratedException;
 import com.lucas.grana.domain.repositories.AuthTokenRepository;
-import com.lucas.grana.domain.entities.Token;
-import com.lucas.grana.domain.valueObjects.security.TokenValue;
+import com.lucas.grana.domain.entities.AuthToken;
+import com.lucas.grana.domain.valueObjects.security.Token;
 
 public class VerifyAuthTokenUseCaseImpl implements VerifyAuthTokenUseCase {
     private final AuthTokenRepository repository;
@@ -18,22 +18,22 @@ public class VerifyAuthTokenUseCaseImpl implements VerifyAuthTokenUseCase {
 
     public void execute(User user, String inputCode) {
 
-        new TokenValue(inputCode);
+        new Token(inputCode);
 
-        Token token = repository.findByUser(user)
+        AuthToken token = repository.findByUser(user)
                 .orElseThrow(() -> new AuthTokenNotGeneratedException(user.getEmail().toString()));
 
         validateExpiration(token);
         validateCode(token, inputCode.toString());
     }
 
-    private void validateExpiration(Token token) {
+    private void validateExpiration(AuthToken token) {
         if (token.getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new ExpiredAuthTokenException();
         }
     }
 
-    private void validateCode(Token token, String inputCode) {
+    private void validateCode(AuthToken token, String inputCode) {
         if (!token.getValue().toString().equals(inputCode)) {
             throw new InvalidAuthTokenException();
         }
