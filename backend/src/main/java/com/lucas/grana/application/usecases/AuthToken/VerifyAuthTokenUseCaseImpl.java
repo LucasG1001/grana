@@ -24,7 +24,7 @@ public class VerifyAuthTokenUseCaseImpl implements VerifyAuthTokenUseCase {
                 .orElseThrow(() -> new AuthTokenNotGeneratedException(user.getEmail().toString()));
 
         validateExpiration(token);
-        validateCode(token, inputCode.toString());
+        validateCode(token, inputCode);
     }
 
     private void validateExpiration(AuthToken token) {
@@ -34,7 +34,7 @@ public class VerifyAuthTokenUseCaseImpl implements VerifyAuthTokenUseCase {
     }
 
     private void validateCode(AuthToken token, String inputCode) {
-        if (!token.getValue().toString().equals(inputCode)) {
+        if (!token.getToken().toString().equals(inputCode)) {
             throw new InvalidAuthTokenException();
         }
     }

@@ -3,9 +3,9 @@ spring:
     name: grana
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/grana
-    username: lucas
-    password: 4oW%fHbn*y67Lo&Sm&IQC4
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -15,10 +15,10 @@ spring:
       ddl-auto: update
 
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: seuemail@gmail.com
-    password: sua_senha
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USER}
+    password: ${MAIL_PASS}
     properties:
       mail:
         smtp:
@@ -33,9 +33,9 @@ spring:
     encoding: UTF-8
 
 jwt:
-  secret: "nTL8u9^Nn0qUXC!1CHO869n$1se!Ol"
-  expiration-ms: 3600000
-  refresh-expiration-ms: 86400000
+  secret: ${JWT_SECRET}
+  expiration-ms: ${JWT_EXPIRATION_MS}
+  refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS}
 
 frontend:
-  url: http://localhost:5173
+  url: ${FRONTEND_URL}
