@@ -5,6 +5,9 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.lucas.grana.domain.exceptions.token.ExpiredAuthTokenException;
+import com.lucas.grana.domain.exceptions.token.InvalidAuthTokenException;
+import com.lucas.grana.shared.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,34 +34,27 @@ public class JwtTokenProvider implements TokenProvider {
     @Value("${jwt.refresh-expiration-ms}")
     private int jwtRefreshExpirationMs;
 
+    @Value("${jwt.confirmation-expiration-ms}")
+    private int jwtConfirmationTokenExpirationMs;
+
+    @Value("${jwt.secret}")
+    private String secretkey;
+
     private SecretKey key() {
-        String secretString = "suaChaveSecretaSuperSecretaComPeloMenos32Bytes"; // Deve ter no mínimo 256 bits (32
-                                                                                // caracteres)
+        String secretString = secretkey;
         return new SecretKeySpec(secretString.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
     }
 
     public String generateAccessToken(User user) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+        return tokenBuilder(user, DateUtil.addMillisecondsToNow(jwtExpirationMs));
+    }
 
-        return Jwts.builder()
-                .subject(user.getEmail().toString())
-                .issuedAt(now)
-                .expiration(expiryDate)
-                .signWith(key())
-                .compact();
+    public String generateConfirmationToken(User user){
+        return tokenBuilder(user, DateUtil.addMillisecondsToNow(jwtConfirmationTokenExpirationMs));
     }
 
     public String generateRefreshToken(User user) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtRefreshExpirationMs);
-
-        return Jwts.builder()
-                .subject(user.getEmail().toString())
-                .issuedAt(now)
-                .expiration(expiryDate)
-                .signWith(key())
-                .compact();
+        return tokenBuilder(user, DateUtil.addMillisecondsToNow(jwtRefreshExpirationMs));
     }
 
     public String getUsernameFromToken(String token) {
@@ -78,10 +74,18 @@ public class JwtTokenProvider implements TokenProvider {
                     .parseSignedClaims(token);
             return true;
         } catch (ExpiredJwtException ex) {
-            logger.error("JWT expired: {}", ex.getMessage());
+            throw new ExpiredAuthTokenException();
         } catch (JwtException | IllegalArgumentException ex) {
-            logger.error("Invalid JWT: {}", ex.getMessage());
+            throw new InvalidAuthTokenException();
         }
-        return false;
+    }
+
+    private String tokenBuilder(User user, Date expiresAt) {
+        return Jwts.builder()
+                .subject(user.getEmail().toString())
+                .issuedAt(new Date())
+                .expiration(expiresAt)
+                .signWith(key())
+                .compact();
     }
 }

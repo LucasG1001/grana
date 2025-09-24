@@ -6,4 +6,5 @@ public interface TokenProvider {
     public String generateAccessToken(User user);
 
     public String generateRefreshToken(User user);
+    public String generateConfirmationToken(User user);
 }

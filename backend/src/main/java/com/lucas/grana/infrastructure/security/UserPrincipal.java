@@ -40,8 +40,8 @@ public class UserPrincipal implements UserDetails {
         return user.getEmail().toString();
     }
 
-    @Override
-    public boolean isEnabled() {
-        return user.getEmailConfirmed();
-    }
+    //@Override
+    //public boolean isEnabled() {
+      //  return user.getEmailConfirmed();
+    //}
 }

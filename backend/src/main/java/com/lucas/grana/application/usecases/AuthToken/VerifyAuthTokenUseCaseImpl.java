@@ -23,19 +23,5 @@ public class VerifyAuthTokenUseCaseImpl implements VerifyAuthTokenUseCase {
         AuthToken token = repository.findByUser(user)
                 .orElseThrow(() -> new AuthTokenNotGeneratedException(user.getEmail().toString()));
 
-        validateExpiration(token);
-        validateCode(token, inputCode);
-    }
-
-    private void validateExpiration(AuthToken token) {
-        if (token.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new ExpiredAuthTokenException();
-        }
-    }
-
-    private void validateCode(AuthToken token, String inputCode) {
-        if (!token.getToken().toString().equals(inputCode)) {
-            throw new InvalidAuthTokenException();
-        }
     }
 }

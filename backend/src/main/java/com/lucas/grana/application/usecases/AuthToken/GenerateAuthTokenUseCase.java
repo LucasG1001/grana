@@ -1,5 +1,9 @@
 package com.lucas.grana.application.usecases.AuthToken;
 
-public class GenerateAuthTokenUseCase {
+import com.lucas.grana.application.security.AuthenticatedUserProvider;
+import com.lucas.grana.application.security.TokenProvider;
+import com.lucas.grana.domain.entities.User;
 
+public interface GenerateAuthTokenUseCase {
+    public String execute();
 }

@@ -1,5 +1,7 @@
 package com.lucas.grana.api.controllers;
 
+import com.lucas.grana.application.usecases.AuthToken.GenerateAuthTokenUseCase;
+import com.lucas.grana.application.usecases.AuthToken.GenerateAuthTokenUseCaseImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +34,9 @@ public class AuthController {
     private CreateUserUseCase createUserCase;
 
     @Autowired
+    private GenerateAuthTokenUseCase generateAuthTokenUseCase;
+
+    @Autowired
     private LoginUseCase loginUseCase;
 
     @GetMapping("/open")
@@ -53,4 +58,10 @@ public class AuthController {
     public ResponseEntity<RegisterResponseDTO> register(@RequestBody RegisterRequestDTO dto) {
         return ResponseEntity.ok(createUserCase.execute(dto));
     }
+
+    @GetMapping("/confirmation-token")
+    public String generateConfirmationToken() {
+        return generateAuthTokenUseCase.execute();
+    }
+
 }

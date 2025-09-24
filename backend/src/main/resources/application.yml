@@ -1,3 +1,4 @@
+
 spring:
   application:
     name: grana
@@ -35,6 +36,7 @@ spring:
 jwt:
   secret: ${JWT_SECRET}
   expiration-ms: ${JWT_EXPIRATION_MS}
+  confirmation-expiration-ms: ${JWT_EXPIRATION_MS_CONFIRMATION}
   refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS}
 
 frontend:
