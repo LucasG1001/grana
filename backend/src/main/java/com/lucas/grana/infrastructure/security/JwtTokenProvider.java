@@ -66,13 +66,12 @@ public class JwtTokenProvider implements TokenProvider {
         return claims.getSubject();
     }
 
-    public boolean validateToken(String token) {
+    public void validateToken(String token) {
         try {
             Jwts.parser()
                     .verifyWith(key())
                     .build()
                     .parseSignedClaims(token);
-            return true;
         } catch (ExpiredJwtException ex) {
             throw new ExpiredAuthTokenException();
         } catch (JwtException | IllegalArgumentException ex) {

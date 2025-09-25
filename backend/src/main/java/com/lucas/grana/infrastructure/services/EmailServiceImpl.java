@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.Map;
+
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -43,12 +45,15 @@ public class EmailServiceImpl implements EmailService {
         }
 
     }
-    public void sendTemplate(String to, String subject, String templateName){
+    public void sendTemplate(String to, String subject, String templateName, Map<String, Object> variables){
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            String htmlContent = templateEngine.process(templateName, new Context());
+            Context context = new Context();
+            context.setVariables(variables);
+
+            String htmlContent = templateEngine.process(templateName, context);
 
             helper.setTo(to);
             helper.setSubject(subject);

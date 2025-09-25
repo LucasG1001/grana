@@ -2,6 +2,7 @@ package com.lucas.grana.api.controllers;
 
 import com.lucas.grana.application.usecases.AuthToken.GenerateAuthTokenUseCase;
 import com.lucas.grana.application.usecases.AuthToken.GenerateAuthTokenUseCaseImpl;
+import com.lucas.grana.domain.entities.AuthToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -59,9 +60,14 @@ public class AuthController {
         return ResponseEntity.ok(createUserCase.execute(dto));
     }
 
-    @GetMapping("/confirmation-token")
-    public String generateConfirmationToken() {
-        return generateAuthTokenUseCase.execute();
+    @PostMapping("/auth/confirm-email")
+    public ResponseEntity ConfirmEmail(String authToken) {
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/auth/confirmation-token")
+    public void generateConfirmationToken() {
+         generateAuthTokenUseCase.execute();
     }
 
 }

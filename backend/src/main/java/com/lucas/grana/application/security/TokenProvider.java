@@ -7,4 +7,6 @@ public interface TokenProvider {
 
     public String generateRefreshToken(User user);
     public String generateConfirmationToken(User user);
+    public void validateToken(String token);
+    public String getUsernameFromToken(String token);
 }

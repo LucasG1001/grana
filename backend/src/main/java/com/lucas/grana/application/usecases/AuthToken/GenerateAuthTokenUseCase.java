@@ -5,5 +5,5 @@ import com.lucas.grana.application.security.TokenProvider;
 import com.lucas.grana.domain.entities.User;
 
 public interface GenerateAuthTokenUseCase {
-    public String execute();
+    public void execute();
 }

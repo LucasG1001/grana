@@ -4,6 +4,7 @@ import com.lucas.grana.application.mappers.UserMapper;
 import com.lucas.grana.application.security.AuthService;
 import com.lucas.grana.application.security.PasswordEncoder;
 import com.lucas.grana.application.security.TokenProvider;
+import com.lucas.grana.application.services.EmailService;
 import com.lucas.grana.application.usecases.AuthToken.GenerateAuthTokenUseCase;
 import com.lucas.grana.application.usecases.AuthToken.GenerateAuthTokenUseCaseImpl;
 import com.lucas.grana.application.usecases.user.CreateUserUseCase;
@@ -24,15 +25,17 @@ public class UseCaseConfig {
     private final TokenProvider tokenProvider;
     private final AuthService authService;
     private final SpringSecurityAuthenticatedUserProvider authenticatedUserProvider;
+    private final EmailService emailService;
 
     public UseCaseConfig(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper,
-            TokenProvider tokenProvider, AuthService authService, SpringSecurityAuthenticatedUserProvider authenticatedUserProvider) {
+            TokenProvider tokenProvider, AuthService authService, SpringSecurityAuthenticatedUserProvider authenticatedUserProvider, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
         this.tokenProvider = tokenProvider;
         this.authService = authService;
         this.authenticatedUserProvider = authenticatedUserProvider;
+        this.emailService = emailService;
     }
 
     @Bean
@@ -47,6 +50,6 @@ public class UseCaseConfig {
 
     @Bean
     public GenerateAuthTokenUseCase generateAuthTokenUseCase() {
-        return new GenerateAuthTokenUseCaseImpl(tokenProvider, authenticatedUserProvider);
+        return new GenerateAuthTokenUseCaseImpl(tokenProvider, authenticatedUserProvider, emailService);
     }
 }

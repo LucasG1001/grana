@@ -8,7 +8,7 @@ import com.lucas.grana.domain.valueObjects.User.UserName;
 public class User {
     private final UserName userName;
     private final Email email;
-    private final boolean emailConfirmed;
+    private boolean emailConfirmed;
     private final UserRole role;
     private final String passwordHash;
 
@@ -31,6 +31,8 @@ public class User {
     public boolean getEmailConfirmed() {
         return emailConfirmed;
     }
+
+    public void setEmailConfirmed(boolean isConfirmed) {this.emailConfirmed = isConfirmed;}
 
     public UserRole getRole() {
         return role;
