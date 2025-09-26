@@ -6,7 +6,7 @@ import ProtectedRoute from "./ProtectedRoute";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<FormLogin />} />
       <Route
         path="/"
         element={
