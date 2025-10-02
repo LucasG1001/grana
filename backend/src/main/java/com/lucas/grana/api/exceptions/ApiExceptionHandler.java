@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -48,6 +49,11 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(InvalidParamException.class)
     public ResponseEntity<Object> handleInvalidParamException(InvalidParamException ex) {
+        return buildErrorResponse(ex, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException ex) {
         return buildErrorResponse(ex, HttpStatus.BAD_REQUEST);
     }
 }

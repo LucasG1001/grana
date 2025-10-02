@@ -1,0 +1,10 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+.formLogin {
+  padding: 40px 20px;
+  background: #fff;
+  min-width: 500px;
+  border-radius: 5px;
+}
