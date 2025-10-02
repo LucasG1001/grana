@@ -1,11 +1,8 @@
 package com.lucas.grana.api.controllers;
 
 import com.lucas.grana.application.usecases.AuthToken.GenerateAuthTokenUseCase;
-import com.lucas.grana.application.usecases.AuthToken.GenerateAuthTokenUseCaseImpl;
-import com.lucas.grana.domain.entities.AuthToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,18 +15,11 @@ import com.lucas.grana.application.dtos.user.RegisterRequestDTO;
 import com.lucas.grana.application.dtos.user.RegisterResponseDTO;
 import com.lucas.grana.application.usecases.user.CreateUserUseCase;
 import com.lucas.grana.application.usecases.user.LoginUseCase;
-import com.lucas.grana.infrastructure.security.JwtTokenProvider;
 
 @RestController
 @RequestMapping("/api/auth")
 
 public class AuthController {
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private CreateUserUseCase createUserCase;
@@ -67,7 +57,7 @@ public class AuthController {
 
     @GetMapping("/auth/confirmation-token")
     public void generateConfirmationToken() {
-         generateAuthTokenUseCase.execute();
+        generateAuthTokenUseCase.execute();
     }
 
 }

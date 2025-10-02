@@ -1,4 +1,5 @@
-import React from 'react';
+"use client";
+import React from "react";
 
 type InputFormProps = {
   name: string;
@@ -15,7 +16,7 @@ const InputForm = ({
   placeholder,
   value,
   onChange,
-  type = 'text',
+  type = "text",
 }: InputFormProps) => {
   return (
     <input

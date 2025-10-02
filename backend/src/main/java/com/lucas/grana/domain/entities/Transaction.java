@@ -9,6 +9,11 @@ import com.lucas.grana.domain.valueObjects.Money;
 public class Transaction extends BaseEntity {
 
     private TransactionType type;
+
+    public TransactionType getType() {
+        return type;
+    }
+
     private String description;
     private Money value;
     private LocalDateTime dateTime;
@@ -21,6 +26,10 @@ public class Transaction extends BaseEntity {
         this.value = value;
         this.dateTime = dateTime != null ? dateTime : LocalDateTime.now();
         this.category = category;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
     }
 
     public String getDescription() {

@@ -29,7 +29,7 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     @Override
     public RegisterResponseDTO execute(RegisterRequestDTO dto) {
         Email email = new Email(dto.email());
-        Password password = new Password(dto.password());
+        new Password(dto.password());
 
         var userFound = userRepository.findByEmail(email.toString());
 

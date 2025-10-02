@@ -8,8 +8,6 @@ import javax.crypto.spec.SecretKeySpec;
 import com.lucas.grana.domain.exceptions.token.ExpiredAuthTokenException;
 import com.lucas.grana.domain.exceptions.token.InvalidAuthTokenException;
 import com.lucas.grana.shared.utils.DateUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +21,6 @@ import io.jsonwebtoken.Jwts;
 
 @Component
 public class JwtTokenProvider implements TokenProvider {
-    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -49,7 +46,7 @@ public class JwtTokenProvider implements TokenProvider {
         return tokenBuilder(user, DateUtil.addMillisecondsToNow(jwtExpirationMs));
     }
 
-    public String generateConfirmationToken(User user){
+    public String generateConfirmationToken(User user) {
         return tokenBuilder(user, DateUtil.addMillisecondsToNow(jwtConfirmationTokenExpirationMs));
     }
 

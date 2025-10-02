@@ -1,9 +1,5 @@
 package com.lucas.grana.infrastructure.config;
 
-import com.lucas.grana.application.usecases.user.CreateUserUseCase;
-import com.lucas.grana.application.usecases.user.CreateUserUseCaseImpl;
-import com.lucas.grana.application.usecases.user.LoginUseCase;
-import com.lucas.grana.application.usecases.user.LoginUseCaseImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

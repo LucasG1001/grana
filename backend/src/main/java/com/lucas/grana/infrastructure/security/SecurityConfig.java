@@ -24,14 +24,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthEntryPoint authEntryPoint;
     private final JwtAuthenticationFilter JwtAuthenticationFilter;
 
     @Value("${frontend.url}")
     private String frontendUrl;
 
-    public SecurityConfig(JwtAuthEntryPoint authEntryPoint, JwtAuthenticationFilter JwtAuthenticationFilter) {
-        this.authEntryPoint = authEntryPoint;
+    public SecurityConfig(JwtAuthenticationFilter JwtAuthenticationFilter) {
         this.JwtAuthenticationFilter = JwtAuthenticationFilter;
     }
 

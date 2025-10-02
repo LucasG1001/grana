@@ -1,8 +1,6 @@
 package com.lucas.grana.infrastructure.persistence.entities;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
