@@ -9,6 +9,8 @@ import com.lucas.grana.application.security.AuthService;
 import com.lucas.grana.application.security.TokenProvider;
 import com.lucas.grana.infrastructure.security.JwtTokenProvider;
 import com.lucas.grana.infrastructure.security.impl.SpringAuthServiceImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class IoCConfig {
@@ -27,4 +29,8 @@ public class IoCConfig {
         return new SpringAuthServiceImpl();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

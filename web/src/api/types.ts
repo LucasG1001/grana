@@ -1,4 +1,4 @@
-interface LoginState {
+export interface LoginState {
   ok: boolean;
   error: string;
   data: any | null;

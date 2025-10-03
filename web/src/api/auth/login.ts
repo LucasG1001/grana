@@ -4,6 +4,7 @@ import api from '@/api/axios';
 import axios from 'axios';
 import { cookies } from 'next/headers';
 import apiError from '../apiError';
+import { LoginState } from '../types';
 
 interface LoginResponse {
   token: string;
@@ -35,6 +36,8 @@ export default async function login(
       data: response.data,
     };
   } catch (error) {
+    console.log(error);
+
     return apiError(error);
   }
 }

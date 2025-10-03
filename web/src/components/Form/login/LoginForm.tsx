@@ -1,15 +1,18 @@
 'use client';
-import React, { useActionState } from 'react';
-import InputForm from '../InputForm';
+import React, { useActionState, useEffect } from 'react';
 import styles from './LoginForm.module.css';
 import login from '@/api/auth/login';
-import ButtonForm from '../ButtonForm';
 import { useFormState, useFormStatus } from 'react-dom';
-import ErrorForm from '../ErrorForm';
 import { initialState } from '@/api/types';
+import InputForm from '../InputForm';
+import ErrorMessageForm from '../ErrorMessageForm';
+import ButtonForm from '../ButtonForm';
 
 const LoginForm = () => {
-  const [state, action] = useFormState(login, initialState);
+  const [state, action] = useActionState(login, initialState);
+  useEffect(() => {
+    if (state.ok) window.location.href = '/home';
+  }, [state.ok]);
   return (
     <div className={styles.container}>
       <form action={action} className={styles.formLogin}>
@@ -20,7 +23,7 @@ const LoginForm = () => {
           id="password"
           placeholder="Senha"
         />
-        <ErrorForm message={state?.error} />
+        <ErrorMessageForm message={state?.error} />
         <ButtonForm type="submit">Entrar</ButtonForm>
       </form>
     </div>
