@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import React from 'react';
+import Link from "next/link";
+import React from "react";
 
 const Header = () => {
   return (
@@ -13,6 +13,9 @@ const Header = () => {
         </li>
         <li>
           <Link href="/register">Register</Link>
+        </li>
+        <li>
+          <Link href="/transactions">Transactions</Link>
         </li>
       </div>
     </ul>
