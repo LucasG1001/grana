@@ -1,11 +1,11 @@
 package com.lucas.grana.infrastructure.security.impl;
 
-import com.lucas.grana.application.security.PasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.lucas.grana.application.security.PasswordHasher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PasswordEncoderImpl implements PasswordEncoder {
+public class PasswordEncoderImpl implements PasswordHasher {
 
     public final PasswordEncoder passwordEncoder;
 
