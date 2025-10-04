@@ -28,9 +28,4 @@ public class IoCConfig {
     public AuthService authService() {
         return new SpringAuthServiceImpl();
     }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }

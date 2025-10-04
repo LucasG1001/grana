@@ -3,7 +3,7 @@ package com.lucas.grana.application.usecases.user;
 import com.lucas.grana.application.dtos.user.RegisterRequestDTO;
 import com.lucas.grana.application.dtos.user.RegisterResponseDTO;
 import com.lucas.grana.application.mappers.UserMapper;
-import com.lucas.grana.application.security.PasswordEncoder;
+import com.lucas.grana.application.security.PasswordHasher;
 import com.lucas.grana.application.security.TokenProvider;
 import com.lucas.grana.domain.entities.User;
 import com.lucas.grana.domain.exceptions.user.UserAlreadyExistsException;
@@ -14,11 +14,11 @@ import com.lucas.grana.domain.valueObjects.User.Password;
 public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordHasher passwordEncoder;
     private final UserMapper userMapper;
     private final TokenProvider tokenProvider;
 
-    public CreateUserUseCaseImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
+    public CreateUserUseCaseImpl(UserRepository userRepository, PasswordHasher passwordEncoder,
             UserMapper userMapper, TokenProvider tokenProvider) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;

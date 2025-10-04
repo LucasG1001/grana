@@ -1,6 +1,6 @@
 package com.lucas.grana.application.security;
 
-public interface PasswordEncoder {
+public interface PasswordHasher {
 
     String encode(String rawPassword);
 

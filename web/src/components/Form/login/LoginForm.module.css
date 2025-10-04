@@ -7,4 +7,17 @@
   background: #fff;
   min-width: 500px;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  font-size: 0.8rem;
+  text-decoration: none;
+  color: var(--color-light);
+
+}
+
+.span {
+  color: #a39a99;
 }

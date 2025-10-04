@@ -2,7 +2,7 @@ package com.lucas.grana.infrastructure.config;
 
 import com.lucas.grana.application.mappers.UserMapper;
 import com.lucas.grana.application.security.AuthService;
-import com.lucas.grana.application.security.PasswordEncoder;
+import com.lucas.grana.application.security.PasswordHasher;
 import com.lucas.grana.application.security.TokenProvider;
 import com.lucas.grana.application.services.EmailService;
 import com.lucas.grana.application.usecases.AuthToken.GenerateAuthTokenUseCase;
@@ -20,15 +20,15 @@ import org.springframework.context.annotation.Configuration;
 public class UseCaseConfig {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordHasher passwordEncoder;
     private final UserMapper userMapper;
     private final TokenProvider tokenProvider;
     private final AuthService authService;
     private final SpringSecurityAuthenticatedUserProvider authenticatedUserProvider;
     private final EmailService emailService;
 
-    public UseCaseConfig(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper,
-            TokenProvider tokenProvider, AuthService authService, SpringSecurityAuthenticatedUserProvider authenticatedUserProvider, EmailService emailService) {
+    public UseCaseConfig(UserRepository userRepository, PasswordHasher passwordEncoder, UserMapper userMapper,
+                         TokenProvider tokenProvider, AuthService authService, SpringSecurityAuthenticatedUserProvider authenticatedUserProvider, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;

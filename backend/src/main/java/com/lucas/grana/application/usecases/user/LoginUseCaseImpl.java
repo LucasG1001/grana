@@ -34,7 +34,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
         String accessToken = tokenProvider.generateAccessToken(user);
         String refreshToken = tokenProvider.generateRefreshToken(user);
 
-        return new LoginResponseDTO(email.toString(), accessToken, refreshToken);
+        return new LoginResponseDTO(user.getUserName().toString(), user.getEmail().toString(), accessToken, refreshToken);
     }
 
 }
