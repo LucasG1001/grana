@@ -5,8 +5,8 @@ import login from '@/api/auth/login';
 import { initialState } from '@/api/types';
 import InputForm from '../InputForm';
 import ErrorMessageForm from '../ErrorMessageForm';
-import ButtonForm from '../ButtonForm';
 import Link from 'next/link';
+import Button from '@/components/button/Button';
 
 const LoginForm = () => {
   const [state, action] = useActionState(login, initialState);
@@ -23,13 +23,17 @@ const LoginForm = () => {
           id="password"
           placeholder="Senha"
         />
-        <ErrorMessageForm message={state?.error} />
+        {state?.error && <ErrorMessageForm message={state?.error} />}
         <Link href="login/esqueci" className={styles.link}>
           <span className={styles.span}>Esqueceu a senha?</span> Enviar email de
           recuperação
         </Link>
-        <ButtonForm type="submit">Entrar</ButtonForm>
-        <Link href="login/esqueci" className={styles.link}>
+        <Button text="Entrar" type="submit" disabled={state.pending} />
+        <Link
+          href="login/esqueci"
+          style={{ textAlign: 'center' }}
+          className={styles.link}
+        >
           <span className={styles.span}>Ainda não possui conta?</span>{' '}
           Cadastre-se
         </Link>

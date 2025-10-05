@@ -9,6 +9,7 @@
   border-radius: 5px;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
 .link {
@@ -19,5 +20,6 @@
 }
 
 .span {
-  color: #a39a99;
+  color: var(--text-primary);
+  font-weight: 600;
 }

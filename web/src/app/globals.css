@@ -5,9 +5,12 @@ html {
   --font-size: 1.25rem;
   --color: #5b86ff;
   --color-light: #52A8FF;
+  --color-secundary: #3B82F6;
   --color-dark: #206;
   --radius: 0.25rem;
   --color-text: #fff;
+
+  --text-primary: #a39a99;
 }
 
 *,
