@@ -7,12 +7,20 @@ import InputForm from '../InputForm';
 import ErrorMessageForm from '../ErrorMessageForm';
 import Link from 'next/link';
 import Button from '@/components/button/Button';
+import { useFormState } from 'react-dom';
+
+function FormButton() {
+  const { pending } = useFormState();
+
+  return <Button text="Entrar" type="submit" disabled={pending} />;
+}
 
 const LoginForm = () => {
   const [state, action] = useActionState(login, initialState);
   useEffect(() => {
     if (state.ok) window.location.href = '/home';
   }, [state.ok]);
+
   return (
     <div className={styles.container}>
       <form action={action} className={styles.formLogin}>
@@ -28,7 +36,7 @@ const LoginForm = () => {
           <span className={styles.span}>Esqueceu a senha?</span> Enviar email de
           recuperação
         </Link>
-        <Button text="Entrar" type="submit" disabled={state.pending} />
+        <FormButton />
         <Link
           href="login/esqueci"
           style={{ textAlign: 'center' }}
