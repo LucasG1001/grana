@@ -7,6 +7,8 @@ type InputFormProps = {
   placeholder?: string;
   type?: string;
   error?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 };
 
 const InputForm = (props: InputFormProps) => {
