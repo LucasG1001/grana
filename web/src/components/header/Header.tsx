@@ -1,9 +1,10 @@
-import Link from "next/link";
-import React from "react";
+import Link from 'next/link';
+import React from 'react';
+import styles from './Header.module.css';
 
 const Header = () => {
   return (
-    <ul className="header" style={{ display: "flex", gap: "20px" }}>
+    <ul className={styles.container}>
       <li>
         <Link href="/">Home</Link>
       </li>

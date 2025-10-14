@@ -1,6 +1,6 @@
-"use client";
-import React from "react";
-import styles from "./PieChart.module.css";
+'use client';
+import React from 'react';
+import styles from './PieChart.module.css';
 import {
   Cell,
   Legend,
@@ -8,7 +8,7 @@ import {
   PieChart,
   ResponsiveContainer,
   Tooltip,
-} from "recharts";
+} from 'recharts';
 
 type CategoryData = {
   id: number;
@@ -22,16 +22,16 @@ type PieChartComponentProps = {
 };
 
 const salesByCategory: CategoryData[] = [
-  { id: 1, name: "Eletrônicos", value: 4000 },
-  { id: 2, name: "Moda", value: 3000 },
-  { id: 3, name: "Casa", value: 2000 },
-  { id: 4, name: "Beleza", value: 1500 },
-  { id: 5, name: "Livros", value: 1000 },
+  { id: 1, name: 'Eletrônicos', value: 4000 },
+  { id: 2, name: 'Moda', value: 3000 },
+  { id: 3, name: 'Casa', value: 2000 },
+  { id: 4, name: 'Beleza', value: 1500 },
+  { id: 5, name: 'Livros', value: 1000 },
 ];
 
 const sortedData = [...salesByCategory].sort((a, b) => b.value - a.value);
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EFF"];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28EFF'];
 
 const PieChartComponent: React.FC<PieChartComponentProps> = ({
   data = sortedData,
@@ -50,7 +50,6 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
   }
   return (
     <div className={styles.PieChart}>
-      <h2 className={styles.title}>Despesas por Categoria</h2>
       <ResponsiveContainer height={300}>
         <PieChart width={400} height={300}>
           <Pie
@@ -66,7 +65,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
             paddingAngle={0}
             labelLine={false}
             onClick={handleClick}
-            style={{ outline: "none", cursor: "pointer" }}
+            style={{ outline: 'none', cursor: 'pointer' }}
           >
             {sortedData.map((entry, index) => {
               let fill = COLORS[index % COLORS.length];
@@ -82,12 +81,12 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
                   fill={fill}
                   stroke="none" // impede o contorno ao clicar
                   style={{
-                    cursor: "pointer",
-                    transition: "all 0.3s",
+                    cursor: 'pointer',
+                    transition: 'all 0.3s',
                     transform:
-                      activeIndex === index ? "scale(1.03)" : "scale(1)",
-                    transformOrigin: "center",
-                    outline: "none",
+                      activeIndex === index ? 'scale(1.03)' : 'scale(1)',
+                    transformOrigin: 'center',
+                    outline: 'none',
                   }}
                 />
               );
