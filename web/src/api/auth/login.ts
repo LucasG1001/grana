@@ -36,8 +36,6 @@ export default async function login(
       data: response.data,
     };
   } catch (error) {
-    console.log(error);
-
     return apiError(error);
   }
 }

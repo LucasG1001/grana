@@ -10,7 +10,6 @@ import Button from '@/components/button/Button';
 import { useFormStatus } from 'react-dom';
 import EmailValidator from '@/app/validators/EmailValidator';
 import PasswordValidator from '@/app/validators/PasswordValidator';
-import { error } from 'console';
 
 function FormButton() {
   const { pending } = useFormStatus();
@@ -19,33 +18,70 @@ function FormButton() {
 }
 
 const LoginForm = () => {
-  const [password, setPassword] = React.useState({ value: '', error: null });
-  const [email, setEmail] = React.useState({ value: '', error: null });
-
   const [state, action] = useActionState(login, initialState);
+  const [form, setForm] = React.useState({
+    email: { value: '', error: null, validator: EmailValidator },
+    password: { value: '', error: null, validator: PasswordValidator },
+  });
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    validateAll();
+
+    const hasError = Object.values(form).some((field) => field.error != null);
+    if (hasError) return;
+    const formData = new FormData();
+    formData.append('email', form.email.value);
+    formData.append('password', form.password.value);
+
+    console.log(formData, hasError, form);
+
+    // action(formData);
+  }
+
   useEffect(() => {
     if (state.ok) window.location.href = '/home';
   }, [state.ok]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.name === 'email') {
-      setEmail({ value: e.target.value, error: error });
-    }
+    const { name, value } = e.target;
+
+    setForm((prev) => {
+      const field = prev[name as keyof typeof prev];
+      const error = field.error ? field.validator(value) : null;
+      return {
+        ...prev,
+        [name]: { ...field, value, error },
+      };
+    });
   }
 
   function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
-    if (e.target.name === 'email') {
-      EmailValidator(e.target.value);
-    }
+    const { name, value } = e.target;
 
-    if (e.target.name === 'password') {
-      PasswordValidator(e.target.value);
-    }
+    validate({ name, value });
+  }
+
+  function validate({ name, value }: { name: string; value: string }) {
+    setForm((prev) => {
+      const field = prev[name as keyof typeof prev];
+      const error = field.validator(value);
+      return {
+        ...prev,
+        [name]: { ...field, error },
+      };
+    });
+  }
+
+  function validateAll() {
+    Object.keys(form).forEach((name) => {
+      validate({ name, value: form[name as keyof typeof form].value });
+    });
   }
 
   return (
     <div className={styles.container}>
-      <form action={action} className={styles.formLogin}>
+      <form onSubmit={handleSubmit} className={styles.formLogin}>
         <InputForm
           type="text"
           name="email"
@@ -53,6 +89,7 @@ const LoginForm = () => {
           placeholder="E-mail"
           onChange={(e) => handleChange(e)}
           onBlur={(e) => handleBlur(e)}
+          error={form.email.error}
         />
         <InputForm
           type="password"
@@ -61,6 +98,7 @@ const LoginForm = () => {
           placeholder="Senha"
           onChange={(e) => handleChange(e)}
           onBlur={(e) => handleBlur(e)}
+          error={form.password.error}
         />
         {state?.error && <ErrorMessageForm message={state?.error} />}
         <Link href="login/esqueci" className={styles.link}>

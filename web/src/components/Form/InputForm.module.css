@@ -39,3 +39,11 @@
   color: #007bff;
   font-weight: bold;
 }
+
+.input.error {
+  box-shadow: 0 0 0 2px #ff8c8c;
+}
+
+.input.error + label {
+  color: #ff8c8c !important;
+}
