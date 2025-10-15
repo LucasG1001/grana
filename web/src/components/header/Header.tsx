@@ -5,16 +5,16 @@ import styles from './Header.module.css';
 const Header = () => {
   return (
     <ul className={styles.container}>
-      <li>
+      <li className={styles.item}>
         <Link href="/">Home</Link>
       </li>
-      <li>
+      <li className={styles.item}>
         <Link href="/login">Login</Link>
       </li>
-      <li>
+      <li className={styles.item}>
         <Link href="/register">Register</Link>
       </li>
-      <li>
+      <li className={styles.item}>
         <Link href="/transactions">Transactions</Link>
       </li>
     </ul>

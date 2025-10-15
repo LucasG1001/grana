@@ -1,16 +1,15 @@
-
-
 html {
   --font: "Poppins", sans-serif;
   --font-size: 1.25rem;
   --color: #5b86ff;
-  --color-light: #52A8FF;
-  --color-secundary: #3B82F6;
+  --color-light: #52a8ff;
+  --color-secundary: #3b82f6;
   --color-dark: #206;
   --radius: 0.25rem;
   --color-text: #fff;
 
   --text-primary: #a39a99;
+  --text-secundary: #3f3f3f;
 }
 
 *,
@@ -27,6 +26,9 @@ body {
   height: 100vh;
   padding: 0;
   margin: 0;
-  background: #cfe7ff;
+  background: #f0f2f4;
+}
+
+.container {
   padding: 0px 100px;
 }

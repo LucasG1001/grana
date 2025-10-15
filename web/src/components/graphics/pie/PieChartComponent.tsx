@@ -1,6 +1,6 @@
-'use client';
-import React from 'react';
-import styles from './PieChart.module.css';
+"use client";
+import React from "react";
+import styles from "./PieChart.module.css";
 import {
   Cell,
   Legend,
@@ -8,7 +8,7 @@ import {
   PieChart,
   ResponsiveContainer,
   Tooltip,
-} from 'recharts';
+} from "recharts";
 
 type CategoryData = {
   id: number;
@@ -22,16 +22,16 @@ type PieChartComponentProps = {
 };
 
 const salesByCategory: CategoryData[] = [
-  { id: 1, name: 'Eletrônicos', value: 4000 },
-  { id: 2, name: 'Moda', value: 3000 },
-  { id: 3, name: 'Casa', value: 2000 },
-  { id: 4, name: 'Beleza', value: 1500 },
-  { id: 5, name: 'Livros', value: 1000 },
+  { id: 1, name: "Eletrônicos", value: 4000 },
+  { id: 2, name: "Moda", value: 3000 },
+  { id: 3, name: "Casa", value: 2000 },
+  { id: 4, name: "Beleza", value: 1500 },
+  { id: 5, name: "Livros", value: 1000 },
 ];
 
 const sortedData = [...salesByCategory].sort((a, b) => b.value - a.value);
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28EFF'];
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EFF"];
 
 const PieChartComponent: React.FC<PieChartComponentProps> = ({
   data = sortedData,
@@ -48,6 +48,50 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
       setSelectedCategoryId(data.id);
     }
   }
+
+  const CustomLegend = (props: any) => {
+    const { payload } = props;
+    const sortedPayload = [...payload].sort(
+      (a, b) => b.payload.value - a.payload.value
+    );
+    return (
+      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        {sortedPayload.map((entry: any, index: number) => (
+          <li
+            key={`item-${index}`}
+            style={{
+              marginBottom: 4,
+              display: "grid",
+              alignItems: "center",
+              gridTemplateColumns: "80px 20px 1fr",
+              gap: 8,
+            }}
+          >
+            <span
+              style={{
+                textAlign: "left",
+                color: "#666",
+                fontSize: 14,
+              }}
+            >{`R$ ${entry.payload.value}`}</span>
+
+            <span
+              style={{
+                display: "inline-block",
+                width: 17,
+                height: 17,
+                backgroundColor: entry.color,
+                marginRight: 6,
+                borderRadius: 3,
+              }}
+            />
+            <span style={{ color: "#666", fontSize: 14 }}>{entry.value}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
   return (
     <div className={styles.PieChart}>
       <ResponsiveContainer height={300}>
@@ -65,7 +109,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
             paddingAngle={0}
             labelLine={false}
             onClick={handleClick}
-            style={{ outline: 'none', cursor: 'pointer' }}
+            style={{ outline: "none", cursor: "pointer" }}
           >
             {sortedData.map((entry, index) => {
               let fill = COLORS[index % COLORS.length];
@@ -81,19 +125,24 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
                   fill={fill}
                   stroke="none" // impede o contorno ao clicar
                   style={{
-                    cursor: 'pointer',
-                    transition: 'all 0.3s',
+                    cursor: "pointer",
+                    transition: "all 0.3s",
                     transform:
-                      activeIndex === index ? 'scale(1.03)' : 'scale(1)',
-                    transformOrigin: 'center',
-                    outline: 'none',
+                      activeIndex === index ? "scale(1.03)" : "scale(1)",
+                    transformOrigin: "center",
+                    outline: "none",
                   }}
                 />
               );
             })}
           </Pie>
           <Tooltip />
-          <Legend layout="vertical" align="right" verticalAlign="middle" />
+          <Legend
+            layout="vertical"
+            align="right"
+            verticalAlign="middle"
+            content={<CustomLegend />}
+          />
         </PieChart>
       </ResponsiveContainer>
     </div>

@@ -5,9 +5,15 @@
   padding: 0;
   margin: 0;
   text-decoration: none;
-  padding: 30px;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: rgba(255, 255, 255, 0.6);
+  padding: 20px;
   margin-bottom: 30px;
-  color: var(--color-text)
+  color: var(--color-text);
+  background: #427bff;
+  width: 100%;
+}
+
+.item a {
+  list-style: none;
+  text-decoration: none;
+  color: #fff;
 }

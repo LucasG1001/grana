@@ -49,9 +49,6 @@ const OrdenableTable = ({ title, data, columns }: OrdenableTableProps) => {
 
   return (
     <div className={styles.ordenableTable}>
-      <div className={styles.tableTitleContainer}>
-        <h2 className={styles.tableTitle}>{title}</h2>
-      </div>
       <table className={styles.table}>
         <thead>
           <tr className={styles.tableHeaderRow}>
