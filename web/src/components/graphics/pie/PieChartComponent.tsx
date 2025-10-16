@@ -1,6 +1,6 @@
-"use client";
-import React from "react";
-import styles from "./PieChart.module.css";
+'use client';
+import React from 'react';
+import styles from './PieChart.module.css';
 import {
   Cell,
   Legend,
@@ -8,84 +8,70 @@ import {
   PieChart,
   ResponsiveContainer,
   Tooltip,
-} from "recharts";
+} from 'recharts';
 
-type CategoryData = {
-  id: number;
-  name: string;
-  value: number;
+// Tipo genérico (espera um array de objetos)
+export type PieChartComponentProps<
+  T extends { id: number; name: string; value: number },
+> = {
+  data: T[];
+  handleSelected: (id: number | null) => void;
 };
 
-type PieChartComponentProps = {
-  data?: CategoryData[];
-  setSelectedCategoryId?: (id: number | null) => void;
-};
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28EFF'];
 
-const salesByCategory: CategoryData[] = [
-  { id: 1, name: "Eletrônicos", value: 4000 },
-  { id: 2, name: "Moda", value: 3000 },
-  { id: 3, name: "Casa", value: 2000 },
-  { id: 4, name: "Beleza", value: 1500 },
-  { id: 5, name: "Livros", value: 1000 },
-];
-
-const sortedData = [...salesByCategory].sort((a, b) => b.value - a.value);
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EFF"];
-
-const PieChartComponent: React.FC<PieChartComponentProps> = ({
-  data = sortedData,
-  setSelectedCategoryId,
-}) => {
+function PieChartComponent<
+  T extends { id: number; name: string; value: number },
+>({ data, handleSelected }: PieChartComponentProps<T>) {
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
 
-  function handleClick(data: any, index: number) {
+  const sortedData = React.useMemo(
+    () => [...data].sort((a, b) => b.value - a.value),
+    [data],
+  );
+
+  function handleClick(_, index: number) {
     if (activeIndex === index) {
       setActiveIndex(null);
-      setSelectedCategoryId(null);
+      handleSelected(null);
     } else {
       setActiveIndex(index);
-      setSelectedCategoryId(data.id);
+      handleSelected(sortedData[index].id);
     }
   }
 
   const CustomLegend = (props: any) => {
     const { payload } = props;
     const sortedPayload = [...payload].sort(
-      (a, b) => b.payload.value - a.payload.value
+      (a, b) => b.payload.value - a.payload.value,
     );
+
     return (
-      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
         {sortedPayload.map((entry: any, index: number) => (
           <li
             key={`item-${index}`}
             style={{
               marginBottom: 4,
-              display: "grid",
-              alignItems: "center",
-              gridTemplateColumns: "80px 20px 1fr",
+              display: 'grid',
+              alignItems: 'center',
+              gridTemplateColumns: '80px 20px 1fr',
               gap: 8,
             }}
           >
+            <span style={{ textAlign: 'left', color: '#666', fontSize: 14 }}>
+              R$ {entry.payload.value}
+            </span>
             <span
               style={{
-                textAlign: "left",
-                color: "#666",
-                fontSize: 14,
-              }}
-            >{`R$ ${entry.payload.value}`}</span>
-
-            <span
-              style={{
-                display: "inline-block",
+                display: 'inline-block',
                 width: 17,
                 height: 17,
                 backgroundColor: entry.color,
-                marginRight: 6,
                 borderRadius: 3,
               }}
             />
-            <span style={{ color: "#666", fontSize: 14 }}>{entry.value}</span>
+            <span style={{ color: '#666', fontSize: 14 }}>{entry.value}</span>
           </li>
         ))}
       </ul>
@@ -104,14 +90,13 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
             cy="50%"
             innerRadius={60}
             outerRadius={120}
-            fill="#8884d8"
             stroke="none"
             paddingAngle={0}
             labelLine={false}
             onClick={handleClick}
-            style={{ outline: "none", cursor: "pointer" }}
+            style={{ outline: 'none', cursor: 'pointer' }}
           >
-            {sortedData.map((entry, index) => {
+            {sortedData.map((_, index) => {
               let fill = COLORS[index % COLORS.length];
               if (activeIndex !== null) {
                 const isActive = index === activeIndex;
@@ -123,14 +108,13 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
                 <Cell
                   key={`cell-${index}`}
                   fill={fill}
-                  stroke="none" // impede o contorno ao clicar
                   style={{
-                    cursor: "pointer",
-                    transition: "all 0.3s",
+                    cursor: 'pointer',
+                    transition: 'all 0.3s',
                     transform:
-                      activeIndex === index ? "scale(1.03)" : "scale(1)",
-                    transformOrigin: "center",
-                    outline: "none",
+                      activeIndex === index ? 'scale(1.03)' : 'scale(1)',
+                    transformOrigin: 'center',
+                    outline: 'none',
                   }}
                 />
               );
@@ -147,6 +131,6 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
       </ResponsiveContainer>
     </div>
   );
-};
+}
 
 export default PieChartComponent;
