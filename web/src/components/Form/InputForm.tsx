@@ -1,34 +1,32 @@
 import React from 'react';
 import styles from './InputForm.module.css';
+import { InputFormProps } from '../../types/types';
 
-type InputFormProps = {
-  name: string;
-  id?: string;
-  placeholder?: string;
-  type?: string;
-  error: string | null;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
-};
+interface Props {
+  inputProps: InputFormProps;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+}
 
-const InputForm = (props: InputFormProps) => {
+const InputForm = ({ inputProps, handleChange, handleBlur }: Props) => {
   return (
     <div className={styles.container}>
       <input
-        className={`${styles.input} ${props.error ? styles.error : ''}`}
-        type={props.type}
-        name={props.name}
-        id={props.id}
+        className={`${styles.input} ${inputProps.error ? styles.error : ''}`}
+        type={inputProps.type}
+        name={inputProps.name}
+        id={inputProps.name}
         placeholder={''}
-        onChange={props.onChange}
-        onBlur={props.onBlur}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={inputProps.value}
       />
-      <label className={styles.label} htmlFor={props.id}>
-        {props.placeholder}
+      <label className={styles.label} htmlFor={inputProps.name}>
+        {inputProps.placeholder}
       </label>
-      {props.error && (
+      {inputProps.error && (
         <p style={{ color: '#f31', marginTop: '0.5rem', fontSize: '0.8rem' }}>
-          {props.error}
+          {inputProps.error}
         </p>
       )}
     </div>

@@ -5,11 +5,11 @@
   padding: 0;
   margin: 0;
   text-decoration: none;
-  padding: 20px;
   margin-bottom: 30px;
   color: var(--color-text);
   background: #427bff;
   width: 100%;
+  padding: 20px 100px;
 }
 
 .item a {

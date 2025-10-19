@@ -1,7 +1,6 @@
 'use server';
 
 import api from '@/api/axios';
-import axios from 'axios';
 import { cookies } from 'next/headers';
 import apiError from '../apiError';
 import { LoginState } from '../types';
@@ -23,7 +22,6 @@ export default async function login(
 
   try {
     const response = await api.post('/auth/login', { email, password });
-    console.log(response.data);
     (await cookies()).set('acessToken', response.data.acessToken, {
       httpOnly: true,
       secure: true,
