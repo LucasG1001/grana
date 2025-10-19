@@ -1,9 +1,9 @@
-'use client';
-import PieChartComponent from '@/components/graphics/pie/PieChartComponent';
-import styles from './page.module.css';
-import OrdenableTable from '@/components/table/OrdenableTable';
-import Card from '@/components/card/Card';
-import { useEffect, useState } from 'react';
+"use client";
+import PieChartComponent from "@/components/graphics/pie/PieChartComponent";
+import styles from "./page.module.css";
+import OrdenableTable from "@/components/table/OrdenableTable";
+import Card from "@/components/card/Card";
+import { useEffect, useState } from "react";
 
 type OrdenableTableProps = {
   title: string;
@@ -11,37 +11,45 @@ type OrdenableTableProps = {
   columns: Array<{
     id: string;
     label: string;
-    sortDirection: 'asc' | 'desc';
+    sortDirection: "asc" | "desc";
   }>;
 };
 
 const transactions = [
   {
-    description: 'Celular',
+    id: 1,
+    description: "Celular",
     categoryId: 1,
-    categoryName: 'Eletrônicos',
+    categoryName: "Eletrônicos",
     value: 4000,
   },
-  { description: 'Camiseta', categoryId: 2, categoryName: 'Moda', value: 3000 },
-  { description: 'Casa', categoryId: 3, categoryName: 'Casa', value: 2000 },
-  { description: 'Beleza', categoryId: 4, categoryName: 'Beleza', value: 1500 },
-  { description: 'Livros', categoryId: 5, categoryName: 'Livros', value: 1000 },
   {
-    description: 'Celular',
-    categoryId: 1,
-    categoryName: 'Eletrônicos',
-    value: 4000,
+    id: 2,
+    description: "Internet",
+    categoryId: 2,
+    categoryName: "Eletrônicos",
+    value: 3000,
   },
-  { description: 'Camiseta', categoryId: 2, categoryName: 'Moda', value: 3000 },
-  { description: 'Casa', categoryId: 3, categoryName: 'Casa', value: 2000 },
-  { description: 'Beleza', categoryId: 4, categoryName: 'Beleza', value: 1500 },
-  { description: 'Livros', categoryId: 5, categoryName: 'Livros', value: 1000 },
+  {
+    id: 3,
+    description: "Conta de Luz",
+    categoryId: 3,
+    categoryName: "Eletrônicos",
+    value: 3000,
+  },
+  {
+    id: 4,
+    description: "Conta de Água",
+    categoryId: 4,
+    categoryName: "Eletrônicos",
+    value: 2000,
+  },
 ];
 
 const columns = [
-  { id: 'description', label: 'Descrição', sortDirection: 'asc' },
-  { id: 'value', label: 'Valor', sortDirection: 'asc' },
-  { id: 'categoryName', label: 'Categoria', sortDirection: 'asc' },
+  { id: "description", label: "Descrição", sortDirection: "asc" },
+  { id: "value", label: "Valor", sortDirection: "asc" },
+  { id: "categoryName", label: "Categoria", sortDirection: "asc" },
 ];
 
 const TransactionPage = () => {
@@ -52,8 +60,8 @@ const TransactionPage = () => {
     if (categoryId) {
       setData(
         transactions.filter(
-          (transaction) => transaction.categoryId === categoryId,
-        ),
+          (transaction) => transaction.categoryId === categoryId
+        )
       );
     } else {
       setData(transactions);
@@ -61,9 +69,11 @@ const TransactionPage = () => {
   }, [categoryId]);
 
   const categories = [
-    { id: 1, name: 'Vendas', value: 400 },
-    { id: 2, name: 'Marketing', value: 300 },
-    { id: 3, name: 'Operações', value: 300 },
+    { id: 1, name: "Vendas", value: 400 },
+    { id: 2, name: "Marketing", value: 300 },
+    { id: 3, name: "Operações", value: 300 },
+    { id: 4, name: "Desenvolvimento", value: 200 },
+    { id: 5, name: "Suporte", value: 100 },
   ];
 
   return (
