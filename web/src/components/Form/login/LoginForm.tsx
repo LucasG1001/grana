@@ -1,17 +1,18 @@
-"use client";
-import React, { useActionState, useEffect } from "react";
-import styles from "./LoginForm.module.css";
-import login from "@/api/auth/login";
-import { initialState } from "@/api/types";
-import InputForm from "../InputForm";
-import ErrorMessageForm from "../ErrorMessageForm";
-import Link from "next/link";
-import Button from "@/components/button/Button";
-import { useFormStatus } from "react-dom";
-import EmailValidator from "@/app/validators/EmailValidator";
-import PasswordLoginValidator from "@/app/validators/PasswordLoginValidator";
-import { InputFormProps } from "../../../types/types";
-import useForm from "@/hooks/useForm";
+'use client';
+import React, { useActionState, useEffect } from 'react';
+import styles from './LoginForm.module.css';
+import login from '@/api/auth/login';
+import { initialState } from '@/api/types';
+import InputForm from '../InputForm';
+import ErrorMessageForm from '../ErrorMessageForm';
+import Link from 'next/link';
+import Button from '@/components/button/Button';
+import { useFormStatus } from 'react-dom';
+import EmailValidator from '@/app/validators/EmailValidator';
+import PasswordLoginValidator from '@/app/validators/PasswordLoginValidator';
+import { InputFormProps } from '../../../types/types';
+import useForm from '@/hooks/useForm';
+import Separator from '@/components/utils/separator/Separator';
 
 function FormButton() {
   const { pending } = useFormStatus();
@@ -21,20 +22,20 @@ function FormButton() {
 
 const initialForm: InputFormProps[] = [
   {
-    placeholder: "Email",
-    name: "email",
-    value: "",
+    placeholder: 'Email',
+    name: 'email',
+    value: '',
     validator: EmailValidator,
     error: null,
-    type: "email",
+    type: 'email',
   },
   {
-    placeholder: "Senha",
-    name: "password",
-    value: "",
+    placeholder: 'Senha',
+    name: 'password',
+    value: '',
     validator: PasswordLoginValidator,
     error: null,
-    type: "password",
+    type: 'password',
   },
 ];
 
@@ -50,20 +51,22 @@ const LoginForm = () => {
     if (!isValid) return;
     const formData = new FormData();
 
-    initialForm.forEach((field) => {
+    form.forEach((field) => {
       formData.append(field.name, field.value);
     });
 
-    // action(formData);
+    action(formData);
   }
 
   useEffect(() => {
-    if (state.ok) window.location.href = "/home";
+    if (state.ok) window.location.href = '/transactions';
   }, [state.ok]);
 
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.formLogin}>
+        <h2 className={styles.title}>Acesse sua conta</h2>
+        <Separator />
         {form.map((input) => (
           <InputForm
             inputProps={input}
@@ -81,10 +84,10 @@ const LoginForm = () => {
         <FormButton />
         <Link
           href="login/esqueci"
-          style={{ textAlign: "center" }}
+          style={{ textAlign: 'center' }}
           className={styles.link}
         >
-          <span className={styles.span}>Ainda não possui conta?</span>{" "}
+          <span className={styles.span}>Ainda não possui conta?</span>{' '}
           Cadastre-se
         </Link>
       </form>

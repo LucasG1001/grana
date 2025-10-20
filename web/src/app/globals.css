@@ -10,6 +10,15 @@ html {
 
   --text-primary: #a39a99;
   --text-secundary: #3f3f3f;
+
+
+  --color-success: #16a34a;
+  --color-warning: #facc15;
+  --color-error: #dc2626;
+
+  --color-link: #3b82f6;
+  --color-box-border: #d1d1d1;
+  --background-button-add: #3b82f6;
 }
 
 *,

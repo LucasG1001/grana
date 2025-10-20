@@ -1,0 +1,17 @@
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+  color: var(--text-primary);
+}
+
+.separator span {
+  margin: 0 8px;
+}
+
+.line {
+  flex: 1;
+  height: 1px;
+  background: var(--text-primary);
+}
