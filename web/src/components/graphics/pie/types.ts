@@ -1,10 +1,6 @@
-export type Data = {
-  id: number;
-  value: number;
-  name: string;
-};
+import { CategoryByMonth } from "@/api/types";
 
 export type PieChartComponentProps = {
-  data: Data[];
+  data: CategoryByMonth[];
   handleSelected: (id: number | null) => void;
 };

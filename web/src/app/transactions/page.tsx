@@ -4,89 +4,43 @@ import styles from "./page.module.css";
 import OrdenableTable from "@/components/table/OrdenableTable";
 import Card from "@/components/card/Card";
 import { useEffect, useState } from "react";
-
-type OrdenableTableProps = {
-  title: string;
-  data: Array<Record<string, any>>;
-  columns: Array<{
-    id: string;
-    label: string;
-    sortDirection: "asc" | "desc";
-  }>;
-};
-
-const transactions = [
-  {
-    id: 1,
-    description: "Celular",
-    categoryId: 1,
-    categoryName: "Eletrônicos",
-    value: 4000,
-  },
-  {
-    id: 2,
-    description: "Internet",
-    categoryId: 2,
-    categoryName: "Eletrônicos",
-    value: 3000,
-  },
-  {
-    id: 3,
-    description: "Conta de Luz",
-    categoryId: 3,
-    categoryName: "Eletrônicos",
-    value: 3000,
-  },
-  {
-    id: 4,
-    description: "Conta de Água",
-    categoryId: 4,
-    categoryName: "Eletrônicos",
-    value: 2000,
-  },
-];
+import {
+  categoriesByMonth,
+  CategoryByMonth,
+  Transaction,
+  transactions,
+} from "@/api/types";
 
 const columns = [
-  { id: "description", label: "Descrição", sortDirection: "asc" },
-  { id: "value", label: "Valor", sortDirection: "asc" },
-  { id: "categoryName", label: "Categoria", sortDirection: "asc" },
+  { id: "id", label: "ID", sortDirection: "asc" },
+  { id: "amount", label: "Amount", sortDirection: "asc" },
+  { id: "date", label: "Date", sortDirection: "asc" },
+  { id: "description", label: "Description", sortDirection: "asc" },
+  { id: "categoryId", label: "Category ID", sortDirection: "asc" },
+  { id: "categoryName", label: "categoryName", sortDirection: "asc" },
 ];
 
 const TransactionPage = () => {
-  const [categoryId, setCategoryId] = useState(null);
-  const [data, setData] = useState(transactions);
+  const [transaction, setTransactions] = useState<Transaction[]>(transactions);
+  const [categoryByMonth, setCategoryByMonth] =
+    useState<CategoryByMonth[]>(categoriesByMonth);
 
-  useEffect(() => {
-    if (categoryId) {
-      setData(
-        transactions.filter(
-          (transaction) => transaction.categoryId === categoryId
-        )
-      );
-    } else {
-      setData(transactions);
-    }
-  }, [categoryId]);
-
-  const categories = [
-    { id: 1, name: "Vendas", value: 400 },
-    { id: 2, name: "Marketing", value: 300 },
-    { id: 3, name: "Operações", value: 300 },
-    { id: 4, name: "Desenvolvimento", value: 200 },
-    { id: 5, name: "Suporte", value: 100 },
-  ];
+  const [categoryId, setCategoryId] = useState<number | null>(null);
 
   return (
     <div className={styles.container}>
       <div className={styles.graphics}>
         <Card title="Teste">Teste</Card>
         <Card title="Transações por Categoria">
-          <PieChartComponent data={categories} handleSelected={setCategoryId} />
+          <PieChartComponent
+            data={categoryByMonth}
+            handleSelected={setCategoryId}
+          />
         </Card>
       </div>
       <div className={styles.transactions}>
         <Card title="Transações">
-          <OrdenableTable data={data} columns={columns} />
+          <OrdenableTable data={transaction} columns={columns} />
         </Card>
       </div>
     </div>

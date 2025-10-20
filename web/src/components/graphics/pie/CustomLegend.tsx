@@ -5,9 +5,7 @@ import { Data } from "./types";
 const CustomLegend = (data: Data[]) => {
   if (!data) return null;
 
-  console.log(data);
-
-  const sortedPayload = [...data].sort((a, b) => b.value - a.value);
+  const sortedPayload = [...data.payload].sort((a, b) => b.value - a.value);
 
   return (
     <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
@@ -23,7 +21,7 @@ const CustomLegend = (data: Data[]) => {
           }}
         >
           <span style={{ textAlign: "left", color: "#666", fontSize: 14 }}>
-            R$ {entry.value}
+            R$ {entry.totalAmount}
           </span>
           <span
             style={{
@@ -34,7 +32,9 @@ const CustomLegend = (data: Data[]) => {
               borderRadius: 3,
             }}
           />
-          <span style={{ color: "#666", fontSize: 14 }}>{entry.value}</span>
+          <span style={{ color: "#666", fontSize: 14 }}>
+            {entry.totalAmount}
+          </span>
         </li>
       ))}
     </ul>

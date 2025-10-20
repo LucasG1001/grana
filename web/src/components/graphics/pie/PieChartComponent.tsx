@@ -27,7 +27,7 @@ function PieChartComponent({ data, handleSelected }: PieChartComponentProps) {
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
 
   const sortedData = React.useMemo(
-    () => [...data].sort((a, b) => b.value - a.value),
+    () => [...data].sort((a, b) => b.totalAmount - a.totalAmount),
     [data]
   );
 
@@ -47,7 +47,7 @@ function PieChartComponent({ data, handleSelected }: PieChartComponentProps) {
         <PieChart width={400} height={300}>
           <Pie
             data={sortedData}
-            dataKey="value"
+            dataKey="totalAmount"
             nameKey="name"
             cx="40%"
             cy="50%"
@@ -88,7 +88,7 @@ function PieChartComponent({ data, handleSelected }: PieChartComponentProps) {
             layout="vertical"
             align="right"
             verticalAlign="middle"
-            content={<CustomLegend payload={sortedData} />}
+            content={<CustomLegend payload={data} />}
           />
         </PieChart>
       </ResponsiveContainer>
