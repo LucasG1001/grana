@@ -9,16 +9,8 @@ import {
   CategoryByMonth,
   Transaction,
   transactions,
+  transactionsTableColumns,
 } from "@/api/types";
-
-const columns = [
-  { id: "id", label: "ID", sortDirection: "asc" },
-  { id: "amount", label: "Amount", sortDirection: "asc" },
-  { id: "date", label: "Date", sortDirection: "asc" },
-  { id: "description", label: "Description", sortDirection: "asc" },
-  { id: "categoryId", label: "Category ID", sortDirection: "asc" },
-  { id: "categoryName", label: "categoryName", sortDirection: "asc" },
-];
 
 const TransactionPage = () => {
   const [transaction, setTransactions] = useState<Transaction[]>(transactions);
@@ -40,7 +32,12 @@ const TransactionPage = () => {
       </div>
       <div className={styles.transactions}>
         <Card title="Transações">
-          <OrdenableTable data={transaction} columns={columns} />
+          <OrdenableTable
+            data={transaction.filter((t) =>
+              categoryId ? t.categoryId === categoryId : true
+            )}
+            columns={transactionsTableColumns}
+          />
         </Card>
       </div>
     </div>

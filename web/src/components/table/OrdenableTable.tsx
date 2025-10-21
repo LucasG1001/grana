@@ -1,50 +1,51 @@
 "use client";
 import React, { useEffect } from "react";
 import styles from "./OrdenableTable.module.css";
-// import boxicons from "boxicons";
 
-type OrdenableTableProps = {
-  title: string;
-  data: Array<Record<string, any>>;
+type OrdenableTableProps<T extends Record<string, unknown>> = {
+  data: Array<T>;
   columns: Array<{
-    id: string;
+    id: keyof T;
     label: string;
     sortDirection: "asc" | "desc";
   }>;
 };
 
-const OrdenableTable = ({ title, data, columns }: OrdenableTableProps) => {
-  const [sortedData, setSortedData] = React.useState(data);
-  const [sortColumn, setSortColumn] = React.useState(columns);
+function OrdenableTable<T extends Record<string, unknown>>({
+  data,
+  columns,
+}: OrdenableTableProps<T>) {
+  const [sortedData, setSortedData] = React.useState<T[]>(data);
 
   useEffect(() => {
     setSortedData(data);
-    setSortColumn(columns);
   }, [data]);
 
   const handleSort = (
-    columnId: string,
+    columnId: keyof T,
     currentSortDirection: "asc" | "desc"
   ) => {
     const newSortDirection = currentSortDirection === "asc" ? "desc" : "asc";
 
-    const sortedData = [...data].sort((a, b) => {
-      if (newSortDirection === "asc") {
-        return a[columnId] > b[columnId] ? 1 : -1;
-      } else {
-        return a[columnId] < b[columnId] ? 1 : -1;
+    const sorted = [...data].sort((a, b) => {
+      const aValue = a[columnId];
+      const bValue = b[columnId];
+
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        return newSortDirection === "asc" ? aValue - bValue : bValue - aValue;
       }
+
+      return newSortDirection === "asc"
+        ? String(aValue).localeCompare(String(bValue))
+        : String(bValue).localeCompare(String(aValue));
     });
 
-    const sorted = columns.map((column) => {
-      if (column.id === columnId) {
-        return { ...column, sortDirection: newSortDirection };
-      }
-      return { ...column };
-    });
-
-    setSortColumn(sorted);
-    setSortedData(sortedData);
+    setSortedData(sorted);
+    columns.map((column) =>
+      column.id === columnId
+        ? { ...column, sortDirection: newSortDirection }
+        : column
+    );
   };
 
   return (
@@ -52,37 +53,31 @@ const OrdenableTable = ({ title, data, columns }: OrdenableTableProps) => {
       <table className={styles.table}>
         <thead>
           <tr className={styles.tableHeaderRow}>
-            {sortColumn.map((column, index) => (
+            {columns.map((column, index) => (
               <th
-                onClick={() => {
-                  if (column.sortDirection) {
-                    handleSort(column.id, column.sortDirection);
-                  }
-                }}
+                onClick={() => handleSort(column.id, column.sortDirection)}
                 key={index}
-                style={{ cursor: column.sortDirection ? "pointer" : "default" }}
+                style={{ cursor: "pointer" }}
                 className={styles.tableHeader}
               >
                 <div className={styles.tableHeaderContent}>
                   <span className={styles.tableHeaderLabel}>
                     {column.label}
                   </span>
-                  {column.sortDirection && (
-                    <span className={styles.sortDirection}>
-                      {column.sortDirection === "asc" ? "▲" : "▼"}
-                    </span>
-                  )}
+                  <span className={styles.sortDirection}>
+                    {column.sortDirection === "asc" ? "▲" : "▼"}
+                  </span>
                 </div>
               </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {sortedData.map((row) => (
-            <tr key={row.id}>
-              {sortColumn.map((column) => (
-                <td key={column.id} className={styles.tableCell}>
-                  {row[column.id]}
+          {sortedData.map((row, rowIndex) => (
+            <tr key={String(rowIndex)}>
+              {columns.map((column) => (
+                <td key={String(column.id)} className={styles.tableCell}>
+                  {String(row[column.id])}
                 </td>
               ))}
             </tr>
@@ -91,6 +86,6 @@ const OrdenableTable = ({ title, data, columns }: OrdenableTableProps) => {
       </table>
     </div>
   );
-};
+}
 
 export default OrdenableTable;

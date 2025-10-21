@@ -1,11 +1,17 @@
+import { CategoryByMonth } from "@/api/types";
 import React from "react";
 import { LegendPayload } from "recharts";
-import { Data } from "./types";
 
-const CustomLegend = (data: Data[]) => {
+type Data = {
+  payload: CategoryByMonth[];
+};
+
+const CustomLegend = (data: Data) => {
   if (!data) return null;
 
-  const sortedPayload = [...data.payload].sort((a, b) => b.value - a.value);
+  const sortedPayload = [...data.payload].sort(
+    (a, b) => b.totalAmount - a.totalAmount
+  );
 
   return (
     <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>

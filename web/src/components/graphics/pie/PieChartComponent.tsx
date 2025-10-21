@@ -10,18 +10,8 @@ import {
   Tooltip,
 } from "recharts";
 import CustomLegend from "./CustomLegend";
-import { Data, PieChartComponentProps } from "./types";
-
-const COLORS = [
-  "#0088FE",
-  "#00C49F",
-  "#FFBB28",
-  "#FF8042",
-  "#A28EFF",
-  "#FF6699",
-  "#33CCFF",
-  "#FF9933",
-];
+import { PieChartComponentProps } from "./types";
+import { CategoryByMonth } from "@/api/types";
 
 function PieChartComponent({ data, handleSelected }: PieChartComponentProps) {
   const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
@@ -31,7 +21,7 @@ function PieChartComponent({ data, handleSelected }: PieChartComponentProps) {
     [data]
   );
 
-  function handleClick(data: Data, index: number) {
+  function handleClick(data: CategoryByMonth, index: number) {
     if (activeIndex === index) {
       setActiveIndex(null);
       handleSelected(null);
@@ -60,10 +50,10 @@ function PieChartComponent({ data, handleSelected }: PieChartComponentProps) {
             style={{ outline: "none", cursor: "pointer" }}
           >
             {sortedData.map((_, index) => {
-              let fill = COLORS[index % COLORS.length];
+              let fill = sortedData[index].color;
               if (activeIndex !== null) {
                 const isActive = index === activeIndex;
-                const fillColor = COLORS[index % COLORS.length];
+                const fillColor = sortedData[index].color;
                 fill = isActive ? fillColor : `${fillColor}80`;
               }
 
