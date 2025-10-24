@@ -13,6 +13,7 @@ import PasswordLoginValidator from '@/app/validators/PasswordLoginValidator';
 import { InputFormProps } from '../../../types/types';
 import useForm from '@/hooks/useForm';
 import Separator from '@/components/utils/separator/Separator';
+import GoogleButton from '@/components/button/google/GoogleButton';
 
 function FormButton() {
   const { pending } = useFormStatus();
@@ -64,8 +65,9 @@ const LoginForm = () => {
 
   return (
     <div className={styles.container}>
+      <h2 className={styles.title}>Acesse sua conta</h2>
+      <GoogleButton title />
       <form onSubmit={handleSubmit} className={styles.formLogin}>
-        <h2 className={styles.title}>Acesse sua conta</h2>
         <Separator />
         {form.map((input) => (
           <InputForm

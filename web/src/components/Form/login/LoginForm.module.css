@@ -8,16 +8,19 @@
 
 .container {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px 20px;
+  border-radius: 5px;
+  width: 500px;
+  background: #fff;
+  margin: 0 auto;
 }
 .formLogin {
-  padding: 40px 20px;
-  background: #fff;
-  min-width: 500px;
-  border-radius: 5px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
 }
 
 .link {

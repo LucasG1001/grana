@@ -13,5 +13,5 @@
 .line {
   flex: 1;
   height: 1px;
-  background: var(--text-primary);
+  background: #e9e9e9;
 }
