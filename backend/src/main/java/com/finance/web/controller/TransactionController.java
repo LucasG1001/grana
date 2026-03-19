@@ -60,6 +60,8 @@ public class TransactionController {
             Transaction saved = createTransactionUseCase.execute(transaction);
             return ResponseEntity.ok(toResponse(saved));
         } catch (Exception e) {
+            System.err.println("Erro no endpoint natural: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }

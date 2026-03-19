@@ -42,7 +42,7 @@ function App() {
   const handleNLPSubmit = async (text: string) => {
     try {
       setIsSubmitting(true);
-      await api.post('/api/transactions/natural', { text });
+      await api.post('/api/transactions/natural', { textoLivre: text });
       await fetchData(); // Refresh data after successful insertion
     } catch (error) {
       console.error('Failed to process natural language', error);
