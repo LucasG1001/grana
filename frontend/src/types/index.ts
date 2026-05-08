@@ -6,6 +6,10 @@ export interface Transaction {
   descricao: string;
   data: string; // YYYY-MM-DD format from API
   tipo: 'RECEITA' | 'DESPESA';
+  formaPagamento: 'DINHEIRO' | 'DEBITO' | 'CREDITO' | 'PIX' | 'TRANSFERENCIA' | 'OUTRO';
+  parcelaAtual: number | null;
+  totalParcelas: number;
+  grupoParcelamento: string | null;
 }
 
 export interface SummaryData {

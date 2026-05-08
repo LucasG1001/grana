@@ -31,7 +31,7 @@ public class JpaTransactionRepositoryAdapter implements TransactionRepository {
 
     @Override
     public List<Transaction> findAll() {
-        return springDataRepository.findAll().stream().map(this::toDomain).collect(Collectors.toList());
+        return springDataRepository.findAllByOrderByDataDescIdDesc().stream().map(this::toDomain).collect(Collectors.toList());
     }
 
     @Override
@@ -52,6 +52,10 @@ public class JpaTransactionRepositoryAdapter implements TransactionRepository {
         entity.setDescricao(domain.getDescricao());
         entity.setData(domain.getData());
         entity.setTipo(domain.getTipo());
+        entity.setFormaPagamento(domain.getFormaPagamento());
+        entity.setParcelaAtual(domain.getParcelaAtual());
+        entity.setTotalParcelas(domain.getTotalParcelas());
+        entity.setGrupoParcelamento(domain.getGrupoParcelamento());
         return entity;
     }
 
@@ -62,7 +66,11 @@ public class JpaTransactionRepositoryAdapter implements TransactionRepository {
             entity.getCategoria(),
             entity.getDescricao(),
             entity.getData(),
-            entity.getTipo()
+            entity.getTipo(),
+            entity.getFormaPagamento(),
+            entity.getParcelaAtual(),
+            entity.getTotalParcelas(),
+            entity.getGrupoParcelamento()
         );
     }
 }

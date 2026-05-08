@@ -3,4 +3,12 @@ package com.finance.web.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record UpdateTransactionRequest(BigDecimal valor, String categoria, String descricao, LocalDate data, String tipo) {}
+public record UpdateTransactionRequest(
+    BigDecimal valor,
+    String categoria,
+    String descricao,
+    LocalDate data,
+    String tipo,
+    String formaPagamento,
+    Integer totalParcelas
+) {}

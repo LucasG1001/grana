@@ -1,6 +1,7 @@
 package com.finance.infrastructure.persistence;
 
 import com.finance.domain.model.TransactionType;
+import com.finance.domain.model.PaymentMethod;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,6 +30,15 @@ public class TransactionEntity {
     @Column(nullable = false)
     private TransactionType tipo;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod formaPagamento;
+
+    private Integer parcelaAtual;
+
+    private Integer totalParcelas;
+
+    private String grupoParcelamento;
+
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -47,4 +57,16 @@ public class TransactionEntity {
 
     public TransactionType getTipo() { return tipo; }
     public void setTipo(TransactionType tipo) { this.tipo = tipo; }
+
+    public PaymentMethod getFormaPagamento() { return formaPagamento; }
+    public void setFormaPagamento(PaymentMethod formaPagamento) { this.formaPagamento = formaPagamento; }
+
+    public Integer getParcelaAtual() { return parcelaAtual; }
+    public void setParcelaAtual(Integer parcelaAtual) { this.parcelaAtual = parcelaAtual; }
+
+    public Integer getTotalParcelas() { return totalParcelas; }
+    public void setTotalParcelas(Integer totalParcelas) { this.totalParcelas = totalParcelas; }
+
+    public String getGrupoParcelamento() { return grupoParcelamento; }
+    public void setGrupoParcelamento(String grupoParcelamento) { this.grupoParcelamento = grupoParcelamento; }
 }

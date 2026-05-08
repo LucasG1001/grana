@@ -22,6 +22,10 @@ public class UpdateTransactionUseCase {
         existing.setDescricao(transactionData.getDescricao());
         existing.setData(transactionData.getData());
         existing.setTipo(transactionData.getTipo());
+        existing.setFormaPagamento(transactionData.getFormaPagamento());
+        existing.setParcelaAtual(transactionData.getParcelaAtual());
+        existing.setTotalParcelas(transactionData.getTotalParcelas());
+        existing.setGrupoParcelamento(transactionData.getGrupoParcelamento());
         
         return transactionRepository.save(existing);
     }

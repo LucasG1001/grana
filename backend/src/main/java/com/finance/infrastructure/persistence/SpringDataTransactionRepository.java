@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface SpringDataTransactionRepository extends JpaRepository<TransactionEntity, Long> {
 
+    List<TransactionEntity> findAllByOrderByDataDescIdDesc();
+
     @Query("SELECT t FROM TransactionEntity t WHERE EXTRACT(MONTH FROM t.data) = :month AND EXTRACT(YEAR FROM t.data) = :year ORDER BY t.data DESC")
     List<TransactionEntity> findByMonthAndYear(@Param("month") int month, @Param("year") int year);
 }

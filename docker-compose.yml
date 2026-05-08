@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: grana_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - grana
+
+  backend:
+    build:
+      context: ./backend
+    container_name: grana_backend
+    restart: always
+    ports:
+      - "127.0.0.1:8082:8080"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - postgres_db
+    networks:
+      - grana
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+    container_name: grana_frontend
+    restart: always
+    ports:
+      - "127.0.0.1:8081:80"
+    networks:
+      - grana
+
+networks:
+  grana:
+    name: grana
+
+volumes:
+  pgdata:

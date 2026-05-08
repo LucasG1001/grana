@@ -1,29 +1,36 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import { CATEGORY_COLORS, FIXED_CATEGORIES, isFixedCategory } from '../config/categories';
 
 interface TransactionsChartProps {
   data: Record<string, number>;
   isLoading: boolean;
 }
 
-const COLORS = ['#818cf8', '#34d399', '#f87171', '#fbbf24', '#c084fc', '#60a5fa', '#f472b6', '#a3e635'];
+const FALLBACK_COLORS = ['#818cf8', '#34d399', '#f87171', '#fbbf24', '#c084fc', '#60a5fa', '#f472b6', '#a3e635'];
 
 export function TransactionsChart({ data, isLoading }: TransactionsChartProps) {
-  const chartData = Object.entries(data).map(([name, value]) => ({
+  const fixedData = FIXED_CATEGORIES.map((name) => ({
     name,
-    value,
-  })).sort((a, b) => b.value - a.value);
+    value: data[name] ?? 0,
+  })).filter((item) => item.value > 0);
+
+  const extraData = Object.entries(data)
+    .filter(([name, value]) => !isFixedCategory(name) && value > 0)
+    .map(([name, value]) => ({ name, value }));
+
+  const chartData = [...fixedData, ...extraData];
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 h-80 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+      <div className="bg-[#12121a] rounded-2xl p-6 shadow-lg border border-white/5 h-80 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-400"></div>
       </div>
     );
   }
 
   if (chartData.length === 0) {
     return (
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 h-80 flex items-center justify-center flex-col text-slate-400">
+      <div className="bg-[#12121a] rounded-2xl p-6 shadow-lg border border-white/5 h-80 flex items-center justify-center flex-col text-slate-500">
         <p>Nenhum dado para exibir neste mês.</p>
       </div>
     );
@@ -37,8 +44,8 @@ export function TransactionsChart({ data, isLoading }: TransactionsChartProps) {
   };
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 h-80 flex flex-col">
-      <h3 className="text-slate-900 font-semibold mb-6">Despesas por Categoria</h3>
+    <div className="bg-[#12121a] rounded-2xl p-6 shadow-lg border border-white/5 h-80 flex flex-col">
+      <h3 className="text-slate-100 font-semibold mb-6">Despesas por Categoria</h3>
       <div className="flex-1 w-full relative">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -51,15 +58,24 @@ export function TransactionsChart({ data, isLoading }: TransactionsChartProps) {
               paddingAngle={5}
               dataKey="value"
             >
-              {chartData.map((_entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              {chartData.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={isFixedCategory(entry.name) ? CATEGORY_COLORS[entry.name] : FALLBACK_COLORS[index % FALLBACK_COLORS.length]}
+                />
               ))}
             </Pie>
-            <Tooltip 
+            <Tooltip
               formatter={(value: any) => formatTooltip(value as number)}
-              contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+              contentStyle={{
+                borderRadius: '8px',
+                border: '1px solid rgba(255,255,255,0.1)',
+                boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.3)',
+                backgroundColor: '#1a1a2e',
+                color: '#e2e8f0',
+              }}
             />
-            <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
+            <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ fontSize: '12px', color: '#94a3b8' }} />
           </PieChart>
         </ResponsiveContainer>
       </div>
