@@ -128,13 +128,7 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<List<TransactionResponse>> listTransactions(@RequestParam(required = false) String mes) {
-        List<Transaction> transactions;
-        if (mes != null && !mes.isEmpty()) {
-            YearMonth ym = YearMonth.parse(mes);
-            transactions = listTransactionsUseCase.executeByMonth(ym.getMonthValue(), ym.getYear());
-        } else {
-            transactions = listTransactionsUseCase.execute();
-        }
+        List<Transaction> transactions = findTransactions(mes);
         return ResponseEntity.ok(transactions.stream().map(this::toResponse).collect(Collectors.toList()));
     }
 
@@ -163,8 +157,8 @@ public class TransactionController {
     }
 
     @GetMapping("/summary")
-    public ResponseEntity<SummaryResponse> getSummary() {
-        List<Transaction> transactions = listTransactionsUseCase.execute();
+    public ResponseEntity<SummaryResponse> getSummary(@RequestParam(required = false) String mes) {
+        List<Transaction> transactions = findTransactions(mes);
 
         BigDecimal receitas = transactions.stream()
             .filter(t -> t.getTipo() == TransactionType.RECEITA)
@@ -186,6 +180,15 @@ public class TransactionController {
             ));
 
         return ResponseEntity.ok(new SummaryResponse(receitas, despesas, saldo, porCategoria));
+    }
+
+    private List<Transaction> findTransactions(String mes) {
+        if (mes != null && !mes.isEmpty()) {
+            YearMonth ym = YearMonth.parse(mes);
+            return listTransactionsUseCase.executeByMonth(ym.getMonthValue(), ym.getYear());
+        }
+
+        return listTransactionsUseCase.execute();
     }
 
     private Transaction buildTransaction(BigDecimal valor, String categoria, String descricao, LocalDate data,

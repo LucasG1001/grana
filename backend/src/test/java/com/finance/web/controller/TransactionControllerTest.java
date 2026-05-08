@@ -98,6 +98,19 @@ public class TransactionControllerTest {
         mockMvc.perform(get("/api/transactions"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.length()").value(3));
+
+        mockMvc.perform(get("/api/transactions").param("mes", "2026-05"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()").value(1))
+            .andExpect(jsonPath("$[0].parcelaAtual").value(1));
+
+        mockMvc.perform(get("/api/transactions/summary").param("mes", "2026-05"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.totalDespesas").value(400.0));
+
+        mockMvc.perform(get("/api/transactions/summary").param("mes", "2026-06"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.totalDespesas").value(400.0));
     }
 
     @Test

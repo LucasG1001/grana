@@ -7,6 +7,11 @@ import { TransactionsChart } from './components/TransactionsChart';
 import { NLPInputBar } from './components/NLPInputBar';
 import { TransactionList } from './components/TransactionList';
 
+const getCurrentMonthParam = () => {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+};
+
 function App() {
   const [summary, setSummary] = useState<SummaryData>({
     totalReceitas: 0,
@@ -15,6 +20,7 @@ function App() {
     porCategoria: {},
   });
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [currentMonth] = useState(getCurrentMonthParam);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -22,8 +28,8 @@ function App() {
     try {
       setIsLoading(true);
       const [summaryRes, transRes] = await Promise.all([
-        api.get<SummaryData>('/api/transactions/summary'),
-        api.get<Transaction[]>('/api/transactions'),
+        api.get<SummaryData>('/api/transactions/summary', { params: { mes: currentMonth } }),
+        api.get<Transaction[]>('/api/transactions', { params: { mes: currentMonth } }),
       ]);
       setSummary(summaryRes.data);
       setTransactions(transRes.data);
@@ -33,7 +39,7 @@ function App() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [currentMonth]);
 
   useEffect(() => {
     fetchData();
